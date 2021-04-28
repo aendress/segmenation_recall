@@ -1,0 +1,46 @@
+# Analysis of the recall phase
+
+## Rules to allow for potential misperceptions.
+
+* O might be perceived as A (but probably not vice versa)
+
+* Voiced and unvoiced consonants can be confused:
+  	 - g and k
+	 - d and t
+	 - b and p
+
+* b might be perceived as v
+
+In some cases, these rules give you several possible matches. For example, in line 64, rapidala might be rOpidAlA or rOpidOlA
+
+In such case, we apply the following criteria to decide which match to choose (in this order).
+
+1.  If one option provides more or longer existing chunks, choose it. For example, rOpidAlA has the chunk rOpi (pidA isn't possible in the stream), while rOpidOlA contains rOpi, so in this case the rule doesn't discrminate between the two :)
+
+2. If one option requires fewer changes with respect to the original transcription, choose that.
+
+I would apply the rules in this order, but I can see why you might want to use the opposite order as well.
+
+
+
+## Categories of responses in the recall phase
+We count the number of responses in each of the categories below
+
+* Items with attested transitions across syllables
+  * HIgh TP items
+    - Words (3 syllables)
+    - Backward word (3 syllables)
+    - Combination of words (multiples of 3 syllables)
+    - Combinations of backward words
+  * Low TP items
+    - Part-words (3 syllables)
+    - Back part-words
+    - Combinations of part-words (multiples of 3 syllables)
+    - Combinations of backward part-words
+* Items with unattested transitions
+  - Items sharing the initial syllable with words
+  - Items sharing the final syllable with words
+
+## Statistical properties of the responses
+* Forward TPs
+* Backward TPs

@@ -1,0 +1,23 @@
+\contentsline {section}{\numberline {1}House keeping}{1}{section.1}
+\contentsline {section}{\numberline {2}Methods}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}Materials}{2}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Procedure}{2}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Familiarization}{2}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Recall test}{2}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Recognition test}{3}{subsubsection.2.2.3}
+\contentsline {section}{\numberline {3}Analysis}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Recognition test}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Recall test for the lab-based experiment}{3}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Substitution rules compensating for potential misperceptions}{3}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Identify closest matches (for testable)}{4}{subsubsection.3.2.2}
+\contentsline {subsection}{\numberline {3.3}Change columns to categorize transcriptions}{5}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Expected TPs}{6}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {3.4}Demographics and missing subjects}{6}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Save categorized data}{6}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Measures for productions in the recall phase}{6}{subsection.3.6}
+\contentsline {section}{\numberline {4}Results}{7}{section.4}
+\contentsline {subsection}{\numberline {4.1}Make overall averages}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}General measures}{8}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Word vs.\nobreakspace {}part-word analysis}{9}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}TP-based analyses}{9}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Positional analyses}{11}{subsection.4.5}
