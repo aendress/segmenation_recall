@@ -1,8 +1,0 @@
-* add column for closest match for all syllables in underlying form
-* add replace syllable that isn't attested with XX
-
-This would be similar to the format with alexandra
-
-* when selecting items, add constraint that the number of attested
-  sylables ranks for the number of transforms
-* calculate number of attest syllables using the syllables.from.word function
