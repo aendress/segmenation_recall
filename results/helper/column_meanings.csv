@@ -1,0 +1,30 @@
+colName,meaning
+n.items,Number of recalled items
+n.syll,Mean number of syllables of the recalled items
+# Number and proportion (among all responses) of words,
+n.words,Number of recalled words
+p.words,Proportion (among recalled items) of words
+n.words.or.multiple,Number of recalled words or concatenation of words
+p.words.or.multiple,Proportion (among recalled items) of words or concatenation of words
+# Number and proportion (among all responses) of part-words,
+n.part.words,Number of recalled part-words
+p.part.words,Proportion (among recalled items) of part-words
+n.part.words.or.multiple,Number of recalled part-words or concatenation of part-words
+p.part.words.or.multiple,Proportion (among recalled items) of part-words or concatenation of part-words
+# Proportion of Words among Words and Part-Words (or multiples thereof),
+p.words.part.words,Proportion of words among (recalled) words and part-words. This is used for comparison to the recognition test.
+p.words.part.words.or.multiple,Proportion of words among (recalled) words and part-words or concatenation thereof. This is used for comparison to the recognition test.
+# Number and proportion (among all responses) of high and low TP chunk,
+n.high.tp.chunk,Number of high TP chunks. High TP chunks are defined as two-syllabic chunk from a word
+p.high.tp.chunk,Proprtion (among recalled items) of high TP chunks. High TP chunks are defined as two-syllabic chunk from a word
+n.low.tp.chunk,Number of low TP chunks. Low TP chunks are defined as two-syllabic word transitions
+p.low.tp.chunk,Proportion (among recalled items) of low TP chunks. Low TP chunks are defined as two-syllabic word transitions
+p.high.tp.chunk.low.tp.chunk,Proportion of high-TP chunks among high and low-TP chunks. High TP Chunks are defined as two-syllabic chunks from words; low TP chunks are two-syllabic word transitions
+# Average forward TPs and difference from expected TP,
+average_fw_tp,Average (across recalled items) of average forward TPs among transitions in a given item.
+average_fw_tp_d_actual_expected,"Average (across recalled items) of the difference between the average ACTUAL forward TPs among transitions in a given item and the EXPECTED forward TP in that item, based on the items first element. See calculate.expected.tps.for.chunks for the calculations"
+average_bw_tp,Average (across recalled items) of average backward TPs among transitions in a given item.
+# Proportion of items with syllables in correct postions,
+p.correct.initial.syll,Proportion (among recalled items) that have a correct initial syllable.
+p.correct.final.syll,Proportion (among recalled items) that have a correct final syllable.
+p.correct.initial.or.final.syll,Proportion (among recalled items) that have a correct initial or final syllable.

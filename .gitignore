@@ -1,0 +1,23 @@
+# Select directories
+stimulus_preparation/
+papers/
+experiments/
+
+# Ignore various Rmd compilation outputs
+*.log
+*.aux
+*.toc
+*.out
+*.html
+*.Rhistory
+
+# Don't upload voice recordings
+*.mp3 
+*.zip
+
+# Other stuff
+figures/
+results/unused/
+results/0todo.txt
+results/todo_files/
+
