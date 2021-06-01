@@ -1,9 +1,16 @@
 ---
-title: "Recall for segmentation"
+title: "The specificity of statistical learning"
 author: "Ansgar Endress"
+bibliography:
+- /Users/endress/ansgar.bib
+- /Users/endress/ansgar.own.bib
+csl: /Users/endress/csl_files/pnas.csl
 output:
   pdf_document:
+    latex_engine: xelatex
+    citation_package: natbib
     toc: true
+    toc_depth: 5
     number_sections: true
     keep_tex: true
     fig_caption: true
@@ -22,12 +29,24 @@ output:
     toc: yes
     toc_float: yes
     fig_caption: true
+keywords: Keywords
+abstract: "Statistical Learning exists in many domains and species. It might be particularly crucial for the earliest stages of word learning, for example for recovering word-like chunks from fluent speech. However, other forms of associative learning are remarkably tuned to the ecological constraints of the learning situation. Here, we show that Statistical Learning is similarly constrained. It predominantly operates in continuous speech sequences similar to those used in prior experiments, but not in discrete chunk sequences similar to those likely encountered during language acquisition (due to the prosodic organization of language). Conversely, when exposed to continuous sequence in a memory recall experiment, participants tend to produce low-probability sequences because, to the extent that they remember any items at all, they initiate their productions at random positions in the sequence rather than at the onsets of statistically defined chunks. In contrast, familiarization with discrete sequences produces reliable memories of actual, high-probability forms. This dissociation between Statistical Learning and memory suggests that Statistical Learning might have a specialized role when distributional information can be accumulated (e.g., for predictive processing), and that it is separable from the (declarative) memory mechanisms needed to acquire words."
 ---
+
+```{r extract-R-file, eval = FALSE}
+    
+# Extract R file to accelarate segmentation
+
+knitr::purl ('segmentation_recall_combined.Rmd', 
+      'segmentation_recall_combined.R')
+```
 
 # House keeping
 
 ```{r recall-setup, echo = FALSE, include=FALSE}
 rm (list=ls())
+
+start.time <- Sys.time()
 
 options (digits = 3)
 knitr::opts_chunk$set(
@@ -55,11 +74,20 @@ knitr::opts_chunk$set(
 ```
 
 ```{r recall-set-parameters, echo = FALSE, include=FALSE}
-# Parameters used below
+
 
 PRINT.INDIVIDUAL.PDFS <- TRUE
 
+# Set to FALSE unless you want to wait for several hours (6 for 100 subjects)
 RESEGMENT.RESPONSES <- FALSE
+
+
+# Columns to be ignored as they have different names 
+# in different version of testable and are not used anyhow.
+IGNORE.COL.PREFIXES <- c("ITI_", "presTime_", "ISI_")
+
+PRINT.INDIVIDUAL.FIGURES <- FALSE
+PRINT.INDIVIDUAL.TABLES <- FALSE
 
 # Remove items that contain unattested syllables
 # Set to FALSE as this would lead to problems with participants having no vocalization for one of the conditions.
@@ -76,6 +104,39 @@ REMOVE.INCOMPLETE.SUBJ <- FALSE
 
 ANALYZED.DATA.SETS <- c(CITY = TRUE,
                         TESTABLE = TRUE)
+
+# Filter participants for whom the vocalization cannot be analyzed (computer 
+# ran for several days), but whose production did not ressemble the words anyhow
+L.BAD.SUBJ.CPUTIME <- list (
+    tstbl = list (
+        c (subj = "399612_200413_124119_M056106.csv",
+           response = "dalonigtbdophophi dalobdakabdarobigopachu"),
+        
+        c (subj = "399612_210517_101428_M070415.csv",
+           response = "be cu di tu dara pe gala du dopa,be cu di pe gala,be cu di pe gala bu dopa ,be cu di bu dopa"),
+        
+        # not an english speaker either
+        c (subj = "399612_210517_100654_M038010.csv",
+           response = "takahsakakakaratatataikokokokotatakatakatakatakatakatakataka"),
+        
+        c (subj = " 399612_210517_101201_M048600.csv",
+           response = "dabroobitalooki,bkuti2,golab"),
+        
+        c (subj = "399612_210524_062929_M059506.csv",
+           response = "matikulatatitulapapitularimatitulaatitula"),
+        
+        c (subj = "399612_210524_115845_M067482.csv",
+           response = "tu kalla ti palla tuti kulla papi pu tu kalla ti palla tuti kulla papi pu"),
+        
+        c (subj = "399612_210524_120014_M099076.csv",
+           response = "tutopitulakatutopitoolaka"),
+        
+        c (subj = "399612_210524_120523_M003515.csv",
+           response = "papikuchi,butalapapikuchi,kukala,pikala,budharapikuchi,chupapikachubudarapi")
+        
+        )
+)
+
 
 ```
 
@@ -260,13 +321,13 @@ remove.geminates <- function (items){
     new.items
 }
 
-get.syllables.from.words <- function (words = ., sort.sylls = TRUE){
+get.syllables.from.words <- function (words = ., sort.sylls = TRUE, remove.duplicates = TRUE){
     
     get.substrings.of.length (words, simplify = FALSE) %>%
         unlist %>% 
         unname %>% 
         {if (sort.sylls) sort (.) else .} %>% 
-        unique
+        {if (remove.duplicates) unique (.) else .}
 }
 
 find_syllable_match <- function (candidate.list = ., syllable.list){
@@ -488,8 +549,8 @@ find.unique.candidates <- function (candidates = .){
         mutate (underlying = as.character (underlying)) %>% 
         group_by (underlying) %>% 
         summarize (n.changes = min(n.changes)) %>%
+        remove_rownames() %>% 
         column_to_rownames("underlying")
-    
     
     keep <- sapply (candidates, 
                     function (X) {
@@ -501,7 +562,8 @@ find.unique.candidates <- function (candidates = .){
     candidates <- candidates[!(sapply (candidates, 
                                        function (X) X$underlying) %>%  
                                    duplicated)]
-    
+
+
     candidates
 }
 
@@ -559,7 +621,8 @@ add.other.syllables.to.match <- function (underlying, lang, closest_match_just_m
     # Split underlying form into syllables
     underlying.sylls <- get.syllables.from.words(
         underlying, 
-        sort.sylls = FALSE)
+        sort.sylls = FALSE,
+        remove.duplicates = FALSE)
     
     # Replace unattested syllables with XX
     underlying.sylls[!is.item.type (
@@ -917,32 +980,27 @@ calculate.expected.tps.for.chunks <- function (items, words, high.tp = 1, low.tp
 }
 ```
 
+
 ```{r recall-helper-functions-general, include = FALSE}
-wilcox.p <- function (x, mu = 0, add.descriptives = FALSE)
-{
-    x <- as.numeric (x)
+
+#' Wrapper for Wilcoxon
+wt <- function (x = ., y = 0) {
+
     
+    if (length (y) == 1){
+        
+        wtest <- wilcox.test (x, mu = y)
     
-    if ((all %.% is.na) (x)) {
-        res <- NA
     } else {
-        res <- signif (
-            wilcox.test (x, mu = mu)$p.value,
-            getOption('digits'))
         
+        wtest <- wilcox.test (x, y)
     }
     
-    if (add.descriptives){
-        
-        res <- paste0(
-            "\\M = ", signif (mean (x, na.rm = TRUE), getOption('digits')),
-            ", \\SE = ", signif (se (x), getOption('digits')),
-            ", \\p = ", res
-        )
-    }
-    
-    return (res)
+    paste0 ("$V$ = ", wtest$statistic, ", $p$ = ", signif (wtest$p.value, 3))
+
 }
+
+
 
 wilcox.p.2sample <- function (x, cond, paired = FALSE) {
 
@@ -1027,9 +1085,221 @@ replace_column_labels <- function (X)
 
 ```
 
+
+```{r recognition-helper-functions-general, include = FALSE}
+global.df.to.plot.df <- function (dat = ., 
+                                  filter.string, 
+                                  value.col = "correct",
+                                  filter.col = "experimentID",
+                                  condition.options = c("L1", "L2"),
+                                  condition.col = "lang"){
+    lapply (
+        condition.options, 
+        function (COND) {
+            dat %>% 
+                filter (.data[[filter.col]] == filter.string) %>% 
+                filter (.data[[condition.col]] == COND) %>% 
+                as.data.frame
+        }) %>% 
+        make.matrix.for.plot (.,
+                              value.col,
+                              df=T) %>% 
+        setNames(condition.options)
+}
+
+
+
+analyze.experiment.against.chance <- function (dat = ., 
+                                filter.str,
+                                filter.col = "experimentID",
+                                value.col = "correct", 
+                                chance.level = 50,
+                                scale.to.percent = TRUE){
+    
+    scaling.factor <- 1
+    if (scale.to.percent){
+        if (max (dat[,value.col]) <= 1){
+            scaling.factor <- 100
+        }
+    }
+    
+    dat.restricted <- 
+        dat %>% 
+        filter (.data[[filter.col]] == filter.str) %>% 
+        mutate (!!value.col := scaling.factor * .data[[value.col]]) 
+        
+
+    list (llr = lik.ratio (dat.restricted[[value.col]], 
+                           chance.level),
+              tt = tt4 (dat.restricted[[value.col]], 
+                        chance.level, print.results = FALSE),
+              wt = wt (dat.restricted[[value.col]], 
+                       chance.level))
+
+    
+}
+
+```
+
+`r clearpage()`
+
+
+# Introduction 
+Associative learning is widespread and exists in many species and domains [@Aslin1998; @Chen2015; Conway2005a; @Fiser2002; @Hauser2001; @Saffran-Science; @Toro2005-backward; @Turk-Browne2005; @Turk-Browne-reversal]. This led to the conclusion that the computations for which it is critical might be similarly widespread, a view that has been particularly prominent in language acquisition [@Aslin2012; @Seidenberg2002; @Thiessen2017]. 
+
+However, associative learning is also remarkably modular [@Endress-duplications]. For example, humans have independent associative learning abilities in superficially similar domains, including the learning of associations of objects with landmarks vs. boundaries [@Doeller2008; @Doeller2008a], associations among social vs. non-social objects [@Tompson2019] and associations among consonants vs. vowels [@Bonatti2005]. Further, associative learning abilities are generally not correlated across domains [@Siegelman2015]. 
+
+Preferential associations between specific classes of stimuli abound [@Seligman1970], and can evolve in just 40 generations in fruit flies [@Dunlap2014]. For example, rats readily associate tastes with  sickness and external events such as sounds or light flashes with pain, but cannot (or only with great difficulty) associate taste with pain or external events with sickness [@Garcia1974; @Garcia1976]. This pattern of associations reflects the likely ecological sources of sickness vs. pain (i.e., food vs. external events). Critically, the formation of taste-sickness associations (but not of other forms of associations) is blocked in a suckling context for rats who have not been exposed to solid food [@Martin1979; @Alberts1984], presumably because avoidance of the only food source would be detrimental; in contrast, minimal exposure to solid food re-establish taste-sickness associations [@Gubernick1984]. 
+
+While such results suggest that, over evolutionary times, the adaptiveness of associative learning is regulated by increasing or decreasing its availability for specific classes of stimuli, it is less clear if associative learning is specialized for specific computational functions, or whether it is essentially a side effect of local neural processing [a "spandrel" in biological terms; @Gould1979], that is sometimes adaptive, somtimes neutral and sometimes detrimentl. Here, we address this issue in a domain where the importance of associative learning has long been recognized: word learning. We suggest that associative learning is critical for predicting speech material under conditions where it can be predicted, but that it does not lead to memory. 
+
+One of the most prominent cases for associative learning in language acquisition is word segmentation. Speech is thought to be a continuous signal, and before learners can commit any words to memory, they need to learn where words start and where they end, respectively. One strategy to find word boundaries relies on Transitional Probabilities (TPs) among items, that is, the conditional probability of a syllable $\sigma_{i+1}$ given a preceeding syllable $\sigma_{i+1}$, $P(\sigma_{i}\sigma_{i+1})/P(\sigma_{i})$. Early on, Shannon [@Shannon1951] showed that human adults are sensitive to such distributional information. Subsequent work conclusively demonstrated that infants and non-human animals share this ability [XXX], and suggested that TPs can be extract using simple associative mechanisms such as Hebbian learning [@Endress-TP-Model].
+
+However, a sensitivity to distributional information does not imply that learners extract chunks that can be stored in memory. In fact, such as sensitive is typically tested by comparing participants' preference for high-TP items over low-TP items. It turns out that participants sometimes prefer high-TP items thet have never seen or heard (and thus could not have memorize) over low-TP items they have heard [@Endress-Phantoms-Vision], suggesting that associative learning and memory for specific chunks may be dissociable. In fact, the types of representations created by associative learning might well be different from those used for linguistic stimuli [@Endress-Phantoms-Vision; @Fischer-Baum2011], while associative knowledge might be critical for predictive processing that is critical for both language [@Levy2008; @Trueswell1999] and other cognitive processes (XXX).
+
+Here, we test this idea, focusing on the conditions under which associative learning operates and on the function it might have. To elucidate the conditions under which associative learning operates, we note that speech does not come as an  continuous signal but rather as a sequence of smaller units due to its prosodic organization [@Beckman1986; @Cutler1997; @Nespor1986; @Selkirk1986; @Shattuck-Hufnagel1996]. This prosodic organization is perceived in unfamiliar languages [@Brentari2011; @Endress-cross-seg; @Fenlon2008; @Pilon1981], by infants [@Hirsh-Pasek1987; Christophe1994; @Gout2004] and even by newborns [@Christophe2001]. Further, associative learning operates primarily *within* rather than across major prosodic boundaries [@Shukla2007; @Shukla2011]. As result, the a learner's segmentation task is not so much to integrate distributional information over long stretches of continuous speech, but rather to decide whether the the correct grouping in prosodic groups such as "*thebaby*" is "*theba + by*" or "*the + baby*". We thus ask to whether associative learning operates in such smaller groups, or only in longer stretches of continuous sound. 
+
+To elucidate the function of associative learning, we ask adult participants what they recall after being exposed to the speech stream from  [@Saffran-Science], again with a continuous speech stream or a sequence of pre-segmented syllable sequences. 
+
+
+[@Bortfeld2005; @Shi2008] Frequent words
+[@Ngon2013]: statistics within
+
+
+
+
+`r clearpage()`
+
 # Methods
-## Materials
-We resynthesized the languages used in @Saffran-Science Experiment 2. The four words in each language are given in Table \ref{tab:recall-languages}. Stimuli were synthesized using the us3 (male American English) voice of the mbrola @mbrola synthesizer, at with a constant F0 of 120 at a rate of 216 ms per syllable (108 ms per phoneme). 
+## Recognition experiment (London)
+
+### Participants
+```{r stats-london-demographics-load}
+dat.stats.london.demographics <- 
+    read.table ('data/oversegmentation_city/demographics.txt', header=T) %>%
+    dplyr::rename (experimentID = dir) %>% 
+    filter (!grepl ("pros", experimentID))
+
+if (!(dat.stats.london.demographics %>% 
+    mutate (matching.Ns = (N.L1 == N.L2)) %>% 
+    pull (matching.Ns) %>% 
+    all)) {
+    warning ("Some language conditions don't have equal N's in the London versions of the oversegmentation experiment, check demographics file.")    
+}
+                
+
+dat.stats.london.demographics <- dat.stats.london.demographics %>% 
+    dplyr::select (-c(N.L1, N.L2)) %>% 
+    mutate (experimentID = revalue (
+        experimentID,
+        c(
+            "./res.stats.e1" = "stats.1x.en.segm",
+            "./res.stats.e1c.3x" = "stats.3x.en.segm",
+            "./res.stats.e1c.3x.us3" = "stats.3x.us.segm",
+            "./res.stats.e1b.cont" = "stats.3x.en.cont",
+            "./res.stats.e1b2.cont.us3" = "stats.3x.us.cont",
+            "./res.stats.e1b3.cont.us3" ="stats.3x.us.cont2"
+        )))
+
+
+
+```
+
+
+```{r stats-london-demographics-print}
+dat.stats.london.demographics %>% 
+    filter (experimentID %in% 
+            c("stats.3x.us.segm",
+              "stats.3x.us.cont",
+              "stats.3x.us.cont2")) %>% 
+    mutate (experimentID = factor (experimentID,
+                                   levels = c("stats.3x.us.segm",
+                                            "stats.3x.us.cont",
+                                            "stats.3x.us.cont2"))) %>% 
+    mutate (experimentID = revalue (
+        experimentID,
+        c("stats.3x.us.segm" = "Pre-segmented",
+          "stats.3x.us.cont" = "Continuous (1)",
+          "stats.3x.us.cont2" = "Continuous (2)"))) %>% 
+    # For sorting below
+    group_by (experimentID) %>% 
+    arrange (.by_group = TRUE) %>% 
+    setNames (replace_column_labels(names(.))) %>%
+    knitr::kable(caption = 'Demographics for Experiment 1.',
+                 col.names = c("Familiarization Condition",
+                               "N", "Females", "Males", 
+                               "Age (*M*)", "Age (range)"),
+                 booktabs = TRUE, escape = FALSE) %>%
+    kable_classic() #%>%
+    # kable_styling(latex_options =
+    #                   c("scale_down"))
+
+```
+Participants were recruited from the City, University London participant pool and received course credit or monetary compensation for their time. We targeted 30 participants per experiment (15 per language). The final demographic information is given in Table \ref{tab:stats-london-demographics-print}. An additional six participants took part in the experiment but were not retained for analysis because they had taken part in a prior version of this experiment ($N = 4$), were much older than the rest of our sample ($N = 2$), or used their phone during the experiment or were visibly inattentive ($N = 2$).
+
+### Design (London)
+Participants were familiarized with a sequence of tri-syllabic words. In Language 1, both the TPs and the chunk frequency was higher in the bigram formed by the first two syllables than in the bigram formed by the last two syllables; as a result, an associative learner should a triplet like *ABC* into an initial *AB* chunk followed by a singleton *C* syllable (hereafter *AB+C* pattern). In Language 2, both the TPs and the chunk frequency favored an *A+BC* pattern). The basic structure of the words is shown in Table \ref{tab:stats-london-print-language-structure}
+
+```{r stats-london-print-language-structure}
+data.frame (L1.structure = 
+                c("ABC", "ABD", "ABE",
+                   "FGC", "FGD", "FGE",
+                   "HJC", "HJD", "HJE"),
+            L2.structure = 
+                c("ABC", "FBC", "HBC",
+                  "AGD", "FGD", "HGD",
+                  "AJE", "FJE", "HJE"),
+            L1.items = 
+                c("AB", "FG", "HJ", rep("", 6)),
+            L2.items = 
+                c("BC", "GD", "JE", rep ("", 6)),
+            L1.words = c(
+                "w3:-le-gu:", "w3:-le-vOI", "w3:-le-nA:",
+                "faI-zO:-gu:", "faI-zO:-vOI", "faI-zO:-nA:",
+                "rV-b{-gu:", "rV-b{-vOI", "rV-b{-nA:"),
+            L2.words = c(
+                "w3:-le-gu:", "faI-le-gu:", "rV-le-gu:",
+                "w3:-zO:-vOI", "faI-zO:-vOI", "rV-zO:-vOI",
+                "w3:-b{-nA:", "faI-b{-nA:", "rV-b{-nA:")
+            ) %>% 
+    knitr::kable (caption = "Design of Experiment 1. (Left) Language structure. (Middle) Structure of test items. Correct items for Language 1 are foils for Language 2 and vice versa. (Right) Actual items in SAMPA format; dashes indicate syllable boundaries",
+                  col.names = paste0 ("Language ", rep(1:2, 3)),
+                  booktabs = TRUE, escape = TRUE) %>%
+    kableExtra::add_header_above(c("Word structure for" = 2, 
+                                   "Test item structure for" = 2, 
+                                   "Actual words for" = 2),
+                                 line = FALSE) %>%
+    #kableExtra::kable_styling() %>%
+    kableExtra::kable_classic(full_width = FALSE) 
+
+    
+```    
+
+As result, in Language 1, the first bigram has a (forward and backward) TP of 1.0, while the second bigram has a (forward and backward) TP of .333. In contrast, in Language 2, the first bigram has a forward TP of .33, while the second bigram has a forward TP of 1.0. Likewise, the initial bigrams were three times as frequent as the final ones for Language 1, while the opposite holds for Language 2. 
+
+We asked whether participants would extract initial bigrams or final bigrams. The test items are given in Table \ref{tab:stats-london-print-language-structure}. 
+
+
+### Stimuli
+Stimuli were synthesized using the mbrola system [@mbrola], using the *us3* (American English male) diphone base. (We also used the *en1* (British English male) diphone base; however, as discussed below, this diphone based turned out be of relatively low quality and introduced confounds in the data.)
+
+We chose a constant segment duration of 60 ms (syllable duration 120 ms) with a constant $F_0$ of 120 Hz. These values were choosen to match recordings of natural speech that were intended to be used in an investigation of prosodic cues to word segmentation. 
+
+For continuous streams, a single file with 45 repetitions of each word was synthesized for each language (2 min 26 s duration). It was faded in and out for 5 s using sox (http://sox.sourceforge.net/) and then compressed to an mp3 file using ffmpeg (https://ffmpeg.org/). The stream was then presented 3 times to a participant (total familiarization duration 7 min 17 s).
+
+For segmented streams, words were individually synthesized using mbrola. We then used a custom-made perl script to randomize the words for each participant and concatenate them into a familiarization file using sox. The order of words was then randomized for each participant and concatenated into a single aiff file using sox (http://sox.sourceforge.net/). The silence among words was 540 ms (1.5 word durations). The total stream duration was 6 min 12s. The stream was then presented 3 times to a participant (total familiarization duration 18 min 14 s).
+
+### Apparatus
+The experiment was run using Psyscope X (http://psy.ck.sissa.it). Stimuli were presented over headphones in a quiet room. Responses were collected from pre-marked keys on the keybaord. 
+
+### Procedure
+Participants were informed that they would listen to a monologue by a talkative Martian, and instructed to try to remember the Martian words. Following this, they listend to three repetitions of the familiarization stream described above, for a total familiarization duration of 7 min 17 s (continuous stream) or 18 min 14 s (segmented stream).
+
+Following this familiarization, participants were presented with pairs of items with an interstimulus interval of 500 ms, and had to choose which items was more like what they heard during familiarization. One item was comprised the first two syllables of a word, and was thus a correct choice for Language 1. The other items comprised the last two syllables of a word, and was thus a correct choice for Language 2. There were three items of each kind. They were combined into 9 test pairs. The test pairs were presented twice, with different item orders, for a total of 18 test trials.  
+
+## Recall experiment
+### Materials
+We resynthesized the languages used in @Saffran-Science Experiment 2. The four words in each language are given in Table \ref{tab:recall-languages}. Stimuli were synthesized using the us3 (male American English) voice of the mbrola synthesizer [@mbrola], at with a constant F0 of 120 at a rate of 216 ms per syllable (108 ms per phoneme). 
 
 ```{r recall-recall-specificy-languages, include = FALSE}
 words.fw <- list (L1 = c("pAbiku", "tibudO", "dArOpi", "gOLAtu"),
@@ -1120,9 +1390,12 @@ words.fw %>%
 
 During familiarization, words were presented 45 times each. For each participant, we generated a random concatenation of 45 repetitions of the 4 words, with the constraint that a words could not occur in immediate reptition. Each randomization was then (i) synthesized into a continuous speech stream using mbrola and then converted to mp3 using ffmpeg (https://ffmpeg.org/) (ii) used to concatenate words that had been synthesized in isolation, separated by silences of 222 ms into a segmented speech stream, which was then converted to mp3. Streams were faded in and out for 5 s using sox (http://sox.sourceforge.net/). For continuous streams, this yielded a stream duration of 1 min 57 s; for segmented streams, the duration was 2 min 37.
 
+We created 20 versions of each streams with different random orders of words.
 
-## Procedure
-### Familiarization
+`r clearpage()`
+
+### Procedure
+#### Familiarization
 Participants were informed that they would be listening to an unknown language and that they should try to learn the words from that language. Following, the familiarization stream was presented twice, leading to a total familiarization duration of 3 min 53 for the continuous streams and 5 min 13 for the segmented streams. They could proceed to the next presentation of the stream by pressing a button. 
 
 For the online experiments, participants watched video with no clear objects during the familiarization (panning of the Carina nebula, obtained from https://esahubble.org/videos/heic0707g/). The video was combined with the speech stream using the the muxmovie utility.
@@ -1131,27 +1404,102 @@ Following the familiarization, the was a 30 s retention interval. Participants w
 
 (Note to self: This was the case for both psyscope and testable.)
 
-### Recall test
+#### Recall test
 Following the retention interval, participants completed the recall test. During the lab-based experiments, participants had 45 s to repeat back the words they remembered; their vocalizations were recorded using ffmpeg and saved in mp3 format. During the web-based experiments, participants had 60 s to type their answer into a comment field, during which they viewed a progress bar. 
 
-### Recognition test
+#### Recognition test
 Following the recall test, participant completed a recognition test during which we pitted words against part-words. The (correct) test words for Language 1 (and part-words for Language 2) were /pAbiku/ and /tibudO/; the (correct) test words for Language 2 (and part-words for Language 1) were /tudArO/ and /pigOlA/.These items were combined into 4 test pairs
 
 # Analysis
+
+```{r stats-london-load-data}
+dat.stats.london <- bind_rows (
+    # Stream played 1x, segmented, en, unused
+    read.table ('data/oversegmentation_city/res.stats.e1/res.tab', header=T) %>% 
+        mutate (experimentID = "stats.1x.en.segm",
+                experimentID.old = "e1",
+                nStreams = 1,
+                segm = "segmented",
+                voice = "en",
+                used = FALSE),
+    
+    # Stream played 3x, continuous, en, unused due to item bias
+    read.table ('data/oversegmentation_city/res.stats.e1b.cont/res.tab', header=T) %>% 
+                mutate (experimentID = "stats.3x.en.cont",
+                experimentID.old = "e1b.cont",
+                nStreams = 3,
+                segm = "continuous",
+                voice = "en",
+                used = FALSE),
+
+    # Stream played 3x, continuous, us3
+    read.table ('data/oversegmentation_city/res.stats.e1b2.cont.us3/res.tab', header=T) %>% 
+        mutate (experimentID = "stats.3x.us.cont",
+                experimentID.old = "e1b2.cont.us3",
+                nStreams = 3,
+                segm = "continuous",
+                voice = "us",
+                used = TRUE),
+
+    # Stream played 3x, continuous, us3
+    # This is just a replication of the experiment above
+    read.table ('data/oversegmentation_city/res.stats.e1b3.cont.us3/res.tab', header=T) %>% 
+        mutate (experimentID = "stats.3x.us.cont2",
+                experimentID.old = "e1b3.cont.us3",
+                nStreams = 3,
+                segm = "continuous",
+                voice = "us",
+                used = TRUE),
+    
+    # Stream played 3x, segmented, en
+    read.table ('data/oversegmentation_city/res.stats.e1c.3x/res.tab', header=T) %>% 
+        mutate (experimentID = "stats.3x.en.segm",
+                experimentID.old = "e1c.3x",
+                nStreams = 3,
+                segm = "segmented",
+                voice = "en",
+                used = FALSE),
+    
+    # Stream played 3x, segmented, us3
+    read.table ('data/oversegmentation_city/res.stats.e1c.3x.us3/res.tab', header=T) %>% 
+            mutate (experimentID = "stats.3x.us.segm",
+                experimentID.old = "e1c.3x.us3",
+                nStreams = 3,
+                segm = "segmented",
+                voice = "us",
+                used = TRUE) %>% 
+        mutate (rt = as.numeric (as.character (rt))) 
+
+) %>% 
+    # Change factors to character, change back later
+    mutate(across(where(is.factor), as.character)) %>% 
+    # make subjects unique
+    mutate (subj = paste0(experimentID, 
+                          ".", 
+                          subj)) %>% 
+    mutate (correctItem = ifelse (correctPos == 1,
+                                  item1, 
+                                  item2),
+            foil = ifelse (correctPos == 2,
+                                  item1, 
+                                  item2)) %>% 
+    mutate(across(where(is.character), factor))
+```
+
 ```{r recall-load-data, include = FALSE}
 
 # Data from BSc at City
 if (ANALYZED.DATA.SETS["CITY"]){
-dat.recognition.city <- rbind(read.table ("data/city/recall.i.e3.cont.tab", 
+dat.recognition.city <- rbind(read.table ("data/recall_city/recall.i.e3.cont.tab", 
                                header=T, sep="\t", comment.char = "%"),
-                     read.table ("data/city/recall.i.e4.segm.tab",
+                     read.table ("data/recall_city/recall.i.e4.segm.tab",
                                  header=T, sep="\t", comment.char = "%")) %>% 
     mutate (subj = factor (tolower(as.character(subj))))
 
 
 
     dat.recall.city <- gdata::read.xls(
-        "data/city/segmentation_recall_transcriptions.xlsx", 
+        "data/recall_city/segmentation_recall_transcriptions.xlsx", 
                                        sheet="Sheet2-ade",
                                        stringsAsFactors = FALSE,
                                        header=TRUE) %>%
@@ -1165,8 +1513,9 @@ dat.recognition.city <- rbind(read.table ("data/city/recall.i.e3.cont.tab",
 if (ANALYZED.DATA.SETS["TESTABLE"]){
     # Data from testable
     dat.recall.tstbl <-
-        read.testable.results("data/testable/399612_results_20200424_0326", 
+        read.testable.results("data/recall_testable/399612_results", 
                               comment.char = "",
+                              ignore.col.prefixes = IGNORE.COL.PREFIXES,
                               stringsAsFactors = FALSE)  %>%
         filter (myPhase != "sound_test") %>% 
         setNames (gsub ("myLang", "lang", names (.)))
@@ -1221,9 +1570,13 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
 }
 ```
 
+## Recognition experiment
+Accuracy was averaged for each participant, and the scores were tested against the chance level of 50% using Wilcoxon tests. Performance differences across the languages (Language 1 vs. 2) and, when applicable, familiarization conditions (pre-segmented vs. continuous) were assessed using using a generalized linear model for the trial-by-trial data with the fixed factors language and, where applicable, familiarization condition, as well as random slopes for participants, correct items and foils. Following [@Baayen2008], random factors were removed from the model when they did not contribute to the model likelihood.
 
+We use likelihood ratios to provide evidence for the null hypothesis that performance did not differ from the chance level of 50%. Following [@Glover2004], we fit the participant average to a linear model comprising only an intercept and the null model fixing the intercept to 50%, and evaluate the likelihood of these models after correcting for the difference in the number of parameters using the Bayesian Information Criterion. 
 
-## Recognition test
+## Recall experiment
+### Recognition test
 ```{r recall-city-check-recognition-consistency, warnings = FALSE}
 # Check whether the recognition accuracy in the xlsx file matches 
 # that automatically computed.
@@ -1319,7 +1672,7 @@ dat.recognition.combined.m <- bind_rows(
 
 dat.recognition.combined.m %>% 
     dplyr::select (-c("filter")) %>% 
-    kable (caption = "\\label{tab:recognition_descriptives}Descriptives for the recognition test", booktabs = TRUE, escape = FALSE) %>%
+    kable (caption = "Descriptives for the recognition test", booktabs = TRUE, escape = FALSE) %>%
     #     kable_styling() %>%
     pack_rows(index = make.pack.index (dat.recognition.combined.m$filter))
         
@@ -1393,7 +1746,7 @@ bind_rows(
     lmer.recognition.tstbl.filtered.results %>% 
         process.glmm.table
     ) %>% 
-     kable (caption = "\\label{tab:XXX}Results of a generalized linear model for the segmentation test. The model included random intercepts for participants and  languages. We didn't test whether any of these random effects contributed to the model likelihood. Note that a positive intercept indicates above chance performance. ", booktabs = TRUE, escape = FALSE) %>% 
+     kable (caption = "Results of a generalized linear model for the segmentation test. The model included random intercepts for participants and  languages. We didn't test whether any of these random effects contributed to the model likelihood. Note that a positive intercept indicates above chance performance. ", booktabs = TRUE, escape = FALSE) %>% 
     pack_rows(index = c(
         "City, all participants" = 2,
         "City, filtered" = 2,
@@ -1405,10 +1758,10 @@ bind_rows(
 
 
 
-## Recall test for the lab-based experiment
-The substitution rules employed in the current experiment are shown in Table \ref{tab:substitution_rules}.
+### Recall test (for the lab-based experiment or in general?)
+The substitution rules employed in the current experiment are shown in Table \ref{tab:recall-print-substitution-rules}.
 
-### Substitution rules compensating for potential misperceptions
+#### Substitution rules compensating for potential misperceptions
 
 * O might be perceived as A (but probably not vice versa)
 * Voiced and unvoiced consonants can be confused:
@@ -1564,25 +1917,30 @@ apply.substitution.rules.post.segmentation <- function (candidate = .){
 ```
 
 ```{r recall-print-substitution-rules}
-bind_rows (
+full_join (
     substitution.rules.pre.segmentation %>% 
         lapply (., unlist) %>% 
         do.call (rbind, .) %>% 
         as.data.frame (stringsAsFactors = FALSE)%>% 
-        select (-c("perl")),
+        select (-c("perl")) %>% 
+        mutate (line.number = row_number()),
     substitution.rules.post.segmentation %>% 
         lapply (., unlist) %>% 
         do.call (rbind, .) %>% 
-        as.data.frame (stringsAsFactors = FALSE)
+        as.data.frame (stringsAsFactors = FALSE) %>% 
+        mutate (line.number = row_number()),
+    by = "line.number",
+    keep = FALSE
 ) %>% 
-    kable (caption = "\\label{tab:substitution_rules}Substitution rules") %>%
+    select (-c("line.number")) %>% 
+    mutate_each(funs(replace(., which(is.na(.)), ""))) %>% 
+    kable (caption = "Substitution rules applied to the participants vocalizations before and after the input was segmented into chunks. The patterns are given as regular expressions",
+           col.names = rep (c("Pattern", "Replacement"), 2),
+           booktabs = TRUE) %>%
     #     kable_styling() %>%
-    pack_rows("Before segmentation",
-                          1,
-                          length (substitution.rules.pre.segmentation)) %>%
-    pack_rows("After segmentation",
-                          1+length (substitution.rules.pre.segmentation),
-                          length (substitution.rules.pre.segmentation) + length (substitution.rules.post.segmentation))
+        add_header_above(c("Before segmentation" = 2,
+                          "After segmentation" = 2)) %>% 
+    kableExtra::kable_classic()
 
 ```
 
@@ -1611,7 +1969,7 @@ if (REMOVE.BAD.SUBJ){
 }
 ```
 
-### Identify closest matches (for testable)
+#### Identify closest matches (for testable)
 ```{r recall-extract-recognition-performance}
 if (ANALYZED.DATA.SETS["TESTABLE"]){
     dat.recall.tstbl.recognition.m <-dat.recall.tstbl %>% 
@@ -1661,10 +2019,8 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
         dat.all.recall.items.tstbl <- dat.all.recall.items.tstbl %>% 
             # Filter participants for whom the vocalization 
             # cannot be analyzed (computer ran for several 
-            # days), but whose production (dalonigtbdophophi 
-            # dalobdakabdarobigopachu) did not ressemble 
-            # the words anyhow
-            filter (filename != "399612_200413_124119_M056106.csv")
+            # days), 
+            filter (!(filename %in% get.from.list(L.BAD.SUBJ.CPUTIME$tstbl, "subj")))
         
     }
 }
@@ -1685,7 +2041,13 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
                                   syllables)) 
         
         for (i in 2:nrow(dat.all.recall.items.tstbl)){
-            print (sprintf ("Processing row %d of %d", i, nrow(dat.all.recall.items.tstbl)))
+            cat (sprintf ("Processing row %d of %d (%s)\n%s\n", 
+                            i, 
+                            nrow(dat.all.recall.items.tstbl),
+                            dat.all.recall.items.tstbl$filename[i] %>% 
+                                as.character,
+                            dat.all.recall.items.tstbl$response[i]
+                            ))
             
             dat.all.recall.items.tstbl.with.candidates <- dat.all.recall.items.tstbl.with.candidates %>% 
                 bind_rows(dat.all.recall.items.tstbl %>% 
@@ -1707,6 +2069,10 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
         dat.all.recall.items.tstbl.with.candidates  <- 
             dat.all.recall.items.tstbl.with.candidates %>%
             as.data.frame %>%
+            mutate (across (c("underlying",
+                              "surface",
+                              "closest.match"),
+                            as.character)) %>% 
             filter ((closest.match.length %% 2) == 0) %>% 
             setNames(gsub ("closest.match$", "closest_match_just_match", names (.))) %>% 
             mutate (closest_match =
@@ -1714,28 +2080,29 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
         
         
         save.data.frame(dat.all.recall.items.tstbl.with.candidates,
+                        .path = "output",
                         row.names = FALSE)
         
     } else {
         
-        dat.all.recall.items.tstbl.with.candidates <- read.delim("dat.all.recall.items.tstbl.with.candidates.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+        dat.all.recall.items.tstbl.with.candidates <- read.delim("output/dat.all.recall.items.tstbl.with.candidates.txt", sep = "\t", header = TRUE, stringsAsFactors = FALSE)
     }
 }
 ```
 
-Each recall response was analyzed in five steps. First, we applied pre-segmentation substitution rules to make the transcriptions more consistent (see Table \ref{tab:substitution_rules}). For example, *ea* (presumably as in *tea*) was replaced with *i*. 
+Each recall response was analyzed in five steps. First, we applied pre-segmentation substitution rules to make the transcriptions more consistent (see Table \ref{tab:recall-print-substitution-rules}). For example, *ea* (presumably as in *tea*) was replaced with *i*. 
 
 Second, responses were segmented into their underlying units. If a response contained a semicolon (;) or comma character (,), these were used to delineate units. For each of the resulting units, we verified if they contained additional spaces. If they did, these spaces were removed if further subdividing resulted in any single-syllable response (operationalized as a string with a single vowel); otherwise, the units were further sub-divided based on the spaces. The rationale for this algorithm is that responses such as *bee coo tee,two da ra,bout too pa* were like to reflect the words *bikuti*, *tudaro* and *budopa*.
 
 Finally, if the response did not contain any commata or semicolons, it was segmented based on its spaces (if any).
 
-Third, we removed geminate consonants and applied another set of substitution rules that to take into account possible misperceptions (see \ref{tab:substitution_rules})). For example, we treated the voiced and unvoiced variety of stop consonants as interchangeable. Specifically, for each "surface" form produced by the participants, we generated candidate "underlying" forms by recursively applying all substitutions rules and keeping track of the number of substitution rules that were applied to derive an underlying form from a surface form. For each unique candidate underlying form, we kept the shortest derivation. 
+Third, we removed geminate consonants and applied another set of substitution rules that to take into account possible misperceptions (see \ref{tab:recall-print-substitution-rules})). For example, we treated the voiced and unvoiced variety of stop consonants as interchangeable. Specifically, for each "surface" form produced by the participants, we generated candidate "underlying" forms by recursively applying all substitutions rules and keeping track of the number of substitution rules that were applied to derive an underlying form from a surface form. For each unique candidate underlying form, we kept the shortest derivation. 
 
 Fourth, for each candidate underlying form, we identified the longest matching string in the familiarization stream. The algorithm first verified if a form was contained in a speech stream starting with an *A*, *B* or *C* syllable; if the underlying form contained unattested syllable, one syllable change was allowed with respect to the speech streams. If no matches were found, two substrings were created by clipping the first or the last syllable from the underlying form, and the search was repeated recursively for each of these substrings until a match was found. We then selected the longest match for all substrings. 
 
 Fifth, for each surface form, we selected the underlying form using the criteria (in this order) that, among the candidate underlying form of each surface form, the selected underlying form had (i)  had the maximal number of attested syllables, (ii) the maximal length, and (iii) the shortest derivation. 
 
-## Change columns to categorize transcriptions
+#### Change columns to categorize transcriptions
 ```{r recall-categorize-transcriptions-define, include = FALSE}
 #categorize.matches %<a-% {
 categorize.matches <- function (dat = ., current.lang) {
@@ -1835,7 +2202,7 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
 
 We then computed various properties for each underlying form, given the "target" language the participant had been exposed to. Specifically, we calculated: (1) the number of syllables, (2) whether it was a word from the target language, (3) whether it was a concatentation of words from the target language, (4) whether it was a single word or a concatenation of words from the target language (i.e., the disjunction of (2) and (3)), (5) whether it was a part-words from the target language, (6) whether it was a *complete* concatenation of part-words from the target language (i.e., the number of syllables of the item had to be a multiple of three, without any unattested syllables), (7) whether it was a single part-word or a concatenation of part-words from the target language, (8) whether it was a "class-word" with the two initial syllables coming from one word and the final syllables from another word or vice versa (i.e., class-words had the form *A\_iB\_iC\_j* or *A\_iB\_jC\_j*, (9) whether it was high-TP chunk (i.e., a word or a word with the first or the last syllable missing, after removing any leading or trailing unattested syllables), (10) whether it was a low-TP chunk (i.e., a chunk of the form *C\_iA\_j*, after removing lead or trailing unattested syllables, (11) whether it had a "correct" initial syllable, (12) whether it had a "correct" final syllable, (13) whether it is part of the speech stream (i.e., the disjunction of being an attested syllable, being a word or a concatenation thereof, being a part-word or a concatenation thereof, being a high-TP chunk or a low-TP chunk), (14) whether it was a backward word from the target language (i.e., a word with the syllable order reversed), (15) whether it was a concatenation of backward words, (16) whether it was a backward word or a concatenation thereof (i.e., the disjunction of (14) and (15)), (17) whether it was a backward part-word, (18) whether it was a concatenation of backward part-words, (19) whether it was a backward word or a concatenation thereof (i.e., the disjunction of (17) and (18)), (19) whether it was high-*backward*-TP chunk (i.e., a backward word or a backward word with the first or the last syllable missing, after removing any leading or trailing unattested syllables), (20) whether it was a low-*backward*-TP chunk (i.e., a chunk of the form *A\_iC\_j*, after removing lead or trailing unattested syllables, (21) the average forward TP of the transitions in the form, (22) the *expected* forward TP of the form if form is attested in the speech stream (see below for the calculation), and (23) the average backward TP of the transitions in the form.
 
-### Expected TPs 
+#### Expected TPs 
 For items that are *correctly* reproduced from the speech stream, the expected TPs depend on the starting position. For example, the expected TPs for items of at least 2 syllables starting on an initial syllable are c(1, 1, 1/3, 1, 1, 1/3, 1, 1, 1/3, ...); if the item starts on a word-medial syllable, these TPs are c(1, 1/3, 1, 1, 1/3, 1, 1, 1/3, 1, ...).
 
 In contrast, the expected TPs for a random concatenation of syllables are the TPs in a random bigram. For an *A* or a *B* syllable, the random TP is 1 $\times$ 1 / 12, as there is only 1 (out of 12) non-zero TP continuations. For a C syllable, the random TP is 3 $\times$ 1/3 / 12, as there are 3 possible concatenations. On average, the random TP is thus $(1/12 + 1/12 + 1/12)/ 3 = 1/12 \approx .083$. 
@@ -1969,7 +2336,7 @@ if (FILTER.SINGLE.SYLLABLES){
 }
 ```
 
-## Demographics and missing subjects
+### Demographics and missing subjects
 ```{r recall-final-demographics-calculate}
 
 if (ANALYZED.DATA.SETS["CITY"]){
@@ -2034,21 +2401,21 @@ if (ANALYZED.DATA.SETS["CITY"]) {
 
 ```
 
-The final demographic information is given in Table \ref{tab:recall_demographics}. 
+To reduce performance differences between the pre-segmented and the continuous familiarization conditions, participants were excluded from analysis if their accuracy in the recognition test was below 50% ($N = $, `r length (bad.subj.tstbl) + length (bad.subj.city)`).  Another `r length(L.BAD.SUBJ.CPUTIME$tstbl)` participants were excluded because parsing their productions took an excessive amount of computing time, though their productions did not seem to ressemble the familiarization items in the first place. The responses were `r paste (get.from.list(L.BAD.SUBJ.CPUTIME$tstbl, "response"), collapse = " // ")`.
+
+The final demographic information is given in Table \ref{tab:recall-final-demographics-print}. 
 
 ```{r recall-final-demographics-print}
-
 dat.recall.demographics.combined %>%
     setNames (replace_column_labels(names(.))) %>%
-    knitr::kable(caption = '\\label{tab:recall_demographics}Demographics of the final sample. Note that the City participants completed both segmentation conditions.', booktabs = TRUE, escape = FALSE) %>%
+    knitr::kable(caption = 'Demographics of the final sample. Note that the City participants completed both segmentation conditions.', booktabs = TRUE, escape = FALSE) %>%
     kableExtra::pack_rows(index = make.pack.index(dat.recall.demographics.combined$data.set)) %>% 
-    kable_styling(latex_options =
-                      c("scale_down"))        
+    kableExtra::kable_classic()
 
 
 ```
 
-## Save categorized data 
+#### Save categorized data 
 ```{r recall-save-data1, include = FALSE}
 # save.data.frame(dat, row.names = FALSE)
 
@@ -2070,7 +2437,7 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
 
 ```
 
-## Measures for productions in the recall phase
+#### Measures for productions in the recall phase
 We will use the following measures to analyze the participants' productions in the recall phase. Some analyses below rely on within-participant averages [A], within-participant sums [S] or other measures [O]. 
 
 * General measures
@@ -2095,11 +2462,360 @@ We will use the following measures to analyze the participants' productions in t
         b. Items with correct final syllables. Chance level: 4/12
         c. Disjunction of *a* and *b*. Chance level: $2 \times 4/12 - 4/12 \times 4/12 = 5/9$
 
+`r clearpage()`
+
 # Results
 
-In the analyses below, we removed all items that contained syllables not attested in the speech stream as it is unclear how these items should be analyzed. As a result, we also removed participants who did not produce any items that contained attested syllables only. 
+## Recognition experiments (Results with the us3 diphone base; the en1 results are in the appendix)
+        
+```{r stats-london-make-averages}
+dat.stats.london.m <- dat.stats.london %>% 
+    group_by (experimentID, nStreams, segm, voice, used, lang, subj) %>% 
+    summarize (correct = mean (correct))
+```
 
-## Make overall averages
+```{r stats-london-descriptives}
+# demographics can be gotten from the age.sex files
+dat.stats.london.m %>%
+    filter (experimentID != "stats.1x.en.segm") %>% 
+    group_by (voice, experimentID,segm, lang) %>%
+    summarize (N = n (),
+               M = mean (correct),
+               SE = se (correct)) %>% 
+    kable (caption = "Descriptives. Check exclusion files",
+           booktabs = TRUE)
+
+```
+
+
+
+### Can people recover words from pre-segmented prosodic units?
+We first asked if learners can split utterances that likely result from prosodic presegmentation into its underlying components. 
+
+
+```{r stats-london-stats.3x.us.segm.ana}
+
+ana.stats.3x.us.segm <- dat.stats.london.m %>% 
+    analyze.experiment.against.chance ("stats.3x.us.segm")
+    
+lmer.stats.3x.us.segm.1 <- glmer (correct ~ lang + 
+                                         (1|subj) + (1|correctItem) + (1|foil),
+                                  control=glmerControl(optimizer="bobyqa"),
+                                  family="binomial",
+                                  data =  dat.stats.london %>% 
+                                      filter (experimentID == "stats.3x.us.segm")
+                                  )    
+
+lmer.stats.3x.us.segm.2 <- update (
+    lmer.stats.3x.us.segm.1,
+    ~ . - (1|foil))
+
+lmer.stats.3x.us.segm.3 <- update (
+    lmer.stats.3x.us.segm.2,
+    ~ . - (1|correctItem))
+
+# anova (lmer.stats.3x.us.segm.1,
+#        lmer.stats.3x.us.segm.2,
+#        lmer.stats.3x.us.segm.3)
+
+lmer.stats.3x.us.segm.1.results <- 
+    extract.results.from.model (lmer.stats.3x.us.segm.1)
+
+
+```
+
+```{r stats-london-stats.3x.us.segm.plot, fig.cap="Results for a segmented presentation of the stream (540 ms silences) with three repetition of the stream (45 repetitions per word). The diphone based was *us2*."}
+
+if (PRINT.INDIVIDUAL.FIGURES){
+    #current.plot.name <- "stats.3x.us.segm"
+    #prepare.graphics
+    
+    
+    
+    dat.stats.3x.us.segm.for.plot <- dat.stats.london.m %>% 
+        global.df.to.plot.df ("stats.3x.us.segm")
+    
+    
+    
+    strip4c (100*dat.stats.3x.us.segm.for.plot,  
+             x=1:2,
+             ylab="% Correct",
+             xlab_big=names (dat.stats.3x.us.segm.for.plot),
+             xlab_big_at=c(1:2),
+             main="Segmented - 3 presentation of stream")
+    #show.graphics
+}
+```
+
+As shown in Figure \ref{fig:stats-london-stats.3x.us.segm.cont.plot}, the average performance did not differ significantly from the chance level of 50%, `r ana.stats.3x.us.segm$tt`, `r ana.stats.3x.us.segm$wt`. Likelihood ratio analysis favored the null hypothesis by a factor of `r ana.stats.3x.us.segm$llr` after correction with the Bayesian Information Criterion. Further, as shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print}, performance did not depend on the language condition. As shown in Appendix XXX, the failure to use statistical learning was replicated using a second diphone base. 
+
+Further, the failure to use statistical learning to split pre-segmented units was replicated in a pilot experiment with Spanish/Catalan speakers using chunk frequency and backwards TPs as the primary cues (see Supplementary Information XXX).
+
+
+### Can people recover words from a continuous stream? (1)
+While observers failed to split presegmented words into their underlying units, we now ask if they can do so when the words are embedded into a continuous speech stream.
+
+```{r stats-london-stats.3x.us.cont.ana}
+
+ana.stats.3x.us.cont <- dat.stats.london.m %>% 
+    analyze.experiment.against.chance ("stats.3x.us.cont")
+    
+lmer.stats.3x.us.cont.1 <- glmer (correct ~ lang + 
+                                         (1|subj) + (1|correctItem) + (1|foil),
+                                  control=glmerControl(optimizer="bobyqa"),
+                                  family="binomial",
+                                  data =  dat.stats.london %>% 
+                                      filter (experimentID == "stats.3x.us.cont")
+                                  )    
+
+lmer.stats.3x.us.cont.2 <- update (
+    lmer.stats.3x.us.cont.1,
+    ~ . - (1|foil))
+
+lmer.stats.3x.us.cont.3 <- update (
+    lmer.stats.3x.us.cont.2,
+    ~ . - (1|correctItem))
+
+# anova (lmer.stats.3x.us.cont.1,
+#        lmer.stats.3x.us.cont.2,
+#        lmer.stats.3x.us.cont.3)
+
+lmer.stats.3x.us.cont.1.results <- 
+    extract.results.from.model (lmer.stats.3x.us.cont.1)
+
+
+```
+
+```{r stats-london-stats.3x.us.cont.plot, fig.cap="Results for a continuous presentation of the stream (540 ms silences) with three repetition of the stream (45 repetitions per word). The diphone based was *us2*."}
+
+if (PRINT.INDIVIDUAL.FIGURES){
+    
+    #current.plot.name <- "stats.3x.us.cont"
+    #prepare.graphics
+    
+    dat.stats.3x.us.cont.for.plot <- dat.stats.london.m %>% 
+        global.df.to.plot.df ("stats.3x.us.cont")
+    
+    
+    
+    strip4c (100*dat.stats.3x.us.cont.for.plot,  
+             x=1:2,
+             ylab="% Correct",
+             xlab_big=names (dat.stats.3x.us.cont.for.plot),
+             xlab_big_at=c(1:2),
+             main="Continuous - 3 presentation of stream")
+    #show.graphics
+}
+```
+
+As shown in Figure \ref{fig:stats-london-stats.3x.us.segm.cont.plot}, the average performance differed significantly from the chance level of 50%, `r ana.stats.3x.us.cont$tt`, `r ana.stats.3x.us.cont$wt`. As shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print}, performance did not depend on the language condition. As shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print}, performance was significantly better compared to when the stream was pre-segmented. 
+
+
+### Can people recover words from a continuous stream? (2) (Replication)
+We replicated the sucessful tracking of statistical information using a new sample of participants.
+
+```{r stats-london-stats.3x.us.cont2.ana}
+
+ana.stats.3x.us.cont2 <- dat.stats.london.m %>% 
+    analyze.experiment.against.chance ("stats.3x.us.cont2")
+    
+lmer.stats.3x.us.cont2.1 <- glmer (correct ~ lang + 
+                                         (1|subj) + (1|correctItem) + (1|foil),
+                                  control=glmerControl(optimizer="bobyqa"),
+                                  family="binomial",
+                                  data =  dat.stats.london %>% 
+                                      filter (experimentID == "stats.3x.us.cont2")
+                                  )    
+
+lmer.stats.3x.us.cont2.2 <- update (
+    lmer.stats.3x.us.cont2.1,
+    ~ . - (1|foil))
+
+lmer.stats.3x.us.cont2.3 <- update (
+    lmer.stats.3x.us.cont2.2,
+    ~ . - (1|correctItem))
+
+# anova (lmer.stats.3x.us.cont2.1,
+#        lmer.stats.3x.us.cont2.2,
+#        lmer.stats.3x.us.cont2.3)
+
+lmer.stats.3x.us.cont2.1.results <- 
+    extract.results.from.model (lmer.stats.3x.us.cont2.1)
+
+
+```
+
+```{r stats-london-stats.3x.us.cont2.plot, fig.cap="Results for a continuous presentation of the stream (540 ms silences) with three repetition of the stream (45 repetitions per word). The diphone based was *us2*."}
+
+
+if (PRINT.INDIVIDUAL.FIGURES){
+    #current.plot.name <- "stats.3x.us.cont2"
+    #prepare.graphics
+    
+    
+    
+    dat.stats.3x.us.cont2.for.plot <- dat.stats.london.m %>% 
+        global.df.to.plot.df ("stats.3x.us.cont2")
+    
+    
+    
+    strip4c (100*dat.stats.3x.us.cont2.for.plot,  
+             x=1:2,
+             ylab="% Correct",
+             xlab_big=names (dat.stats.3x.us.cont2.for.plot),
+             xlab_big_at=c(1:2),
+             main="Continuous (2) - 3 presentation of stream")
+    #show.graphics
+    
+}
+```
+
+As shown in Figure \ref{fig:stats-london-stats.3x.us.segm.cont.plot}, the average performance differed significantly from the chance level of 50%, `r ana.stats.3x.us.cont2$tt`, `r ana.stats.3x.us.cont2$wt`. As shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print}, performance did not depend on the language condition. As shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print}, performance was significantly better compared to when the stream was pre-segmented. 
+
+However, as shown in Appendix XXX, when trying to replicate these results using a different diphone base, we obtained a preference for specific items due to the poor quality of the diphone base.
+
+```{r stats-london-stats.3x.us.segm.cont.glmm}
+
+# Model including segmented and original continuous condition
+lmer.stats.3x.us.segm.cont1.1 <- glmer (correct ~ lang*segm + 
+                                           (1|subj) + (1|correctItem) + (1|foil),
+                                       control=glmerControl(optimizer="bobyqa"),
+                                       family="binomial",
+                                       data =  dat.stats.london %>% 
+                                           filter (experimentID %in%
+                                                       c("stats.3x.us.segm",
+                                                         "stats.3x.us.cont")))    
+lmer.stats.3x.us.segm.cont1.2 <- update (
+    lmer.stats.3x.us.segm.cont1.1,
+    ~ . - lang:segm)
+
+lmer.stats.3x.us.segm.cont1.3 <- update (
+    lmer.stats.3x.us.segm.cont1.2,
+    ~ . - (1|foil))
+
+lmer.stats.3x.us.segm.cont1.4 <- update (
+    lmer.stats.3x.us.segm.cont1.3,
+    ~ . - (1|correctItem))
+
+# anova (
+#     lmer.stats.3x.us.segm.cont1.1,
+#     lmer.stats.3x.us.segm.cont1.2,
+#     lmer.stats.3x.us.segm.cont1.3,
+#     lmer.stats.3x.us.segm.cont1.4
+# )
+
+
+lmer.stats.3x.us.segm.cont1.2.results <- 
+    extract.results.from.model(lmer.stats.3x.us.segm.cont1.2)
+
+
+
+# Model including segmented and replicated continuous condition
+lmer.stats.3x.us.segm.cont2.1 <- glmer (correct ~ lang*segm + 
+                                           (1|subj) + (1|correctItem) + (1|foil),
+                                       control=glmerControl(optimizer="bobyqa"),
+                                       family="binomial",
+                                       data =  dat.stats.london %>% 
+                                           filter (experimentID %in%
+                                                       c("stats.3x.us.segm",
+                                                         "stats.3x.us.cont2")))    
+lmer.stats.3x.us.segm.cont2.2 <- update (
+    lmer.stats.3x.us.segm.cont2.1,
+    ~ . - lang:segm)
+
+lmer.stats.3x.us.segm.cont2.3 <- update (
+    lmer.stats.3x.us.segm.cont2.2,
+    ~ . - (1|foil))
+
+lmer.stats.3x.us.segm.cont2.4 <- update (
+    lmer.stats.3x.us.segm.cont2.3,
+    ~ . - (1|correctItem))
+
+# anova (
+#     lmer.stats.3x.us.segm.cont2.1,
+#     lmer.stats.3x.us.segm.cont2.2,
+#     lmer.stats.3x.us.segm.cont2.3,
+#     lmer.stats.3x.us.segm.cont2.4
+# )
+
+
+lmer.stats.3x.us.segm.cont2.2.results <- 
+    extract.results.from.model(lmer.stats.3x.us.segm.cont2.2)
+
+
+
+```
+
+```{r stats-london-stats.3x.us.segm.cont.plot, fig.cap="Results of Experiment 1. Each dot represents a participants. The central red dot is the sample mean; error bars represent standard errors from the mean. The results show the percentage of correct choices in the recognition test after familiarization with (left) a pre-segmented familiarization stream or (middle, right) a continuous familiarization stream. The two continuous conditions are replictions of one another."}
+
+dat.stats.london.m %>% 
+    filter (experimentID %in%
+                c("stats.3x.us.segm",
+                  "stats.3x.us.cont",
+                  "stats.3x.us.cont2")) %>% 
+    mutate (experimentID = gsub ("stats.3x.us.", "", experimentID)) %>% 
+    mutate (experimentID = factor (experimentID, 
+                                   levels = c("segm", "cont", "cont2"))) %>% 
+    ggplot (aes (x = experimentID,
+                 y = 100 * correct)) +
+    theme_light(14) +
+    theme (axis.title.x = element_blank()) + 
+    ylab ("% Correct") + 
+    geom_violin() +
+    geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
+    stat_summary(fun.data=mean_se, 
+                 geom="pointrange", color="red") +
+    geom_hline(yintercept=50, linetype = "dotted") +
+    scale_x_discrete(labels = c("Pre-segmented", "Continuous (1)", "Continuous (2)"))
+    
+
+```
+
+```{r stats-london-stats.us.lang.glmm.print}
+
+pack.index <- c(
+    "Pre-segmented familiarization" = 
+        nrow (lmer.stats.3x.us.segm.1.results),
+    "Continuous familiarization (1)" = 
+        nrow (lmer.stats.3x.us.cont.1.results),
+    "Continuous familiarization (2)" = 
+        nrow (lmer.stats.3x.us.cont2.1.results),
+    "Pre-segmented vs. continuous familiarization (1)" = 
+        nrow (lmer.stats.3x.us.segm.cont1.2.results),
+    "Pre-segmented vs. continuous familiarization (2)" = 
+        nrow (lmer.stats.3x.us.segm.cont2.2.results))
+
+pack.index <- pack.index - 1
+
+bind_rows(
+    lmer.stats.3x.us.segm.1.results %>% 
+        process.glmm.table,
+    lmer.stats.3x.us.cont.1.results %>% 
+        process.glmm.table,
+    lmer.stats.3x.us.cont2.1.results %>% 
+        process.glmm.table,
+    lmer.stats.3x.us.segm.cont1.2.results %>% 
+        process.glmm.table,
+    lmer.stats.3x.us.segm.cont2.2.results %>% 
+        process.glmm.table
+) %>% 
+    filter (!grepl ("Intercept", Effect)) %>% 
+    kable (caption = "Performance differences across familiarization conditions. The differences were assessed using a generalized linear model for the trial-by-trial data, using participants, correct items and foils as random factors. Random factors were removed from the model when they did not contribute to the model likelihood.",
+           booktabs = TRUE, escape = FALSE) %>%
+    kableExtra::kable_classic() %>% 
+    kableExtra::pack_rows (index = pack.index) 
+    # kableExtra::kable_styling(latex_options =
+    #                               c("scale_down",
+    #                               "hold_position"))
+
+
+```
+
+
+`r clearpage()`
+
+## Recall experiment
+In the analyses below, we removed all items that contained syllables not attested in the speech stream as it is unclear how these items should be analyzed. As a result, we also removed participants who did not produce any items that contained attested syllables only. 
 
 ```{r recall-averages-across-items-calculate, include = FALSE}
 
@@ -2181,8 +2897,7 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
         rename (subj = filename,
                 Age = age,
                 Gender = sex,
-                streamType = mySegmentationCond,
-                correct_segm = correct) %>% 
+                streamType = mySegmentationCond) %>% 
         # We have the following column in the city data set
         group_by(subj, Age, Gender, lang, streamType, correct_segm) %>%
 #        summarize_at (vars(n_syllables:average_bw_tp), mean, na.rm = TRUE)
@@ -2309,6 +3024,9 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
 
 dat.recall.combined.m <- bind_rows (dat.recall.combined.m) %>% 
     as.data.frame %>% 
+    mutate (data.set = revalue (data.set,
+                                c(city = "lab-based",
+                                testable = "online"))) %>% 
     add.column.attrib (dat.column.meaning) 
 
 
@@ -2323,76 +3041,34 @@ dat.recall.combined.m %>%
     kable_styling(latex_options =
                               c("hold_position", 
                                 "scale_down"),
-                  bootstrap_options = "striped")
+                  bootstrap_options = "striped") %>% 
+    kableExtra::column_spec(2, width = "30em") %>% 
+    kableExtra::kable_classic()
 
 ```
 
 After computing these counts and averages, we asked which counts were significantly different from zero in a one-tailed Wilcoxon test, either for the continuous or the segmented condition. These counts were `r toString (dat.recall.tstbl.m.selected.vars.by.wilcox)`. (Note: These counts are currently restricted to the testable data set.)
 
 
-
-```{r recall-wilcox-across-stream-types-calculate}
-# Check which outcomes differ across the strema types. Used unpaired
-# test by default
-
-dat.recall.combined.m.wilcox.by.streamType <-   dat.recall.combined.m %>% 
-    ungroup %>% 
-    mutate (streamType = factor (streamType)) %>%
-    group_by (data.set) %>%
-    summarize (across(correct_segm:p.correct.initial.or.final.syll,
-                      ~ wilcox.p.2sample (.x, streamType)))
+As shown in Table \ref{tab:recall-all-results-print}, participants produced on average `r  dat.recall.combined.m %>% filter (streamType == "segmented") %>% pull (n.words) %>% mean` words in the segmented condition, and `r dat.recall.combined.m %>% filter (streamType == "continuous") %>% pull (n.words) %>% mean` in the continuous condition.
 
 
-```
-
-```{r recall-averages-across-subjects-calculate, include = FALSE}
-dat.recall.combined.m2 <- dat.recall.combined.m %>% 
-    group_by(data.set, streamType) %>%
-    summarize_at (vars(correct_segm:p.correct.initial.or.final.syll),
-    mean, na.rm = TRUE)
-
-```
-
-As shown in Table \ref{tab:recall_all_averages}, participants produced on average `r dat.recall.combined.m[dat.recall.combined.m$streamType == "segmented",]$n.words` words in the segmented condition, and `r dat.recall.combined.m[dat.recall.combined.m$streamType == "continuous",]$n.words` in the continuous condition.
-
-```{r recall-averages-print}
-
-dat.recall.combined.m2 %>% 
-    data.frame %>%
-    rbind (., 
-           cbind(streamType = "$p_{Wilcoxon}$", 
-                 dat.recall.combined.m.wilcox.by.streamType)) %>% 
-    remove_rownames %>% 
-    arrange (data.set, desc(streamType)) %>% 
-    mutate (rownames = paste0 (data.set, ".", streamType)) %>% 
-    column_to_rownames("rownames") %>%
-    t %>% 
-    knitr::kable (caption = "\\label{tab:recall_all_averages}All averages. The *p* value has been calculated from a paired Wilcoxon test across the familiarization conditions.", booktabs = T) %>%
-    kable_styling(latex_options =
-                      c("hold_position", 
-                        "scale_down"),
-                  bootstrap_options = "striped")
-
-
-
-
-
-```
-
-
-## General measures
-We first calculate the number of items produced as well their average, and compare them  against the zero as well as across segmentation conditions. As shown in Table \ref{tab:recall-general-results-print} and Figure \ref{fig:recall-general-measures-plot}, participants produced positive number of items. Neither the number of items produced nor their number of syllables differed across the segmentation conditions.
+### General measures
+We first calculate the number of items produced as well their average, and compare them  against the zero as well as across segmentation conditions. As shown in Table \ref{tab:recall-all-results-print} and Figures \ref{fig:recall-general-measures-tp-plot}a and b, participants produced positive number of items. Neither the number of items produced nor their number of syllables differed across the segmentation conditions.
 
 ```{r recall-streamTypeContrast-functions}
 prepare.data.for.streamType.contrast <- function (dat = ., value.var, mu = 0) {
     
     dat %>%     
-        reshape2::dcast (data.set + subj ~ streamType, value.var = value.var) %>% 
+        mutate (paired = (data.set!="online")) %>% 
+        reshape2::dcast (data.set + subj + paired ~ streamType, value.var = value.var) %>% 
+        group_by (data.set) %>%  
         summarize (Continuous = wilcox.p(continuous, mu, TRUE),
                    Segmented = wilcox.p(segmented, mu, TRUE),
-                   d = wilcox.test(continuous, segmented, 
+                   d = wilcox.test(continuous, segmented,
                                    mu = 0,
-                                   paired = FALSE)$p.value
+                                   paired = paired)$p.value %>% 
+                       signif (3)
         )
     
 }
@@ -2452,7 +3128,7 @@ plot.recall.combined.m.n.syll <- dat.recall.combined.m %>%
 
 
 
-```{r recall-general-measures-plot, fig.cap="Number of items produced as well as their numbers of syllables."}
+```{r recall-general-measures-plot, eval = FALSE, fig.cap="Number of items produced as well as their numbers of syllables."}
 ggpubr::ggarrange (
     plot.recall.combined.m.n.items,
     plot.recall.combined.m.n.syll,
@@ -2464,76 +3140,7 @@ ggpubr::ggarrange (
 ```
 
 
-## Word vs. part-word analysis
-We next calculate the number and proportion of among (productions) of words and part-words respectively; we also accept concatenations of words and part-words. The proportions will be compared across stream types as well as to zero.
-
-Finally, we calculate the proportion of words among the word and part-word productions. This proportion will be compared across segmentation types, as well as to the chance level of 50%.
-
-As shown in Table \ref{tab:recall-general-results-print} and in Figure \ref{fig:recall-words-part-words-plot}, participants produced a positive number of words only in the segmented condition, but not in the continuous condition. In contrast, they produced a positive number of part-words only in the continuous condition, but not in the segmented condition. Accordingly, the proportion of words among words and part-words was significantly greater than 50% in the segmented condition, but numerically (though not significantly) smaller than 50% in the continuous condition. The latter result is consistent with participants randomly picking a syllable to start their vocalizations; if so, part-words should be 2 times as likely as words.
-
-```{r recall-p-n-words-calculate}
-dat.recall.combined.m.n.words <- dat.recall.combined.m %>% 
-        prepare.data.for.streamType.contrast("n.words.or.multiple")
-dat.recall.combined.m.p.words <- dat.recall.combined.m %>% 
-        prepare.data.for.streamType.contrast("p.words.or.multiple")
-
-plot.recall.combined.m.n.words <- dat.recall.combined.m %>% 
-        prepare.plot.for.streamType.contrast (streamType, n.words.or.multiple) +
-        ylab ("# Words")
-
-plot.recall.combined.m.p.words <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, p.words.or.multiple) +
-    ylab (TeX("\\frac{Words}{Productions}$"))
-
-```
-
-```{r recall-p-n-part-words-calculate}
-dat.recall.combined.m.n.part.words <- dat.recall.combined.m %>% 
-        prepare.data.for.streamType.contrast("n.part.words.or.multiple")
-dat.recall.combined.m.p.part.words <- dat.recall.combined.m %>% 
-        prepare.data.for.streamType.contrast("p.part.words.or.multiple")
-
-plot.recall.combined.m.n.part.words <- dat.recall.combined.m %>% 
-        prepare.plot.for.streamType.contrast (streamType, n.part.words.or.multiple) +
-        ylab ("# Part-Words")
-
-plot.recall.combined.m.p.part.words <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, p.part.words.or.multiple) +
-    ylab (TeX("\\frac{Part-Words}{Productions}$"))
-```
-
-```{r recall-words-part-words-calculate}
-dat.recall.combined.m.p.words.part.words <- dat.recall.combined.m %>% 
-        prepare.data.for.streamType.contrast("p.words.part.words.or.multiple", .5)
-
-
-plot.recall.combined.m.p.word.part.words <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, p.words.part.words.or.multiple) +
-    ylab (TeX("\\frac{Words}{Words + Part-Words}$"))
-    
-```
-
-
-
-```{r recall-words-part-words-plot, fig.height=11, fig.cap="Plot of various comparisons between words and part-words."}
-ggpubr::ggarrange (
-    plot.recall.combined.m.n.words,
-    plot.recall.combined.m.p.words,
-    plot.recall.combined.m.n.part.words,
-    plot.recall.combined.m.p.part.words,
-    plot.recall.combined.m.p.word.part.words,
-    nrow = 3, ncol = 2,
-    #common.legend = TRUE, legend="bottom", 
-    #legend.grob = plot.circle.combined.within.recency.legend,
-    labels = "auto")
-
-```
-
-
-
-
-
-## TP-based analyses
+### TP-based analyses
 We first computed the average forward TPs in the produced items, and separately for each segmentation condition, compared it to both the expected TPs for random strings and the expected TPs given the starting syllable.
 
 * The expected TPs for items of at least 2 syllables starting on an initial syllable are c(1, 1/3, 1, 1, 1/3, 1, 1, 1/3, ...). The difference between the actual and the expected TP needs to be compared to zero, as the expected TP differs across items.
@@ -2542,9 +3149,9 @@ We first computed the average forward TPs in the produced items, and separately 
 We compared these measures across segmentation conditions. 
 
 
-As shown in Table \ref{tab:recall-general-results-print} and Figure \ref{fig:recall-tps-plot}, forward and backward TPs were significantly greater than expected for a random string in both the continuous and the segmented condition, with greater TPs in the segmented conditions. However, they were significantly *lower* than the TPs expected if items recalled faithfully, given their starting position.
+As shown in Table \ref{tab:recall-all-results-print} and Figures \ref{fig:recall-general-measures-tp-plot}c and d, forward and backward TPs were significantly greater than expected for a random string in both the continuous and the segmented condition, with greater TPs in the segmented conditions. However, they were significantly *lower* than the TPs expected if items recalled faithfully, given their starting position.
 
-As shown in Figure \ref{fig:recall-tp-chunks-plot}, participants produced a positive number of high-TP chunks in both the segmented and the continuous condition, with a significantly greater number in the segmented condition. In contrast, they produced a positive number of low-TP chunks only in the continuous condition. Accordingly, the proportion of high-TP chunks among high- and low-TP chunks exceeded 50% only in the segmented condition. 
+As shown in Figure \ref{fig:recall-w-pw-chunks-positions-plot}b, participants produced a positive number of high-TP chunks in both the segmented and the continuous condition, with a significantly greater number in the segmented condition. In contrast, they produced a positive number of low-TP chunks only in the continuous condition. Accordingly, the proportion of high-TP chunks among high- and low-TP chunks exceeded 50% only in the segmented condition. 
 
 
 ```{r recall-forward-tps-calculate}
@@ -2562,7 +3169,7 @@ plot.recall.combined.m.forward.tps <- dat.recall.combined.m %>%
     ylab ("Forward TPs") +
     geom_hline (yintercept = 1/12, lty = 3)
     
-plot.recall.combined.m.forward.tps <- dat.recall.combined.m %>% 
+plot.recall.combined.m.forward.vs.expected.tps <- dat.recall.combined.m %>% 
     prepare.plot.for.streamType.contrast (streamType, average_fw_tp_d_actual_expected) +
     ylab ("Actual - Expected Forward TPs")
     
@@ -2585,7 +3192,7 @@ plot.recall.combined.m.backward.tps <- dat.recall.combined.m %>%
 ```
 
 
-```{r recall-tps-plot, fig.height=11, fig.cap="Plot of TP comparisons."}
+```{r recall-tps-plot, eval = FALSE, fig.height=11, fig.cap="Plot of TP comparisons."}
 ggpubr::ggarrange (
 plot.recall.combined.m.forward.tps,
 plot.recall.combined.m.forward.tps,
@@ -2612,7 +3219,7 @@ dat.recall.combined.m.p.low.tp.chunk <- dat.recall.combined.m %>%
     prepare.data.for.streamType.contrast("p.low.tp.chunk", 0)
 
 dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.data.for.streamType.contrast("p.high.tp.chunk.low.tp.chunk", 0.5)
+    prepare.data.for.streamType.contrast("p.high.tp.chunk.low.tp.chunk", c(0.5, 2/3))
 
 
 plot.recall.combined.m.n.high.tp.chunk <- dat.recall.combined.m %>% 
@@ -2631,12 +3238,14 @@ plot.recall.combined.m.p.low.tp.chunk <- dat.recall.combined.m %>%
 
 plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk <- dat.recall.combined.m %>% 
     prepare.plot.for.streamType.contrast (streamType, p.high.tp.chunk.low.tp.chunk) +
-    ylab (TeX("\\frac{High TP chunks}{High + Low TP chunks}$"))
+    ylab (TeX("\\frac{High TP chunks}{High + Low TP chunks}$")) +
+    geom_hline (yintercept = 1/2, lty = 3) +
+    geom_hline (yintercept = 2/3, lty = 5)
 
 
 ```
 
-```{r recall-tp-chunks-plot, fig.height=11, fig.cap="Plot of High and Low TP chunks."}
+```{r recall-tp-chunks-plot, eval = FALSE, fig.height=11, fig.cap="Plot of High and Low TP chunks."}
 ggpubr::ggarrange (
 plot.recall.combined.m.n.high.tp.chunk,
 plot.recall.combined.m.p.high.tp.chunk,
@@ -2650,10 +3259,79 @@ plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk,
 
 ```
 
-## Positional analyses
+
+### Word vs. part-word analysis
+We next calculate the number and proportion of among (productions) of words and part-words respectively; we also accept concatenations of words and part-words. The proportions will be compared across stream types as well as to zero.
+
+Finally, we calculate the proportion of words among the word and part-word productions. This proportion will be compared across segmentation types, as well as to the chance level of 50%.
+
+As shown in Table \ref{tab:recall-all-results-print} and in Figure \ref{fig:recall-w-pw-chunks-positions-plot}a, participants produced a positive number of words only in the segmented condition, but not in the continuous condition. In contrast, they produced a positive number of part-words only in the continuous condition, but not in the segmented condition. Accordingly, the proportion of words among words and part-words was significantly greater than 50% in the segmented condition, but numerically (though not significantly) smaller than 50% in the continuous condition. The latter result is consistent with participants randomly picking a syllable to start their vocalizations; if so, part-words should be 2 times as likely as words.
+
+```{r recall-p-n-words-calculate}
+dat.recall.combined.m.n.words <- dat.recall.combined.m %>% 
+        prepare.data.for.streamType.contrast("n.words.or.multiple")
+dat.recall.combined.m.p.words <- dat.recall.combined.m %>% 
+        prepare.data.for.streamType.contrast("p.words.or.multiple")
+
+plot.recall.combined.m.n.words <- dat.recall.combined.m %>% 
+        prepare.plot.for.streamType.contrast (streamType, n.words.or.multiple) +
+        ylab ("# Words")
+
+plot.recall.combined.m.p.words <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, p.words.or.multiple) +
+    ylab (TeX("\\frac{Words}{Productions}$"))
+```
+
+```{r recall-p-n-part-words-calculate}
+dat.recall.combined.m.n.part.words <- dat.recall.combined.m %>% 
+        prepare.data.for.streamType.contrast("n.part.words.or.multiple")
+dat.recall.combined.m.p.part.words <- dat.recall.combined.m %>% 
+        prepare.data.for.streamType.contrast("p.part.words.or.multiple")
+
+plot.recall.combined.m.n.part.words <- dat.recall.combined.m %>% 
+        prepare.plot.for.streamType.contrast (streamType, n.part.words.or.multiple) +
+        ylab ("# Part-Words")
+
+plot.recall.combined.m.p.part.words <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, p.part.words.or.multiple) +
+    ylab (TeX("\\frac{Part-Words}{Productions}$"))
+```
+
+```{r recall-words-part-words-calculate}
+dat.recall.combined.m.p.words.part.words <- dat.recall.combined.m %>% 
+        prepare.data.for.streamType.contrast("p.words.part.words.or.multiple", c(.5, 1/3))
+
+
+plot.recall.combined.m.p.word.part.words <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, p.words.part.words.or.multiple) +
+    ylab (TeX("\\frac{Words}{Words + Part-Words}$")) + 
+    geom_hline (yintercept = 1/2, lty = 3) + 
+    geom_hline (yintercept = 1/3, lty = 5)
+
+    
+```
+
+
+
+```{r recall-words-part-words-plot, eval = FALSE, fig.height=11, fig.cap="Plot of various comparisons between words and part-words."}
+ggpubr::ggarrange (
+    plot.recall.combined.m.n.words,
+    plot.recall.combined.m.p.words,
+    plot.recall.combined.m.n.part.words,
+    plot.recall.combined.m.p.part.words,
+    plot.recall.combined.m.p.word.part.words,
+    nrow = 3, ncol = 2,
+    #common.legend = TRUE, legend="bottom", 
+    #legend.grob = plot.circle.combined.within.recency.legend,
+    labels = "auto")
+
+```
+
+
+### Positional analyses
 Finally, we analyze the productions in terms of correct initial final positions. As there are four initial and final positions, respectively, 4/12 of the productions should have "correct" initial positions, 4/12 should have correct final positions, while $2 \times 4/12 - (4/12)^2 = 5/9$  should have either correct initial or final positions.
 
-As shown in Table \ref{tab:recall-general-results-print} and Figure \ref{fig:recall-positions-plot}, participants produced items with correct initial or final positions at great than chance level only in the segmented condition, but not the continuous condition.
+As shown in Table \ref{tab:recall-all-results-print} and Figure \ref{fig:recall-w-pw-chunks-positions-plot}c and d, participants produced items with correct initial or final positions at great than chance level only in the segmented condition, but not the continuous condition.
 
 ```{r recall-positions-calculate}
 dat.recall.combined.m.p.correct.initial.syll <- dat.recall.combined.m %>% 
@@ -2686,7 +3364,7 @@ plot.recall.combined.m.p.correct.initial.or.final.syll <- dat.recall.combined.m 
 
 ```
 
-```{r recall-positions-plot, fig.height=11, fig.cap="Plot of chunks with correct initial or final positions."}
+```{r recall-positions-plot, eval = FALSE, fig.height=11, fig.cap="Plot of chunks with correct initial or final positions."}
 ggpubr::ggarrange (
 plot.recall.combined.m.p.correct.initial.syll,
 plot.recall.combined.m.p.correct.final.syll,
@@ -2699,66 +3377,107 @@ plot.recall.combined.m.p.correct.initial.or.final.syll,
 ```
 
 
-```{r recall-general-results-print}
+```{r recall-all-results-prepare}
+# Analyses that are commented out are given in the Appendix
 
-dat.recall.combined.m.n.items.n.syll <-
+dat.recall.combined.m.all.results.main <-
     bind_rows(
+        dat.recall.combined.m %>% 
+            prepare.data.for.streamType.contrast("correct_segm", .5) %>% 
+            mutate (filter = "Recognition accuracy"),
+        
         dat.recall.combined.m.n.items %>% 
             mutate (filter = "Number of items"),
         dat.recall.combined.m.n.syll %>% 
             mutate (filter = "Number of syllables/item"),
         
-        dat.recall.combined.m.n.words %>% 
-            mutate (filter = "Number of words"),
-        dat.recall.combined.m.n.words %>% 
-            mutate (filter = "Proportion of words among vocalizations"),
-        dat.recall.combined.m.n.part.words %>% 
-            mutate (filter = "Number of part-words"),
-        dat.recall.combined.m.n.part.words %>% 
-            mutate (filter = "Proportion of part-words among vocalizations"),
+        # dat.recall.combined.m.n.words %>% 
+        #     mutate (filter = "Number of words"),
+        # dat.recall.combined.m.n.words %>% 
+        #     mutate (filter = "Proportion of words among productions"),
+        # dat.recall.combined.m.n.part.words %>% 
+        #     mutate (filter = "Number of part-words"),
+        # dat.recall.combined.m.n.part.words %>% 
+        #     mutate (filter = "Proportion of part-words among productions"),
         dat.recall.combined.m.p.words.part.words %>% 
-            mutate (filter = "Proportion of part-words among words and part-words" ),
+            mutate (filter = "Proportion of words among words and part-words (or concatenations thereof)" ),
         
         dat.recall.combined.m.forward.tps %>% 
             mutate (filter = "Forward TPs"),
-        dat.recall.combined.m.forward.tps.actual.vs.expected %>% 
-            mutate (filter = "Actual vs. Expected Forward TPs"),
+        # dat.recall.combined.m.forward.tps.actual.vs.expected %>% 
+        #     mutate (filter = "Actual vs. expected forward TPs"),
         dat.recall.combined.m.backward.tps %>% 
             mutate (filter = "Backward TPs"),
         
-        dat.recall.combined.m.n.high.tp.chunk %>% 
-            mutate (filter = "Number of High TP chunks"),
-        dat.recall.combined.m.p.high.tp.chunk %>% 
-            mutate (filter = "Proportion of High TP chunks among productions"),
-        dat.recall.combined.m.n.low.tp.chunk %>% 
-            mutate (filter = "Number of Low TP chunks"),
-        dat.recall.combined.m.p.low.tp.chunk %>% 
-            mutate (filter = "Number of Low TP chunks among productions"),
+        # dat.recall.combined.m.n.high.tp.chunk %>% 
+        #     mutate (filter = "Number of High-TP chunks"),
+        # dat.recall.combined.m.p.high.tp.chunk %>% 
+        #     mutate (filter = "Proportion of High-TP chunks among productions"),
+        # dat.recall.combined.m.n.low.tp.chunk %>% 
+        #     mutate (filter = "Number of Low-TP chunks"),
+        # dat.recall.combined.m.p.low.tp.chunk %>% 
+        #     mutate (filter = "Number of Low-TP chunks among productions"),
         
         dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk %>% 
-            mutate (filter = "Proportion of High TP chunks among High and Low TP chunks"),
+            mutate (filter = "Proportion of High-TP chunks among High- and Low-TP chunks"),
         
         
         dat.recall.combined.m.p.correct.initial.syll %>% 
             mutate (filter = "Proportion of items with correct initial syllables"),
         dat.recall.combined.m.p.correct.final.syll %>% 
-            mutate (filter = "Proportion of items with correct final syllables"),
-        dat.recall.combined.m.p.correct.initial.or.final.syll %>% 
-            mutate (filter = "Proportion of items with correct initial or final syllables")
+            mutate (filter = "Proportion of items with correct final syllables")
+        # dat.recall.combined.m.p.correct.initial.or.final.syll %>% 
+        #     mutate (filter = "Proportion of items with correct initial or final syllables")
    
     )
 
-dat.recall.combined.m.n.items.n.syll %>% 
+
+```
+
+```{r recall-all-results-print}
+
+dat.recall.combined.m.all.results.main %>% 
     dplyr::select (-c("filter")) %>% 
-    rename ("$p_{cont\ vs.\ segm}$"="d") %>% 
-    kable (caption = "Various analyses pertaining to the productions as well as test against their chances levels. Number of items produced, their numbers of syllables, number of words, number of part-words (chance level: 0), proportion  of words among productions, proportion of part-words among productions, proportion of words among words and part-words (chance level 50%), average forward TPs (chance level: 1/12), difference between positionally expected and actual TPs, average backward TPS. CHUNKS ", booktabs = TRUE, escape = FALSE) %>%
-    #     kable_styling() %>%
-    pack_rows(index = make.pack.index (dat.recall.combined.m.n.items.n.syll$filter))
+    kable (caption = "Various analyses pertaining to the productions as well as test against their chances levels. Number of items produced, their numbers of syllables, number of words, number of part-words (chance level: 0), proportion  of words among productions, proportion of part-words among productions, proportion of words among words and part-words (chance level 50%), average forward TPs (chance level: 1/12), difference between positionally expected and actual TPs, average backward TPS. CHUNKS ", 
+           col.names = c("", "Continuous", "Segmented", "*p* (Continuous vs. Segmented)"),
+           booktabs = TRUE, escape = FALSE) %>%
+    kable_styling(latex_options =
+                      c("scale_down")) %>%
+    kableExtra::column_spec(2:3, width = "30em") %>%
+    kableExtra::column_spec(4, width = "10em") %>% 
+    kableExtra::kable_classic() %>% 
+    pack_rows(index = make.pack.index (dat.recall.combined.m.all.results.main$filter))
 
 ```
 
 
 
+```{r recall-general-measures-tp-plot, fig.height=8, fig.cap="Number of items produced, number of syllables per item and forward and backward TPs. The dotted line represents the chance level for a randomly ordered syllable sequence."}
+ggpubr::ggarrange (
+    plot.recall.combined.m.n.items,
+    plot.recall.combined.m.n.syll,
+    plot.recall.combined.m.forward.tps,
+    plot.recall.combined.m.backward.tps,
+    nrow = 2, ncol = 2,
+    #common.legend = TRUE, legend="bottom", 
+    #legend.grob = plot.circle.combined.within.recency.legend,
+    labels = "auto")
+
+```
+
+```{r recall-w-pw-chunks-positions-plot, fig.height=8, fig.cap="Analyses of the participants' productions. (a) Proportion of words among words and part-words. The dotted line represents the chance level of 50% in a two-alternative forced-choice task, while the dashed line represents the chance level of 33% that an attested 3 syllable-chunk is a word rather than a part-word. (b) Proportion of high-TP chunks among high- and low-TP chunks. The dashed line represents the chance level of 66% that an attested 2 syllable-chunk is a high-TP rather than a low-TP chunk. (c) proportion of productions with correct initial syllables and (d) with correct final syllables. The dotted line represents the chance level of 33%."}
+ggpubr::ggarrange (
+    plot.recall.combined.m.p.word.part.words,
+    plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk,
+    plot.recall.combined.m.p.correct.initial.syll,
+    plot.recall.combined.m.p.correct.final.syll,
+    nrow = 2, ncol = 2,
+    #common.legend = TRUE, legend="bottom", 
+    #legend.grob = plot.circle.combined.within.recency.legend,
+    labels = "auto")
+
+
+```
 
 ```{r recall-save-data2}
 xlsx::write.xlsx (dat.recall.city,
@@ -2784,6 +3503,549 @@ xlsx::write.xlsx (dat.recall.combined.m,
 
 ```
 
+`r clearpage()`
+
+# Appendix
+## Additional results for the recall experiments
+
+```{r recall-extra-results-prepare}
+# Results that are commented out are in the main text
+
+dat.recall.combined.m.all.results.extra <-
+    bind_rows(
+        # dat.recall.combined.m %>% 
+        #     prepare.data.for.streamType.contrast("correct_segm", .5) %>% 
+        #     mutate (filter = "Recognition accuracy"),
+        # 
+        # dat.recall.combined.m.n.items %>% 
+        #     mutate (filter = "Number of items"),
+        # dat.recall.combined.m.n.syll %>% 
+        #     mutate (filter = "Number of syllables/item"),
+        
+        dat.recall.combined.m.n.words %>%
+            mutate (filter = "Number of words"),
+        dat.recall.combined.m.n.words %>%
+            mutate (filter = "Proportion of words among productions"),
+        dat.recall.combined.m.n.part.words %>%
+            mutate (filter = "Number of part-words"),
+        dat.recall.combined.m.n.part.words %>%
+            mutate (filter = "Proportion of part-words among productions"),
+        # dat.recall.combined.m.p.words.part.words %>% 
+        #     mutate (filter = "Proportion of words among words and part-words (or concatenations thereof)" ),
+        # 
+        # dat.recall.combined.m.forward.tps %>% 
+        #     mutate (filter = "Forward TPs"),
+        dat.recall.combined.m.forward.tps.actual.vs.expected %>%
+            mutate (filter = "Actual vs. expected forward TPs"),
+        # dat.recall.combined.m.backward.tps %>% 
+        #     mutate (filter = "Backward TPs"),
+        
+        dat.recall.combined.m.n.high.tp.chunk %>%
+            mutate (filter = "Number of High-TP chunks"),
+        dat.recall.combined.m.p.high.tp.chunk %>%
+            mutate (filter = "Proportion of High-TP chunks among productions"),
+        dat.recall.combined.m.n.low.tp.chunk %>%
+            mutate (filter = "Number of Low-TP chunks"),
+        dat.recall.combined.m.p.low.tp.chunk %>%
+            mutate (filter = "Number of Low-TP chunks among productions")
+        
+        # dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk %>% 
+        #     mutate (filter = "Proportion of High-TP chunks among High- and Low-TP chunks"),
+        
+        
+        # dat.recall.combined.m.p.correct.initial.syll %>% 
+        #     mutate (filter = "Proportion of items with correct initial syllables"),
+        # dat.recall.combined.m.p.correct.final.syll %>% 
+        #     mutate (filter = "Proportion of items with correct final syllables")
+        # # dat.recall.combined.m.p.correct.initial.or.final.syll %>% 
+        # #     mutate (filter = "Proportion of items with correct initial or final syllables")
+   
+    )
+
+
+```
+
+```{r recall-extra-results-print}
+
+dat.recall.combined.m.all.results.extra %>% 
+    dplyr::select (-c("filter")) %>% 
+    kable (caption = "Various supplementary analyses pertaining to the productions as well as test against their chances levels. Number of items produced, their numbers of syllables, number of words, number of part-words (chance level: 0), proportion  of words among productions, proportion of part-words among productions, proportion of words among words and part-words (chance level 50%), average forward TPs (chance level: 1/12), difference between positionally expected and actual TPs, average backward TPS. CHUNKS ", 
+           col.names = c("", "Continuous", "Segmented", "*p* (Continuous vs. Segmented)"),
+           booktabs = TRUE, escape = FALSE) %>%
+    kable_styling(latex_options =
+                      c("scale_down")) %>%
+    kableExtra::column_spec(2:3, width = "30em") %>%
+    kableExtra::column_spec(4, width = "10em") %>% 
+    kableExtra::kable_classic() %>% 
+    pack_rows(index = make.pack.index (dat.recall.combined.m.all.results.extra$filter))
+
+```
+
+
+
+```{r recall-words-part-words-raw-plot, fig.height=8, fig.cap="Number and proportion (among vocalizations) of words and part-words."}
+ggpubr::ggarrange (
+    plot.recall.combined.m.n.words,
+    plot.recall.combined.m.p.words,
+    plot.recall.combined.m.n.part.words,
+    plot.recall.combined.m.p.part.words,
+    nrow = 3, ncol = 2,
+    #common.legend = TRUE, legend="bottom", 
+    #legend.grob = plot.circle.combined.within.recency.legend,
+    labels = "auto")
+
+```
+
+
+
+```{r recall-tp-chunks-raw-plot, fig.height=8, fig.cap="Plot of High and Low TP chunks."}
+ggpubr::ggarrange (
+plot.recall.combined.m.n.high.tp.chunk,
+plot.recall.combined.m.p.high.tp.chunk,
+plot.recall.combined.m.n.low.tp.chunk,
+plot.recall.combined.m.p.low.tp.chunk,
+    nrow = 3, ncol = 2,
+    #common.legend = TRUE, legend="bottom", 
+    #legend.grob = plot.circle.combined.within.recency.legend,
+    labels = "auto")
+
+```
+
+`r clearpage()`
+
+
+## Experiments with the *en1* diphone base
+### Segmented stream, 3 repetitions of the stream, en1 diphone based
+
+```{r stats-london-stats.3x.en.segm.ana}
+
+ana.stats.3x.en.segm <- dat.stats.london.m %>% 
+    analyze.experiment.against.chance ("stats.3x.en.segm")
+    
+lmer.stats.3x.en.segm.1 <- glmer (correct ~ lang + 
+                                         (1|subj) + (1|correctItem) + (1|foil),
+                                  control=glmerControl(optimizer="bobyqa"),
+                                  family="binomial",
+                                  data =  dat.stats.london %>% 
+                                      filter (experimentID == "stats.3x.en.segm")
+                                  )    
+
+lmer.stats.3x.en.segm.2 <- update (
+    lmer.stats.3x.en.segm.1,
+    ~ . - (1|foil))
+
+lmer.stats.3x.en.segm.3 <- update (
+    lmer.stats.3x.en.segm.2,
+    ~ . - (1|correctItem))
+
+# anova (lmer.stats.3x.en.segm.1,
+#        lmer.stats.3x.en.segm.2,
+#        lmer.stats.3x.en.segm.3)
+
+
+lmer.stats.3x.en.segm.3.results <- extract.results.from.model (lmer.stats.3x.en.segm.3)
+
+# T test and likelhood ratio
+ana.stats.3x.en.segm <- dat.stats.london.m %>% 
+    filter (experimentID == "stats.3x.en.segm") %>% 
+    mutate (correct = 100 * correct) %>% 
+    pull (correct) %>% 
+    list (llr = lik.ratio (., 50),
+          tt = tt4 (., 50, print.results = FALSE))
+
+```
+
+
+```{r stats-london-stats.3x.en.segm.plot-old, eval = FALSE, fig.cap="Results for a segmented presentation of the stream (540 ms silences) with three repetition of the stream (45 repetitions per word). The diphone based was *en1*."}
+
+
+
+#current.plot.name <- "stats.3x.en.segm"
+#prepare.graphics
+
+
+dat.stats.3x.en.segm.for.plot <- dat.stats.london.m %>% 
+     global.df.to.plot.df ("stats.3x.en.segm")
+    
+
+strip4c (100*dat.stats.3x.en.segm.for.plot,  
+         x=1:2,
+         ylab="% Correct",
+         xlab_big=names (dat.stats.3x.en.segm.for.plot),
+         xlab_big_at=c(1:2),
+         main="Segmented - 3 presentation of stream \nen1 [e1c] ")
+#show.graphics
+
+```
+
+```{r stats-london-stats.3x.en.segm-cont.plot, fig.cap="Results for a pre-segmented presentation of the stream (540 ms silences, left) and continuous presentation of the stream (right). Each word was repeated 45 times. The diphone based was *en1*."}
+
+dat.stats.london.m %>% 
+    filter (experimentID %in% c("stats.3x.en.segm", "stats.3x.en.cont")) %>% 
+    mutate (segm = factor (segm, 
+                           levels = segm %>% 
+                               levels %>% 
+                               rev)) %>%
+    ggplot (aes (x = lang,
+                 y = 100 * correct)) +
+    theme_light(14) +
+    theme (axis.title.x = element_blank()) +
+    ylab ("% Correct") +
+    ggtitle ("Experiments with the en1 diphone base") +
+    geom_violin() +
+    geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
+    stat_summary(fun.data=mean_se,
+                 geom="pointrange", color="red") +
+    geom_hline(yintercept=50, linetype="dashed") +
+    facet_grid(. ~ segm, labeller = labeller (segm = stringi::stri_trans_totitle))
+    
+```
+
+As shown in Figure \ref{fig:stats-london-stats.3x.en.segm-cont.plot}, the average performance did not differ significantly from the chance level of 50%, `r ana.stats.3x.en.segm$tt`, `r ana.stats.3x.en.segm$wt`. Likelihood ratio analysis favored the null hypothesis by a factor of `r ana.stats.3x.en.segm$llr` after correction with the Bayesian Information Criterion. Further, as shown in Table \ref{tab:stats.en.lang.glmm}, performance did not depend on the language condition.
+
+### Continuous stream, 3 repetitions of the stream, en1 diphone based
+```{r stats-london-stats.3x.en.cont.ana}
+
+ana.stats.3x.en.cont <- dat.stats.london.m %>% 
+    analyze.experiment.against.chance ("stats.3x.en.cont")
+    
+lmer.stats.3x.en.cont.1 <- glmer (correct ~ lang + 
+                                         (1|subj) + (1|correctItem) + (1|foil),
+                                  control=glmerControl(optimizer="bobyqa"),
+                                  family="binomial",
+                                  data =  dat.stats.london %>% 
+                                      filter (experimentID == "stats.3x.en.cont")
+                                  )    
+
+lmer.stats.3x.en.cont.2 <- update (
+    lmer.stats.3x.en.cont.1,
+    ~ . - (1|foil))
+
+lmer.stats.3x.en.cont.3 <- update (
+    lmer.stats.3x.en.cont.2,
+    ~ . - (1|correctItem))
+
+# anova (lmer.stats.3x.en.cont.1,
+#        lmer.stats.3x.en.cont.2,
+#        lmer.stats.3x.en.cont.3)
+
+lmer.stats.3x.en.cont.1.results <- 
+    extract.results.from.model (lmer.stats.3x.en.cont.1)
+
+
+```
+
+```{r stats-london-stats.3x.en.cont.plot-old, eval = FALSE, fig.cap="Results for a continous presentation of the stream (540 ms silences) with three repetition of the stream (45 repetitions per word). The diphone based was *en1*."}
+
+
+
+#current.plot.name <- "stats.3x.en.cont"
+#prepare.graphics
+
+
+
+dat.stats.3x.en.cont.for.plot <- dat.stats.london.m %>% 
+    global.df.to.plot.df ("stats.3x.en.cont")
+    
+    
+
+strip4c (100*dat.stats.3x.en.cont.for.plot,  
+         x=1:2,
+         ylab="% Correct",
+         xlab_big=names (dat.stats.3x.en.cont.for.plot),
+         xlab_big_at=c(1:2),
+         main="Continuous - 3 presentation of stream")
+#show.graphics
+
+```
+
+As shown in Figure \ref{fig:stats-london-stats.3x.en.segm-cont.plot}, the average performance did not differ significantly from the chance level of 50%, `r ana.stats.3x.en.cont$tt`, `r ana.stats.3x.en.cont$wt`. Likelihood analyses revealed that the null hypothesis was `r ana.stats.3x.en.cont$llr` than the alternative hypothesis after a correction with the Bayesian Information Criterion. However, as shown in Table \ref{tab:stats.en.lang.glmm}, performance was much better for Language 1 than for Language 2, presumably due to some click-like sounds the synthesizer produced for some stops and fricatives (notably /f/ and /g/). These sound might have prevent participants from using statistical learning. 
+
+
+```{r stats-london-stats.en.lang.glmm.print}
+
+pack.index <- c(
+    stats.3x.en.segm = nrow (lmer.stats.3x.en.segm.3.results),
+    stats.3x.en.cont = nrow (lmer.stats.3x.en.cont.1.results)
+    )
+
+pack.index <- pack.index - 1
+    
+bind_rows(
+    lmer.stats.3x.en.segm.3.results %>% 
+        process.glmm.table,
+    lmer.stats.3x.en.cont.1.results %>% 
+        process.glmm.table
+) %>% 
+    filter (!grepl ("Intercept", Effect)) %>% 
+    kable (caption = "\\label{tab:stats.en.lang.glmm}Performance differences across language conditions. The differences were assessed using a generalized linear model for the trial-by-trial data, using participants, correct items and foils as random factors. Random factors were removed from the model when they did not contribute to the model likelihood",
+           booktabs = TRUE, escape = FALSE) %>% 
+    kableExtra::pack_rows (index = pack.index) 
+    # kableExtra::kable_styling(latex_options =
+    #                               c("scale_down",
+    #                               "hold_position"))
+
+
+```
+
+## Pilot recognition experiment testing the use of chunk frequency
+In Pilot Experiment 1, we asked if participants could break up tri-syllabic items by using the chunk frequency of sub-chunks. The artificial languages were designed such that, in a trisyllabic item such as *ABC*, chunk frequency (and backwards TPs) favor in the initial *AB* chunk for half of the participants, and the final *BC* chunk for the other participants. 
+
+Across participants, we also varied the exposure to the languages, with 3, 15 or 30 repetitions per word, respectively. 
+
+### Methods 
+
+```{r bcn-helper-functions}
+
+# Libraries to load the experyment data
+source ("~/R.ansgar/expyriment_data_ade.R")
+
+
+# Some random helper functions
+
+f1 <- function (x){
+    with (x,
+          tt4(x$cor, .5))
+}
+
+f2 <- function (x){
+    
+    with(x,
+         reportAOV(summary (aov (cor~lang))))
+}
+
+
+make.figure.from.mean <- function (df, lang.col="lang", data.col="correct"){
+
+    languages <- levels (df[,lang.col])
+    exp.name <- deparse (substitute(df))
+    
+    tmp <- make.matrix.for.plot (list (df[df[,lang.col]==languages[1],],
+                                       df[df[,lang.col]==languages[2],]),
+                                 data.col,
+                                 df=T)
+    names (tmp) <- languages
+
+
+    pdf (paste (exp.name, ".pdf", sep=""))
+    strip4c (100*tmp, x=c(1:2),
+             ylab="% Correct",
+             xlab_big=names (tmp),
+             xlab_big_at=c(1:2),
+             main=exp.name)
+    dev.off ()
+}
+```
+
+```{r bcn-load-data-stats, include = FALSE}
+
+#system ("./preProcessAll.sh res.exp1")
+dat.bcn.exp1.3x <- read.files.in.dir ("data/oversegmentation_bcn/res.exp1",
+                                      ".res$", "\t", comment.char="%")
+dat.bcn.exp1.3x <- dat.bcn.exp1.3x[dat.bcn.exp1.3x$Condition=="TEST",]
+
+
+# These are the python experiments
+dat.bcn.exp1.15x <- read.expyriment.data ("data/oversegmentation_bcn/res.exp1.15x", 
+                                          "\\.xpd$", remove.space=TRUE, add.subj.col=TRUE)
+dat.bcn.exp1.15x <- dat.bcn.exp1.15x[dat.bcn.exp1.15x$TrialType=="test",]
+
+dat.bcn.exp1.30x <- read.expyriment.data ("data/oversegmentation_bcn/res.exp1.30x", 
+                                          "\\.xpd$", remove.space=TRUE, add.subj.col=TRUE)
+dat.bcn.exp1.30x <- dat.bcn.exp1.30x[dat.bcn.exp1.30x$TrialType=="test",]
+
+dat.bcn.exp1.combined <- bind_rows(
+    dat.bcn.exp1.3x %>% 
+        select (subj, age, lang, correct) %>% 
+        setNames (c("subj", "age", "lang", "cor")) %>% 
+        add_column (n.rep.word = 3, .before = 1) %>% 
+        add_column(experimentID = "bcn.exp1", .before = 1) %>% 
+        mutate (age = as.numeric(as.character(age))),
+    
+    dat.bcn.exp1.15x %>% 
+        select (Tst_Exp_1, subj, Age, Tst_Lang_1, ChoiceMatch)  %>% 
+        setNames (c("exp", "subj", "age", "lang", "cor")) %>% 
+        add_column (n.rep.word = 15, .after = "exp") %>% 
+        rename (experimentID = exp) %>% 
+        mutate (experimentID = "bcn.exp1") %>% 
+        mutate (age = as.numeric(as.character(age))),
+    
+    dat.bcn.exp1.30x %>% 
+        select (Tst_Exp_1, subj, Age, Tst_Lang_1, ChoiceMatch)  %>% 
+        setNames (c("exp", "subj", "age", "lang", "cor")) %>% 
+        add_column (n.rep.word = 30, .after = "exp") %>% 
+        rename (experimentID = exp) %>% 
+        mutate (experimentID = "bcn.exp1") %>% 
+        mutate (age = as.numeric(as.character(age)))
+)
+    
+```
+
+
+
+```{r bcn-make-averages-stats}
+dat.bcn.exp1.3x.m <- with (dat.bcn.exp1.3x,
+                           aggregate (correct, 
+                                      list (subj, age, lang), mean)) %>% 
+    setNames (c("subj", "age", "lang", "cor")) %>% 
+    add_column (n.rep.word = 3, .before = 1) %>% 
+    add_column(exp = "bcn.exp1", .before = 1) %>% 
+    mutate (age = as.numeric(as.character(age)))
+
+dat.bcn.exp1.15x.m <- with (dat.bcn.exp1.15x,
+                aggregate (ChoiceMatch, 
+                           list (Tst_Exp_1, subj, Age, Tst_Lang_1), mean)) %>% 
+    setNames (c("exp", "subj", "age", "lang", "cor")) %>% 
+    add_column (n.rep.word = 15, .after = "exp") %>% 
+    mutate (exp = "bcn.exp1") %>% 
+    mutate (age = as.numeric(as.character(age)))
+
+dat.bcn.exp1.30x.m <- with (dat.bcn.exp1.30x,
+                aggregate (ChoiceMatch, 
+                           list (Tst_Exp_1, subj, Age, Tst_Lang_1), mean)) %>% 
+    setNames (c("exp", "subj", "age", "lang", "cor")) %>% 
+            add_column (n.rep.word = 30, .after = "exp") %>% 
+        mutate (exp = "bcn.exp1") %>% 
+    mutate (age = as.numeric(as.character(age)))
+
+dat.bcn.exp1.combined.m <- dat.bcn.exp1.combined %>% 
+    group_by (experimentID, n.rep.word, subj, age, lang) %>% 
+    summarize (cor = mean (cor))
+
+```
+
+#### Participants
+```{r bcn-demographics}
+dat.bcn.exp1.combined.m %>% 
+    group_by(n.rep.word) %>% 
+    summarize (N = n (),
+               Age.m = round (mean (age, na.rm = TRUE), 1),
+               Age.range = paste (range(age, na.rm = TRUE), collapse = "-")) %>% 
+    knitr::kable(caption = 'Demographics of Pilot Experiment 1.', 
+                 col.names = c("# Repetitions/word", "*N*", "Age (*M*)", "Age (Range)"),
+                 booktabs = TRUE, escape = TRUE) %>%
+    kableExtra::kable_classic()
+    # kableExtra::kable_styling(latex_options =
+    #                   c("scale_down"))        
+
+
+```
+
+Demographic information of Pilot Experiment 1 is given in Table \ref{tab:bcn-demographics}. Participants were native speakers of Spanish and Catalan and were recruited from the Universitat Pompeu Fabra community. 
+
+### Stimuli 
+Stimuli transcriptions are given in Table \ref{tab:bcn-print-language-structure}. They were synthesized using the *es2* (Spanish male) diphone base of the mbrola [@mbrola] speech synthesized, using a segment duration of 225 ms and an fundamental frequency of 120 Hz.
+
+#### Apparatus
+Participants were test individually in a quiet room. Stimuli were presented over headphones. Responses were collected from pre-marked keys on the keyboard. The experiment with 3 repetitions per word (see below) were run using PsyScope X; the other experiments were run using Experyment (https://www.expyriment.org/).
+
+#### Familiarization
+The design of Pilot Experiment 1 is shown in Table \ref{tab:bcn-print-language-structure}. The languages comprise trisyllabic items. All foward TPs were 0.5. However, in Language 1 the chunk composed of the first two syllables (e.g., *AB* in *ABC*) were twice as frequent as the chunk composed of the last two syllables (e.g., *BC* in *ABC*); the backward TPs were twice as high as well. Language 2 favored the word-final chunk. 
+Participants were informed that they would listen to a sequency of Martian words, and then listened to a sequence of the eight words in \ref{tab:stats-london-print-language-structure} with an ISI of 1000 ms and 3, 15 or 30 repetitions per word. Due to programming error, the familiarization items for 15 and 30 repetitions per word were sampled with replacement. 
+
+```{r bcn-print-language-structure}
+data.frame (L1.structure = 
+                c("ABC", "DEF", "ABF", "DEC",
+                  "AGJ", "AGK", "DHJ", "DHK"
+
+                    
+                    ),
+            L2.structure = 
+                c("ABC", "DEF", "DBC", "AEF",
+                  "JBG", "KBG", "JEH", "KEH"),
+            L1.items = 
+                c("AB", "DE", rep("", 6)),
+            L2.items = 
+                c("BC", "EF", rep ("", 6)),
+            L1.words = c("ka-lu-mo", "ne-fi-To", "ka-lu-To", "ne-fi-mo",
+                         "ka-do-ri", "ka-do-tSo", "ne-pu-ri", "ne-pu-tSo"),
+            L2.words = c("ka-lu-mo", "ne-fi-To", "ne-lu-mo", "ka-fi-To",
+                         "ri-lu-do", "tSo-lu-do", "ri-fi-pu", "tSo-fi-pu")
+            ) %>% 
+    knitr::kable (caption = "Design of the Pilot Experiment 1. (Left) Language structure. (Middle) Structure of test items. Correct items for Language 1 are foils for Language 2 and vice versa. (Right) Actual items in SAMPA format; dashes indicate syllable boundaries",
+                  col.names = paste0 ("Language ", rep(1:2, 3)),
+                  booktabs = TRUE, escape = TRUE) %>%
+    kableExtra::add_header_above(c("Word structure for" = 2, 
+                                   "Test item structure for" = 2, 
+                                   "Actual words for" = 2),
+                                 line = FALSE) %>%
+    #kableExtra::kable_styling() %>%
+    kableExtra::kable_classic(full_width = FALSE) 
+
+    
+```    
+
+
+#### Test
+Following this familiarization, participants were informed that they would hear new items, and had to decide which of them was in Martian. Following this, they heard pairs of two syllabic items with an ISI of 1000 ms. One was a word-initial chunk and one a word-final chunk.
+
+The test items shown in Table \ref{tab:stats-london-print-language-structure} were combined into four test pairs, which were presented twice with different item orders. A new trial started 100 ms after a participant response. 
+
+### Results
+
+```{r bcn-plot-stats-old-format, eval = FALSE}
+make.figure.from.mean (dat.bcn.exp1.3x.m, data.col="cor")
+make.figure.from.mean (dat.bcn.exp1.15x.m, data.col="cor")
+make.figure.from.mean (dat.bcn.exp1.30x.m, data.col="cor")
+```
+
+```{r bcn-plot-stats, fig.cap="Results of Pilot Experiment 1. Each dot represents a participants. The central red dot is the sample mean; error bars represent standard errors from the mean. The results show the percentage of correct choices in the recognition test after familiarization with (left) 3, (middle) 15  or (right) 30 repetitions per word."}
+
+dat.bcn.exp1.combined.m %>% 
+    mutate (n.rep.word = factor (n.rep.word)) %>% 
+    ggplot (aes (x = n.rep.word,
+                 y = 100 * cor)) +
+    theme_light(14) +
+    #theme (axis.title.x = element_blank()) + 
+    xlab ("# Repetitions/word") + 
+    ylab ("% Correct") + 
+    geom_violin() +
+    geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
+    stat_summary(fun.data=mean_se, 
+                 geom="pointrange", color="red") +
+    geom_hline(yintercept=50, linetype="dashed") #+
+    #scale_x_discrete(labels = c("Pre-segmented", "Continuous (1)", "Continuous (2)"))
+```
+
+
+```{r bcn-glmm-calculate}
+
+lmer.bcn.exp1.1 <- glmer (cor ~ lang * n.rep.word + 
+                              (1|subj),
+                          control=glmerControl(optimizer="bobyqa"),
+                          family="binomial",
+                          data =  dat.bcn.exp1.combined)
+                          
+
+lmer.bcn.exp1.1.results <- 
+    extract.results.from.model(lmer.bcn.exp1.1)
+
+
+```
+
+
+```{r bcn-glmm-print}
+
+lmer.bcn.exp1.1.results %>%
+    process.glmm.table %>% 
+    filter (!grepl ("Intercept", Effect)) %>% 
+    kable (caption = "Performance in Pilot Experiment 1 for different amounts of exposure. The differences were assessed using a generalized linear model for the trial-by-trial data, using participants as a random factor.",
+           booktabs = TRUE, escape = FALSE) %>%
+    kableExtra::kable_classic() 
+    # kableExtra::kable_styling(latex_options =
+    #                               c("scale_down",
+    #                               "hold_position"))
+
+
+```
+
+As shown Table \ref{tab:bcn-glmm-print}, a generalized linear model revealed that performance depended neither on the amount of familiarization nor on the familiarization language. As shown in Figure \ref{fig:bcn-plot-stats}, a Wilcoxon test did not detect any deviation from the chance level of 50%, neither for all amounts of familiarization combined, `r dat.bcn.exp1.combined.m %>% mutate (cor = 100*cor) %>% pull (cor) %>% wilcox.p (50, TRUE)`, nor for the individual familiarization conditions (3 repetitions per word: `r dat.bcn.exp1.combined.m %>% mutate (cor = 100*cor) %>% filter (n.rep.word == 3) %>% pull (cor) %>% wilcox.p (50, TRUE)`; 15 repetitions per word: `r dat.bcn.exp1.combined.m %>% mutate (cor = 100*cor) %>% filter (n.rep.word == 15) %>% pull (cor) %>% wilcox.p (50, TRUE)`; 30 repetitions per word: `r dat.bcn.exp1.combined.m %>% mutate (cor = 100*cor) %>% filter (n.rep.word == 30) %>% pull (cor) %>% wilcox.p (50, TRUE)`). Following @Glover2004, the null hypothesis was `r lik.ratio(dat.bcn.exp1.combined.m$cor, .5, "BIC")` times more likely than the alternative hypothesis after corrections with the Bayesian Information Criterion, and `r lik.ratio(dat.bcn.exp1.combined.m$cor, .5, "AIC")` more likely after correction with the Akaike Information Criterion.
+
+
+
+`r clearpage()`
+
+
 ```{r recall-UPTOHERE}
 knit_exit()
 
@@ -2791,6 +4053,78 @@ knit_exit()
 
 
 # Unused stuff
+## Statistical experiments London
+### Segmented stream, 1 repetition of the stream, en1 diphone base
+```{r stats-london-stats.1x.en.segm, fig.cap="Results for a segmented presentation of the stream (540 ms silences) with one repetition of the stream (45 repetitions per word). This limited exposure was not sufficient to trigger any learning."}
+tmp <-  dat.stats.london.m %>% 
+     global.df.to.plot.df ("stats.1x.en.segm")
+    
+
+#current.plot.name <- "stats.1x.en.segm.strip"
+#prepare.graphics
+
+strip4c (100*tmp, x=c(1:2),
+         ylab="% Correct",
+         xlab_big=names (tmp),
+         xlab_big_at=c(1:2),
+         main="Segmented (1 presentation of stream)\n[e1]")
+
+
+llr.stats.1x.en.segm <- dat.stats.london.m %>% 
+    filter (experimentID == "stats.1x.en.segm") %>% 
+    pull (correct) %>% 
+    lik.ratio (., .5)
+
+#show.graphics
+
+```
+In an initial experiment, we presented a segmented stream (with 540 ms) with only once (45 repetitions per word). As shown in Figure \ref{fig:stats.1x.en.segm}, the likelihood ratio in favor of the null hypothesis was `r llr.stats.1x.en.segm`.
+
+## Recall experiment
+```{r recall-averages-across-subjects-calculate, include = FALSE, eval = FALSE}
+dat.recall.combined.m2 <- dat.recall.combined.m %>% 
+    group_by(data.set, streamType) %>%
+    summarize_at (vars(correct_segm:p.correct.initial.or.final.syll),
+    mean, na.rm = TRUE)
+
+```
+
+```{r recall-wilcox-across-stream-types-calculate, eval = FALSE}
+# Check which outcomes differ across the strema types. Used unpaired
+# test by default
+
+dat.recall.combined.m.wilcox.by.streamType <-   dat.recall.combined.m %>% 
+    ungroup %>% 
+    mutate (streamType = factor (streamType)) %>%
+    group_by (data.set) %>%
+    summarize (across(correct_segm:p.correct.initial.or.final.syll,
+                      ~ wilcox.p.2sample (.x, streamType)))
+
+```
+
+```{r recall-averages-print, eval= FALSE}
+
+dat.recall.combined.m2 %>% 
+    data.frame %>%
+    rbind (., 
+           cbind(streamType = "$p_{Wilcoxon}$", 
+                 dat.recall.combined.m.wilcox.by.streamType)) %>% 
+    remove_rownames %>% 
+    arrange (data.set, desc(streamType)) %>% 
+    mutate (rownames = paste0 (data.set, ".", streamType)) %>% 
+    column_to_rownames("rownames") %>%
+    t %>% 
+    knitr::kable (caption = "All averages. The *p* value has been calculated from a paired Wilcoxon test across the familiarization conditions.", booktabs = T) %>%
+    kable_styling(latex_options =
+                      c("hold_position", 
+                        "scale_down"),
+                  bootstrap_options = "striped") %>% 
+    kableExtra::kable_classic()
+
+```
+
+
+
 ```{r recall-averages-plot-city-old, fig.cap="\\label{fig:recall_w_vs_pw-old}. Counts of words and part-words produced by the participants. The counts reflect only words and part-words, but not concatenations thereof.", eval = FALSE}
 
 if (ANALYZED.DATA.SETS["CITY"]){
@@ -2842,7 +4176,7 @@ dat.recall.combined.m %>%
     
 ```
 
-```{r recall-word-vs-pw-analysis-calculate-city, include = FALSE, eval = FALSE}
+```{r recall-word-vs-pw-analysis-calculate-city, include = FALSE, eval = TRUE}
 w.vs.pw <- dat.recall.city %>% 
     group_by(subjNum, subjInitials, streamType, correct_segm) %>%
     summarize_at (vars (is_single_or_multiple_words, is_single_or_multiple_part_words), sum, na.rm = TRUE) %>%
@@ -2944,7 +4278,7 @@ w.vs.pw.d.sw <-
 ```
 
 
-```{r recall-sw-d-print-city}
+```{r recall-sw-d-print-city, eval = FALSE}
 
 if (any (w.vs.pw.d.sw$p.value <= .05)) {
     w.vs.pw.d.sw %>%
@@ -2971,4 +4305,8 @@ lapply (grep ("^d_", names (w.vs.pw.wide), value = TRUE),
 
 ```
 
+```{r print-time-elapsed}
+end.time <- Sys.time()
 
+end.time - start.time
+```
