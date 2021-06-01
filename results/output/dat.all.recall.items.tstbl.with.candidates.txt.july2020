@@ -1,0 +1,153 @@
+filename	subjectGroup	age	sex	Native.language.s.	mySegmentationCond	lang	response	correct	underlying	surface	n.changes	closest_match_just_match	closest.match.length	closest.match.pos	stream	n.attested.sylls	closest_match
+399612_200413_123744_M048547.csv	3	18	male	1	segmented	L1	gallatu,taibiku,dairobe,pilato	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_200413_123744_M048547.csv	3	18	male	1	segmented	L1	gallatu,taibiku,dairobe,pilato	1	dabiku	tabiku	1	biku	4	2	abc	3	dabiku
+399612_200413_123744_M048547.csv	3	18	male	1	segmented	L1	gallatu,taibiku,dairobe,pilato	1	daropi	darobi	1	daropi	6	1	abc	3	daropi
+399612_200413_123744_M048547.csv	3	18	male	1	segmented	L1	gallatu,taibiku,dairobe,pilato	1	pilado	pilato	1	pi	2	1	abc	3	pilado
+399612_200413_123759_M046946.csv	3	25	female	English	segmented	L1	da be do do be da to be do ge ba to	0.75	da	da	0	da	2	1	abc	1	da
+399612_200413_123759_M046946.csv	3	25	female	English	segmented	L1	da be do do be da to be do ge ba to	0.75	bi	bi	0	bi	2	1	bca	1	bi
+399612_200413_123759_M046946.csv	3	25	female	English	segmented	L1	da be do do be da to be do ge ba to	0.75	do	do	0	do	2	1	abc	1	do
+399612_200413_123759_M046946.csv	3	25	female	English	segmented	L1	da be do do be da to be do ge ba to	0.75	pa	ba	1	pa	2	1	abc	1	pa
+399612_200413_123844_M079645.csv	4	34	male	Polish	segmented	L2	picuti tudara,picuti budapa,picuti picala	1	bikuti	pikuti	1	bikuti	6	1	abc	3	bikuti
+399612_200413_123844_M079645.csv	4	34	male	Polish	segmented	L2	picuti tudara,picuti budapa,picuti picala	1	tudaro	tudara	1	tudaro	6	1	abc	3	tudaro
+399612_200413_123844_M079645.csv	4	34	male	Polish	segmented	L2	picuti tudara,picuti budapa,picuti picala	1	budopa	budapa	1	budopa	6	1	abc	3	budopa
+399612_200413_123844_M079645.csv	4	34	male	Polish	segmented	L2	picuti tudara,picuti budapa,picuti picala	1	pigola	pikala	2	pigola	6	1	abc	3	pigola
+399612_200413_123903_M033191.csv	3	22	male	Tamil English	segmented	L1	dawrobi tabitu nikumo	0.75	daropi	darobi	1	daropi	6	1	abc	3	daropi
+399612_200413_123903_M033191.csv	3	22	male	Tamil English	segmented	L1	dawrobi tabitu nikumo	0.75	dabitu	tabitu	1	da	2	1	abc	3	dabitu
+399612_200413_123903_M033191.csv	3	22	male	Tamil English	segmented	L1	dawrobi tabitu nikumo	0.75	nikumo	nikumo	0	ku	2	2	abc	1	XXkuXX
+399612_200413_123915_M069919.csv	4	22	male	English	segmented	L2	bi cou ti,se rah pah,do so ra	0.5	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_200413_123915_M069919.csv	4	22	male	English	segmented	L2	bi cou ti,se rah pah,do so ra	0.5	siropa	sirapa	1	ro	2	2	abc	2	XXropa
+399612_200413_123915_M069919.csv	4	22	male	English	segmented	L2	bi cou ti,se rah pah,do so ra	0.5	dosoro	dosora	1	do	2	1	bca	2	doXXro
+399612_200413_123932_M008954.csv	4	39	male	English	segmented	L2	todara bukaru doopala	1	dodaro	todara	2	daro	4	2	abc	3	dodaro
+399612_200413_123932_M008954.csv	4	39	male	English	segmented	L2	todara bukaru doopala	1	bugoro	bukaru	3	bu	2	1	abc	3	bugoro
+399612_200413_123932_M008954.csv	4	39	male	English	segmented	L2	todara bukaru doopala	1	dopala	dupala	1	dopa	4	1	abc	3	dopala
+399612_200413_123958_M053654.csv	3	29	male	English	segmented	L1	galatu,tarapi,tiribu,dirubi	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_200413_123958_M053654.csv	3	29	male	English	segmented	L1	galatu,tarapi,tiribu,dirubi	1	daropi	tarapi	2	daropi	6	1	abc	3	daropi
+399612_200413_123958_M053654.csv	3	29	male	English	segmented	L1	galatu,tarapi,tiribu,dirubi	1	tiribu	tiribu	0	ti	2	1	abc	2	tiXXbu
+399612_200413_123958_M053654.csv	3	29	male	English	segmented	L1	galatu,tarapi,tiribu,dirubi	1	tiropi	dirubi	3	ropi	4	2	abc	3	tiropi
+399612_200413_124031_M063246.csv	4	57	male	English	segmented	L2	bicalla picalla semistry	1	bigola	bikala	2	gola	4	2	abc	3	bigola
+399612_200413_124031_M063246.csv	4	57	male	English	segmented	L2	bicalla picalla semistry	1	pigola	pikala	2	pigola	6	1	abc	3	pigola
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	pi	pi	0	pi	2	1	abc	1	pi
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	go	ka	2	go	2	1	bca	1	go
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	ti	ti	0	ti	2	1	abc	1	ti
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	da	ta	1	da	2	1	bca	1	da
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	pigoda	pikata	3	pigo	4	1	abc	3	pigoda
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	goda	kata	3	go	2	1	bca	2	goda
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	pigo	pika	2	pigo	4	1	abc	2	pigo
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	pigoti	pikati	2	pigo	4	1	abc	3	pigoti
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	goro	kara	3	go	2	1	bca	2	goro
+399612_200413_124114_M020487.csv	4	28	female	Filipino	segmented	L2	pe ka ti chi ka ta pikata chakata pi ka pika cha cha pikate chakara chakara pikate pikara pikata chakara pikate	0.25	pigoro	pikara	3	pigo	4	1	abc	3	pigoro
+399612_200413_124158_M068131.csv	3	35	male	English	segmented	L1	gala two tibu da go raapi tibu da go raapi	1	gola	gala	1	gola	4	1	abc	2	gola
+399612_200413_124158_M068131.csv	3	35	male	English	segmented	L1	gala two tibu da go raapi tibu da go raapi	1	tu	tu	0	tu	2	1	abc	1	tu
+399612_200413_124158_M068131.csv	3	35	male	English	segmented	L1	gala two tibu da go raapi tibu da go raapi	1	tibu	tibu	0	tibu	4	1	abc	2	tibu
+399612_200413_124158_M068131.csv	3	35	male	English	segmented	L1	gala two tibu da go raapi tibu da go raapi	1	da	da	0	da	2	1	abc	1	da
+399612_200413_124158_M068131.csv	3	35	male	English	segmented	L1	gala two tibu da go raapi tibu da go raapi	1	go	go	0	go	2	1	abc	1	go
+399612_200413_124158_M068131.csv	3	35	male	English	segmented	L1	gala two tibu da go raapi tibu da go raapi	1	ropi	rapi	1	ropi	4	1	abc	2	ropi
+399612_200413_124159_M056410.csv	3	34	male	Serbian (Croatian, Bosnian etc.)	segmented	L1	pabiku,dorabi,galatyu,cibutot	1	pabiku	pabiku	0	pabiku	6	1	abc	3	pabiku
+399612_200413_124159_M056410.csv	3	34	male	Serbian (Croatian, Bosnian etc.)	segmented	L1	pabiku,dorabi,galatyu,cibutot	1	doropi	dorabi	2	ropi	4	2	abc	3	doropi
+399612_200413_124159_M056410.csv	3	34	male	Serbian (Croatian, Bosnian etc.)	segmented	L1	pabiku,dorabi,galatyu,cibutot	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_200413_124216_M054456.csv	4	20	male	English	segmented	L2	bee coo tee,two da ra,bout too pa,pe	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_200413_124216_M054456.csv	4	20	male	English	segmented	L2	bee coo tee,two da ra,bout too pa,pe	1	tudaro	tudara	1	tudaro	6	1	abc	3	tudaro
+399612_200413_124216_M054456.csv	4	20	male	English	segmented	L2	bee coo tee,two da ra,bout too pa,pe	1	budopa	butupa	2	budopa	6	1	abc	3	budopa
+399612_200413_124216_M054456.csv	4	20	male	English	segmented	L2	bee coo tee,two da ra,bout too pa,pe	1	pi	pi	0	pi	2	1	abc	1	pi
+399612_200413_124259_M093581.csv	3	21	female	Tagalog, English	segmented	L1	galapi gapitu papitu papiti galatu papiti galatu papiti galapi galapo papiti	0.75	golapi	galapi	1	gola	4	1	abc	3	golapi
+399612_200413_124259_M093581.csv	3	21	female	Tagalog, English	segmented	L1	galapi gapitu papitu papiti galatu papiti galatu papiti galapi galapo papiti	0.75	gopitu	gapitu	1	go	2	1	abc	3	gopitu
+399612_200413_124259_M093581.csv	3	21	female	Tagalog, English	segmented	L1	galapi gapitu papitu papiti galatu papiti galatu papiti galapi galapo papiti	0.75	pabitu	papitu	1	pabi	4	1	abc	3	pabitu
+399612_200413_124259_M093581.csv	3	21	female	Tagalog, English	segmented	L1	galapi gapitu papitu papiti galatu papiti galatu papiti galapi galapo papiti	0.75	papiti	papiti	0	piti	4	2	cab	3	papiti
+399612_200413_124259_M093581.csv	3	21	female	Tagalog, English	segmented	L1	galapi gapitu papitu papiti galatu papiti galatu papiti galapi galapo papiti	0.75	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_200413_124259_M093581.csv	3	21	female	Tagalog, English	segmented	L1	galapi gapitu papitu papiti galatu papiti galatu papiti galapi galapo papiti	0.75	golapo	galapo	1	gola	4	1	abc	2	golaXX
+399612_200413_124324_M008659.csv	4	32	male	English	segmented	L2	me coupa,two dollar	0.75	mikupa	mikupa	0	ku	2	2	bca	2	XXkupa
+399612_200413_124324_M008659.csv	4	32	male	English	segmented	L2	me coupa,two dollar	0.75	tudola	tudola	0	tu	2	1	abc	3	tudola
+399612_200413_124349_M008265.csv	3	24	female	ENGLISH	segmented	L1	dabbi di	0.75	dabi	dabi	0	da	2	1	abc	2	dabi
+399612_200413_124349_M008265.csv	3	24	female	ENGLISH	segmented	L1	dabbi di	0.75	ti	di	1	ti	2	1	abc	1	ti
+399612_200413_124351_M079743.csv	3	19	male	English,Hindi	segmented	L1	laga 2	0.75	lago	laga	1	la	2	1	bca	2	lago
+399612_200413_124351_M079743.csv	3	19	male	English,Hindi	segmented	L1	laga 2	0.75	tu	tu	0	tu	2	1	abc	1	tu
+399612_200413_124501_M070543.csv	4	62	male	ENGLISH	segmented	L2	pigola,budopa  ,bikuti,budopa	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_200413_124501_M070543.csv	4	62	male	ENGLISH	segmented	L2	pigola,budopa  ,bikuti,budopa	1	budopa	budopa	0	budopa	6	1	abc	3	budopa
+399612_200413_124501_M070543.csv	4	62	male	ENGLISH	segmented	L2	pigola,budopa  ,bikuti,budopa	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_200413_124521_M066595.csv	3	18	male	English	segmented	L1	pabakee pabeekoo	1	pabaki	pabaki	0	pa	2	1	abc	1	paXXXX
+399612_200413_124521_M066595.csv	3	18	male	English	segmented	L1	pabakee pabeekoo	1	pabiku	pabiku	0	pabiku	6	1	abc	3	pabiku
+399612_200413_124712_M090415.csv	4	30	female	English	segmented	L2	thudarah,peecolah,beecolah,bicotee	1	tudaro	tudara	1	tudaro	6	1	abc	3	tudaro
+399612_200413_124712_M090415.csv	4	30	female	English	segmented	L2	thudarah,peecolah,beecolah,bicotee	1	pigola	pikola	1	pigola	6	1	abc	3	pigola
+399612_200413_124712_M090415.csv	4	30	female	English	segmented	L2	thudarah,peecolah,beecolah,bicotee	1	bigola	bikola	1	gola	4	2	abc	3	bigola
+399612_200413_124712_M090415.csv	4	30	female	English	segmented	L2	thudarah,peecolah,beecolah,bicotee	1	pigoti	bikoti	2	pigo	4	1	abc	3	pigoti
+399612_200413_124839_M066850.csv	4	43	male	Spanish	segmented	L2	zico zi,zico za,za ra na	1	zigozi	zikozi	1	go	2	2	bca	1	XXgo
+399612_200413_124839_M066850.csv	4	43	male	Spanish	segmented	L2	zico zi,zico za,za ra na	1	zigoza	zikoza	1	go	2	2	bca	1	XXgoXX
+399612_200413_124839_M066850.csv	4	43	male	Spanish	segmented	L2	zico zi,zico za,za ra na	1	zarona	zarana	1	ro	2	2	abc	1	XXroXX
+399612_200413_124932_M025214.csv	4	60	female	English	segmented	L2	picote,tudor rock,pegola,pzappa	1	pigoti	pikoti	1	pigo	4	1	abc	3	pigoti
+399612_200413_124932_M025214.csv	4	60	female	English	segmented	L2	picote,tudor rock,pegola,pzappa	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_200413_125041_M057066.csv	4	45	male	English	segmented	L2	bicola	0.75	pigola	bikola	2	pigola	6	1	abc	3	pigola
+399612_200413_125148_M041070.csv	3	38	male	English	segmented	L1	tibuda	1	tibudo	tibuda	1	tibudo	6	1	abc	3	tibudo
+399612_200413_125536_M044336.csv	4	45	male	English	segmented	L2	vi-cu-ti,ti-go-la,voo-da-pa,pi-go-la,tu-da-ra,bu-da-pa	1	bikuti	vikuti	1	bikuti	6	1	abc	3	bikuti
+399612_200413_125536_M044336.csv	4	45	male	English	segmented	L2	vi-cu-ti,ti-go-la,voo-da-pa,pi-go-la,tu-da-ra,bu-da-pa	1	tigola	tigola	0	gola	4	2	abc	3	tigola
+399612_200413_125536_M044336.csv	4	45	male	English	segmented	L2	vi-cu-ti,ti-go-la,voo-da-pa,pi-go-la,tu-da-ra,bu-da-pa	1	vudopa	vudapa	1	dopa	4	2	abc	2	XXdopa
+399612_200413_125536_M044336.csv	4	45	male	English	segmented	L2	vi-cu-ti,ti-go-la,voo-da-pa,pi-go-la,tu-da-ra,bu-da-pa	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_200413_125536_M044336.csv	4	45	male	English	segmented	L2	vi-cu-ti,ti-go-la,voo-da-pa,pi-go-la,tu-da-ra,bu-da-pa	1	tudaro	tudara	1	tudaro	6	1	abc	3	tudaro
+399612_200413_125536_M044336.csv	4	45	male	English	segmented	L2	vi-cu-ti,ti-go-la,voo-da-pa,pi-go-la,tu-da-ra,bu-da-pa	1	budopa	budapa	1	budopa	6	1	abc	3	budopa
+399612_200413_125800_M003595.csv	4	29	female	English	segmented	L2	be coo te,ta da rah,peak a ta,boo la ra	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_200413_125800_M003595.csv	4	29	female	English	segmented	L2	be coo te,ta da rah,peak a ta,boo la ra	1	dodaro	tadara	3	daro	4	2	abc	3	dodaro
+399612_200413_125800_M003595.csv	4	29	female	English	segmented	L2	be coo te,ta da rah,peak a ta,boo la ra	1	pigoda	pikata	3	pigo	4	1	abc	3	pigoda
+399612_200413_125800_M003595.csv	4	29	female	English	segmented	L2	be coo te,ta da rah,peak a ta,boo la ra	1	bularo	bulara	1	bu	2	1	abc	3	bularo
+399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	vapi	vapi	0	pi	2	2	abc	1	XXpi
+399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	pabi	papi	1	pabi	4	1	abc	2	pabi
+399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	kuti	guti	1	kuti	4	1	cab	2	kuti
+399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	kuda	guta	2	kuda	4	1	cab	2	kuda
+399612_200413_123743_M054481.csv	2	39	male	English	continuous	L2	pibala,bugiti,rubala,tingala,rubuti	1	pipala	pibala	1	pi	2	1	abc	3	pipala
+399612_200413_123743_M054481.csv	2	39	male	English	continuous	L2	pibala,bugiti,rubala,tingala,rubuti	1	bugiti	bugiti	0	bu	2	1	abc	2	buXXti
+399612_200413_123743_M054481.csv	2	39	male	English	continuous	L2	pibala,bugiti,rubala,tingala,rubuti	1	ropala	rubala	2	ro	2	1	abc	3	ropala
+399612_200413_123743_M054481.csv	2	39	male	English	continuous	L2	pibala,bugiti,rubala,tingala,rubuti	1	robuti	rubuti	1	robu	4	1	cab	3	robuti
+399612_200413_123755_M081245.csv	1	71	male	English	continuous	L1	papi rapi kal tup tapi gil	0.5	pabi	papi	1	pabi	4	1	abc	2	pabi
+399612_200413_123755_M081245.csv	1	71	male	English	continuous	L1	papi rapi kal tup tapi gil	0.5	ropi	rapi	1	ropi	4	1	abc	2	ropi
+399612_200413_123755_M081245.csv	1	71	male	English	continuous	L1	papi rapi kal tup tapi gil	0.5	dapi	tapi	1	da	2	1	abc	2	dapi
+399612_200413_123815_M074409.csv	2	56	male	English	continuous	L2	umwabe,kube	0.75	umpabi	umvabi	2	pabi	4	2	cab	2	XXpabi
+399612_200413_123815_M074409.csv	2	56	male	English	continuous	L2	umwabe,kube	0.75	kubi	kubi	0	ku	2	1	bca	2	kubi
+399612_200413_123844_M064846.csv	2	38	female	English	continuous	L2	too the latte,moooo,too the latte	0.75	tutilati	tutilati	0	tu	2	1	abc	3	tutila
+399612_200413_123909_M007624.csv	2	18	male	English	continuous	L2	dont lavi dont kapi kupichu dont labi dont keep me dont kapi kupichu huad	0.25	dont	dont	0	do	2	1	bca	1	doXX
+399612_200413_123909_M007624.csv	2	18	male	English	continuous	L2	dont lavi dont kapi kupichu dont labi dont keep me dont kapi kupichu huad	0.25	lavi	lavi	0	la	2	1	abc	1	laXX
+399612_200413_123909_M007624.csv	2	18	male	English	continuous	L2	dont lavi dont kapi kupichu dont labi dont keep me dont kapi kupichu huad	0.25	gopi	kapi	2	go	2	1	bca	2	gopi
+399612_200413_123909_M007624.csv	2	18	male	English	continuous	L2	dont lavi dont kapi kupichu dont labi dont keep me dont kapi kupichu huad	0.25	kupigo	kupiku	2	pigo	4	2	abc	3	kupigo
+399612_200413_123909_M007624.csv	2	18	male	English	continuous	L2	dont lavi dont kapi kupichu dont labi dont keep me dont kapi kupichu huad	0.25	labi	labi	0	labi	4	1	cab	2	labi
+399612_200413_124024_M087647.csv	2	26	female	English	continuous	L2	bekuteepeedollar ,teepeekikoluku,peetudeepeedollar	0.75	bikutipidola	bikutipidola	0	bikutipi	8	1	abc	6	bikutipidola
+399612_200413_124024_M087647.csv	2	26	female	English	continuous	L2	bekuteepeedollar ,teepeekikoluku,peetudeepeedollar	0.75	tipigoluku	tipikoluku	1	tipigo	6	1	cab	4	tipigoXXku
+399612_200413_124024_M087647.csv	2	26	female	English	continuous	L2	bekuteepeedollar ,teepeekikoluku,peetudeepeedollar	0.75	bitutipidola	pitudipidola	2	tipi	4	3	cab	6	bitutipidola
+399612_200413_124032_M085761.csv	1	22	female	English	continuous	L1	gorraf,peeto,meeto	0.25	pido	pito	1	pi	2	1	abc	2	pido
+399612_200413_124032_M085761.csv	1	22	female	English	continuous	L1	gorraf,peeto,meeto	0.25	mido	mito	1	do	2	2	abc	1	XXdo
+399612_200413_124045_M071298.csv	1	34	male	English	continuous	L1	taka laka teeku	0.75	dogo	taka	4	dogo	4	1	cab	2	dogo
+399612_200413_124045_M071298.csv	1	34	male	English	continuous	L1	taka laka teeku	0.75	lago	laka	2	la	2	1	bca	2	lago
+399612_200413_124045_M071298.csv	1	34	male	English	continuous	L1	taka laka teeku	0.75	tiku	tiku	0	ti	2	1	abc	2	tiku
+399612_200413_124234_M088041.csv	1	25	male	English	continuous	L1	da	0.25	da	da	0	da	2	1	abc	1	da
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	go	go	0	go	2	1	bca	1	go
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	la	la	0	la	2	1	abc	1	la
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	pi	pi	0	pi	2	1	abc	1	pi
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	da	da	0	da	2	1	bca	1	da
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	robi	rabi	1	robi	4	1	cab	2	robi
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	ro	ra	1	ro	2	1	abc	1	ro
+399612_200413_124305_M039274.csv	2	37	male	English	continuous	L2	go la pee da rabi na ra be	1	bi	bi	0	bi	2	1	abc	1	bi
+399612_200413_124406_M051551.csv	1	53	female	ENGLISH	continuous	L1	rappi coo baa co ba rab	0.5	ropi	rapi	1	ropi	4	1	abc	2	ropi
+399612_200413_124406_M051551.csv	1	53	female	ENGLISH	continuous	L1	rappi coo baa co ba rab	0.5	ku	ku	0	ku	2	1	abc	1	ku
+399612_200413_124406_M051551.csv	1	53	female	ENGLISH	continuous	L1	rappi coo baa co ba rab	0.5	go	ko	1	go	2	1	abc	1	go
+399612_200413_124406_M051551.csv	1	53	female	ENGLISH	continuous	L1	rappi coo baa co ba rab	0.5	pa	ba	1	pa	2	1	abc	1	pa
+399612_200413_124444_M052757.csv	2	29	female	English, French	continuous	L2	papi,kuti,buti	0.25	papi	papi	0	papi	4	1	cab	2	papi
+399612_200413_124444_M052757.csv	2	29	female	English, French	continuous	L2	papi,kuti,buti	0.25	kuti	kuti	0	kuti	4	1	abc	2	kuti
+399612_200413_124444_M052757.csv	2	29	female	English, French	continuous	L2	papi,kuti,buti	0.25	buti	buti	0	bu	2	1	abc	2	buti
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	ropi	ropi	0	ropi	4	1	abc	2	ropi
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	popi	popi	0	pi	2	2	abc	1	XXpi
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	tibu	tibu	0	tibu	4	1	abc	2	tibu
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	gola	gala	1	gola	4	1	abc	2	gola
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	rola	rala	1	ro	2	1	bca	2	rola
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	dabu	dabu	0	da	2	1	abc	2	dabu
+399612_200413_124517_M089887.csv	1	37	male	English	continuous	L1	roppy poppy tebu galla ralla dabu tobby	1	dobi	tobi	1	do	2	1	abc	2	dobi
+399612_200413_124519_M006960.csv	2	25	female	English	continuous	L2	tupa cutie walla	0.75	dopa	tupa	2	dopa	4	1	abc	2	dopa
+399612_200413_124519_M006960.csv	2	25	female	English	continuous	L2	tupa cutie walla	0.75	kuti	kuti	0	kuti	4	1	abc	2	kuti
+399612_200413_124519_M006960.csv	2	25	female	English	continuous	L2	tupa cutie walla	0.75	pala	vala	2	pa	2	1	abc	2	pala
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	ku	ku	0	ku	2	1	abc	1	ku
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	la	la	0	la	2	1	bca	1	la
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	pa	pa	0	pa	2	1	abc	1	pa
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	ti	ti	0	ti	2	1	abc	1	ti
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	go	ko	1	go	2	1	abc	1	go
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	tu	tu	0	tu	2	1	abc	1	tu
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	bi	bi	0	bi	2	1	bca	1	bi
+399612_200413_124748_M073401.csv	1	34	male	English and Portuguese	continuous	L1	cu la pa boom te co ne cool too bi bop boo te la qua coo	0.75	bu	bu	0	bu	2	1	bca	1	bu
+399612_200413_125604_M097397.csv	2	28	male	english	continuous	L2	gala,ba,rapute,tuti,rok	0.75	gola	gala	1	gola	4	1	abc	2	gola
+399612_200413_125604_M097397.csv	2	28	male	english	continuous	L2	gala,ba,rapute,tuti,rok	0.75	pa	ba	1	pa	2	1	abc	1	pa
+399612_200413_125604_M097397.csv	2	28	male	english	continuous	L2	gala,ba,rapute,tuti,rok	0.75	robuti	raputi	2	robu	4	1	cab	3	robuti
+399612_200413_125604_M097397.csv	2	28	male	english	continuous	L2	gala,ba,rapute,tuti,rok	0.75	tuti	tuti	0	tu	2	1	abc	2	tuti
