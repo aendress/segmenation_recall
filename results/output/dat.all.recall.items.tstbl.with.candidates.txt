@@ -187,6 +187,137 @@ filename	subjectGroup	age	sex	Native.language.s.	mySegmentationCond	lang	respons
 399612_210524_120549_M033406.csv	4	24	male	Hindi	segmented	L2	pigola,butola,biquti,buekota.	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
 399612_210524_120549_M033406.csv	4	24	male	Hindi	segmented	L2	pigola,butola,biquti,buekota.	1	budola	butola	1	budo	4	1	abc	3	budola
 399612_210524_120549_M033406.csv	4	24	male	Hindi	segmented	L2	pigola,butola,biquti,buekota.	1	buikota.	buikota.	0	bu	2	1	abc	1	buXXXXXX
+399612_210602_063748_M048828.csv	3	55	male	English	segmented	L1	gala too,te robby	0.75	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_210602_063748_M048828.csv	3	55	male	English	segmented	L1	gala too,te robby	0.75	tiropi	tirobi	1	ropi	4	2	abc	3	tiropi
+399612_210602_063800_M058503.csv	4	24	female	english	segmented	L2	minua beekootee	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_063915_M016293.csv	4	39	male	English	segmented	L2	pigola bicuti tudora tudora bicuti tudora tudora pigola pigora tudola	0.75	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_210602_063915_M016293.csv	4	39	male	English	segmented	L2	pigola bicuti tudora tudora bicuti tudora tudora pigola pigora tudola	0.75	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_063915_M016293.csv	4	39	male	English	segmented	L2	pigola bicuti tudora tudora bicuti tudora tudora pigola pigora tudola	0.75	tudoro	tudora	1	tu	2	1	abc	3	tudoro
+399612_210602_063915_M016293.csv	4	39	male	English	segmented	L2	pigola bicuti tudora tudora bicuti tudora tudora pigola pigora tudola	0.75	pigoro	pigora	1	pigo	4	1	abc	3	pigoro
+399612_210602_063915_M016293.csv	4	39	male	English	segmented	L2	pigola bicuti tudora tudora bicuti tudora tudora pigola pigora tudola	0.75	tudola	tudola	0	tu	2	1	abc	3	tudola
+399612_210602_063944_M004625.csv	3	22	male	ENGLISH	segmented	L1	babi qui ,derapaphy ,de lotha	0.75	pabiki	babiki	1	pabi	4	1	abc	2	pabiXX
+399612_210602_063944_M004625.csv	3	22	male	ENGLISH	segmented	L1	babi qui ,derapaphy ,de lotha	0.75	tiropafi	dirapafi	2	ti	2	1	abc	3	tiropaXX
+399612_210602_063944_M004625.csv	3	22	male	ENGLISH	segmented	L1	babi qui ,derapaphy ,de lotha	0.75	tiloda	dilota	2	ti	2	1	abc	2	tiXXda
+399612_210602_064007_M069283.csv	4	20	male	Bengali	segmented	L2	bikuti,pigola,tudara,budapa	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_064007_M069283.csv	4	20	male	Bengali	segmented	L2	bikuti,pigola,tudara,budapa	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_210602_064007_M069283.csv	4	20	male	Bengali	segmented	L2	bikuti,pigola,tudara,budapa	1	tudaro	tudara	1	tudaro	6	1	abc	3	tudaro
+399612_210602_064007_M069283.csv	4	20	male	Bengali	segmented	L2	bikuti,pigola,tudara,budapa	1	budopa	budapa	1	budopa	6	1	abc	3	budopa
+399612_210602_064020_M034492.csv	4	19	male	English	segmented	L2	butapa,thinkala,cordila,butipi	1	budopa	butapa	2	budopa	6	1	abc	3	budopa
+399612_210602_064020_M034492.csv	4	19	male	English	segmented	L2	butapa,thinkala,cordila,butipi	1	butipi	butipi	0	tipi	4	2	cab	3	butipi
+399612_210602_064028_M067507.csv	4	29	male	Arabic	segmented	L2	pegola ,pegutti,powell,tarino,torana,peco,peolla	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_210602_064028_M067507.csv	4	29	male	Arabic	segmented	L2	pegola ,pegutti,powell,tarino,torana,peco,peolla	1	bikuti	piguti	2	bikuti	6	1	abc	3	bikuti
+399612_210602_064028_M067507.csv	4	29	male	Arabic	segmented	L2	pegola ,pegutti,powell,tarino,torana,peco,peolla	1	pobill	povill	1	bi	2	2	abc	1	XXbiXX
+399612_210602_064028_M067507.csv	4	29	male	Arabic	segmented	L2	pegola ,pegutti,powell,tarino,torana,peco,peolla	1	darino	tarino	1	da	2	1	bca	1	daXXXX
+399612_210602_064028_M067507.csv	4	29	male	Arabic	segmented	L2	pegola ,pegutti,powell,tarino,torana,peco,peolla	1	dorona	torana	2	do	2	1	bca	2	doroXX
+399612_210602_064028_M067507.csv	4	29	male	Arabic	segmented	L2	pegola ,pegutti,powell,tarino,torana,peco,peolla	1	pigo	piko	1	pigo	4	1	abc	2	pigo
+399612_210602_064034_M009966.csv	3	24	female	English & Filipino	segmented	L1	ga ,ri ,to ,garati ,depura	1	go	ga	1	go	2	1	abc	1	go
+399612_210602_064034_M009966.csv	3	24	female	English & Filipino	segmented	L1	ga ,ri ,to ,garati ,depura	1	do	to	1	do	2	1	abc	1	do
+399612_210602_064034_M009966.csv	3	24	female	English & Filipino	segmented	L1	ga ,ri ,to ,garati ,depura	1	goroti	garati	2	go	2	1	abc	3	goroti
+399612_210602_064034_M009966.csv	3	24	female	English & Filipino	segmented	L1	ga ,ri ,to ,garati ,depura	1	tiburo	dipura	3	tibu	4	1	abc	3	tiburo
+399612_210602_064037_M055294.csv	3	28	female	english	segmented	L1	teeboora dariboo darabi tariboo darabi tabari bariboo	1	tiburo	tibura	1	tibu	4	1	abc	3	tiburo
+399612_210602_064037_M055294.csv	3	28	female	english	segmented	L1	teeboora dariboo darabi tariboo darabi tabari bariboo	1	daribu	daribu	0	da	2	1	abc	2	daXXbu
+399612_210602_064037_M055294.csv	3	28	female	english	segmented	L1	teeboora dariboo darabi tariboo darabi tabari bariboo	1	daropi	darabi	2	daropi	6	1	abc	3	daropi
+399612_210602_064037_M055294.csv	3	28	female	english	segmented	L1	teeboora dariboo darabi tariboo darabi tabari bariboo	1	taribu	taribu	0	bu	2	3	bca	1	XXXXbu
+399612_210602_064037_M055294.csv	3	28	female	english	segmented	L1	teeboora dariboo darabi tariboo darabi tabari bariboo	1	dopari	tabari	3	dopa	4	1	cab	2	dopaXX
+399612_210602_064037_M055294.csv	3	28	female	english	segmented	L1	teeboora dariboo darabi tariboo darabi tabari bariboo	1	paribu	baribu	1	pa	2	1	abc	2	paXXbu
+399612_210602_064051_M024643.csv	3	23	male	Gujarati	segmented	L1	gala pee,habi ku,papi ku,hala ki,paapi ku,baba ki	1	golapi	galapi	1	gola	4	1	abc	3	golapi
+399612_210602_064051_M024643.csv	3	23	male	Gujarati	segmented	L1	gala pee,habi ku,papi ku,hala ki,paapi ku,baba ki	1	pabiku	papiku	1	pabiku	6	1	abc	3	pabiku
+399612_210602_064051_M024643.csv	3	23	male	Gujarati	segmented	L1	gala pee,habi ku,papi ku,hala ki,paapi ku,baba ki	1	paki	baki	1	pa	2	1	abc	1	paXX
+399612_210602_064059_M043282.csv	4	19	male	English	segmented	L2	pikola pikuti dakola pikola pikuti uvola pikuti drakola pikuti uyola dakuti oyera	0.75	pigola	pikola	1	pigola	6	1	abc	3	pigola
+399612_210602_064059_M043282.csv	4	19	male	English	segmented	L2	pikola pikuti dakola pikola pikuti uvola pikuti drakola pikuti uyola dakuti oyera	0.75	bikuti	pikuti	1	bikuti	6	1	abc	3	bikuti
+399612_210602_064059_M043282.csv	4	19	male	English	segmented	L2	pikola pikuti dakola pikola pikuti uvola pikuti drakola pikuti uyola dakuti oyera	0.75	dagola	dakola	1	gola	4	2	abc	3	dagola
+399612_210602_064059_M043282.csv	4	19	male	English	segmented	L2	pikola pikuti dakola pikola pikuti uvola pikuti drakola pikuti uyola dakuti oyera	0.75	dakuti	dakuti	0	kuti	4	2	abc	3	dakuti
+399612_210602_064059_M043282.csv	4	19	male	English	segmented	L2	pikola pikuti dakola pikola pikuti uvola pikuti drakola pikuti uyola dakuti oyera	0.75	oiro	oira	1	ro	2	2	abc	1	XXro
+399612_210602_064115_M066990.csv	4	24	male	English	segmented	L2	pee cola bee kutee to the rock	1	pi	pi	0	pi	2	1	abc	1	pi
+399612_210602_064115_M066990.csv	4	24	male	English	segmented	L2	pee cola bee kutee to the rock	1	gola	kola	1	gola	4	1	abc	2	gola
+399612_210602_064115_M066990.csv	4	24	male	English	segmented	L2	pee cola bee kutee to the rock	1	bi	bi	0	bi	2	1	abc	1	bi
+399612_210602_064115_M066990.csv	4	24	male	English	segmented	L2	pee cola bee kutee to the rock	1	kuti	kuti	0	kuti	4	1	abc	2	kuti
+399612_210602_064115_M066990.csv	4	24	male	English	segmented	L2	pee cola bee kutee to the rock	1	do	to	1	do	2	1	bca	1	do
+399612_210602_064115_M066990.csv	4	24	male	English	segmented	L2	pee cola bee kutee to the rock	1	ti	ti	0	ti	2	1	abc	1	ti
+399612_210602_064126_M047123.csv	3	22	female	English, Telugu	segmented	L1	pabiku,got allowed to,chibukha,darlathi	1	pabiku	pabiku	0	pabiku	6	1	abc	3	pabiku
+399612_210602_064126_M047123.csv	3	22	female	English, Telugu	segmented	L1	pabiku,got allowed to,chibukha,darlathi	1	kibugo	kibuka	2	bu	2	2	bca	2	XXbugo
+399612_210602_064139_M011099.csv	3	52	male	hindi	segmented	L1	da-la-bi da-la-ji gi-lu-ha da-lla-ni	1	dalabi	dalabi	0	da	2	1	abc	3	dalabi
+399612_210602_064139_M011099.csv	3	52	male	hindi	segmented	L1	da-la-bi da-la-ji gi-lu-ha da-lla-ni	1	dalaji	dalaji	0	da	2	1	abc	2	dalaXX
+399612_210602_064139_M011099.csv	3	52	male	hindi	segmented	L1	da-la-bi da-la-ji gi-lu-ha da-lla-ni	1	dalani	dalani	0	da	2	1	abc	2	dalaXX
+399612_210602_064148_M017404.csv	3	19	male	English	segmented	L1	dalrabi,fabique,tubuta,galatu	1	fabiki	fabiki	0	bi	2	2	bca	1	XXbiXX
+399612_210602_064148_M017404.csv	3	19	male	English	segmented	L1	dalrabi,fabique,tubuta,galatu	1	tubudo	tubuta	2	budo	4	2	abc	3	tubudo
+399612_210602_064148_M017404.csv	3	19	male	English	segmented	L1	dalrabi,fabique,tubuta,galatu	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_210602_064152_M069700.csv	3	19	male	Hindi, English	segmented	L1	tibu ta garrapi garlarto pikabu	1	tibu	tibu	0	tibu	4	1	abc	2	tibu
+399612_210602_064152_M069700.csv	3	19	male	Hindi, English	segmented	L1	tibu ta garrapi garlarto pikabu	1	da	ta	1	da	2	1	abc	1	da
+399612_210602_064152_M069700.csv	3	19	male	Hindi, English	segmented	L1	tibu ta garrapi garlarto pikabu	1	goropi	garapi	2	ropi	4	2	abc	3	goropi
+399612_210602_064152_M069700.csv	3	19	male	Hindi, English	segmented	L1	tibu ta garrapi garlarto pikabu	1	gorlardo	garlarto	2	go	2	1	abc	2	goXXXXdo
+399612_210602_064152_M069700.csv	3	19	male	Hindi, English	segmented	L1	tibu ta garrapi garlarto pikabu	1	pigobu	pikabu	2	pigo	4	1	cab	3	pigobu
+399612_210602_064205_M015630.csv	4	27	male	Tamil	segmented	L2	becuti becola to the rock becuti becola becuti becola becola	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_064205_M015630.csv	4	27	male	Tamil	segmented	L2	becuti becola to the rock becuti becola becuti becola becola	1	pigola	bikola	2	pigola	6	1	abc	3	pigola
+399612_210602_064205_M015630.csv	4	27	male	Tamil	segmented	L2	becuti becola to the rock becuti becola becuti becola becola	1	do	to	1	do	2	1	bca	1	do
+399612_210602_064205_M015630.csv	4	27	male	Tamil	segmented	L2	becuti becola to the rock becuti becola becuti becola becola	1	ti	ti	0	ti	2	1	abc	1	ti
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	daropi	darabi	2	daropi	6	1	abc	3	daropi
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	bikupa	pikuba	2	biku	4	1	abc	3	bikupa
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	turoda	turuta	2	tu	2	1	abc	3	turoda
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	tigobu	tikabu	2	ti	2	1	abc	3	tigobu
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	biropi	pirabi	3	ropi	4	2	abc	3	biropi
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	tukuda	tukuta	1	kuda	4	2	cab	3	tukuda
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	turopa	turupa	1	tu	2	1	abc	3	turopa
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	birogi	biragi	1	bi	2	1	bca	2	biroXX
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	taropi	tarapi	1	ropi	4	2	abc	2	XXropi
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	dogopa	duguba	3	dogo	4	1	cab	3	dogopa
+399612_210602_064207_M074156.csv	3	25	male	English	segmented	L1	darabi pikuba turuta tikabu pirabi tukuta darabi turupa biragi tarapi duguba deerida	1	tirida	dirida	1	ti	2	1	abc	2	tiXXda
+399612_210602_064208_M001449.csv	4	19	male	Hindi, Marathi , Kanada , Telugu, English	segmented	L2	picala bikuti chudara	1	pigola	pikala	2	pigola	6	1	abc	3	pigola
+399612_210602_064208_M001449.csv	4	19	male	Hindi, Marathi , Kanada , Telugu, English	segmented	L2	picala bikuti chudara	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_064208_M001449.csv	4	19	male	Hindi, Marathi , Kanada , Telugu, English	segmented	L2	picala bikuti chudara	1	kudaro	kudara	1	daro	4	2	abc	3	kudaro
+399612_210602_064214_M062731.csv	4	23	male	3	segmented	L2	picola picota picati suwitwola suwitwopa nicola	1	pigola	pikola	1	pigola	6	1	abc	3	pigola
+399612_210602_064214_M062731.csv	4	23	male	3	segmented	L2	picola picota picati suwitwola suwitwopa nicola	1	pigoda	pikota	2	pigo	4	1	abc	3	pigoda
+399612_210602_064214_M062731.csv	4	23	male	3	segmented	L2	picola picota picati suwitwola suwitwopa nicola	1	pigoti	pikati	2	pigo	4	1	abc	3	pigoti
+399612_210602_064214_M062731.csv	4	23	male	3	segmented	L2	picola picota picati suwitwola suwitwopa nicola	1	subitula	suvitula	1	bi	2	2	abc	3	XXbitula
+399612_210602_064214_M062731.csv	4	23	male	3	segmented	L2	picola picota picati suwitwola suwitwopa nicola	1	subidopa	suvitupa	3	dopa	4	3	abc	3	XXbidopa
+399612_210602_064214_M062731.csv	4	23	male	3	segmented	L2	picola picota picati suwitwola suwitwopa nicola	1	nigola	nikola	1	gola	4	2	abc	2	XXgola
+399612_210602_064319_M015236.csv	4	25	male	bengali	segmented	L2	vikoti 2dollar	1	pigoti	vikoti	3	pigo	4	1	abc	3	pigoti
+399612_210602_064319_M015236.csv	4	25	male	bengali	segmented	L2	vikoti 2dollar	1	tudola	tudola	0	tu	2	1	abc	3	tudola
+399612_210602_064340_M074032.csv	4	39	male	English	segmented	L2	to the rock,pigolah,bicuty,buldopa	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_210602_064340_M074032.csv	4	39	male	English	segmented	L2	to the rock,pigolah,bicuty,buldopa	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_064408_M075338.csv	3	20	female	Filipino, English	segmented	L1	gallibi ajubu ajubu gallibi	1	golibi	galibi	1	go	2	1	abc	2	goXXbi
+399612_210602_064436_M067237.csv	3	23	female	English	segmented	L1	galatu,fapiku,tbuta,dauropi	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_210602_064436_M067237.csv	3	23	female	English	segmented	L1	galatu,fapiku,tbuta,dauropi	1	fabiku	fapiku	1	biku	4	2	abc	2	XXbiku
+399612_210602_064510_M015284.csv	4	24	male	English	segmented	L2	bikudi to the rock,bikudi bigola,bikudi budapa,to the rock bigola	1	bikuti	bikudi	1	bikuti	6	1	abc	3	bikuti
+399612_210602_064510_M015284.csv	4	24	male	English	segmented	L2	bikudi to the rock,bikudi bigola,bikudi budapa,to the rock bigola	1	pigola	bigola	1	pigola	6	1	abc	3	pigola
+399612_210602_064510_M015284.csv	4	24	male	English	segmented	L2	bikudi to the rock,bikudi bigola,bikudi budapa,to the rock bigola	1	budopa	budapa	1	budopa	6	1	abc	3	budopa
+399612_210602_064644_M015138.csv	3	32	male	English, Hindi	segmented	L1	darapi,galatu,tibuta,pabiku	1	daropi	darapi	1	daropi	6	1	abc	3	daropi
+399612_210602_064644_M015138.csv	3	32	male	English, Hindi	segmented	L1	darapi,galatu,tibuta,pabiku	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_210602_064644_M015138.csv	3	32	male	English, Hindi	segmented	L1	darapi,galatu,tibuta,pabiku	1	tibudo	tibuta	2	tibudo	6	1	abc	3	tibudo
+399612_210602_064644_M015138.csv	3	32	male	English, Hindi	segmented	L1	darapi,galatu,tibuta,pabiku	1	pabiku	pabiku	0	pabiku	6	1	abc	3	pabiku
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	budopa	budapa	1	budopa	6	1	abc	3	budopa
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	bituri	viduri	2	bi	2	1	abc	2	bituXX
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	bidori	viduri	2	bi	2	1	abc	2	bidoXX
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	tiburi	tipuri	1	tibu	4	1	cab	2	tibuXX
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	bikuri	bikuri	0	biku	4	1	abc	2	bikuXX
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	bisuri	visuri	1	bi	2	1	abc	1	biXXXX
+399612_210602_065041_M048034.csv	4	21	male	Hindi	segmented	L2	budapa viduri utapa tipuri bechuri uthapa vesuri beriyti	0.75	biriti	biriti	0	bi	2	1	abc	2	biXXti
+399612_210615_081257_M058473.csv	3	26	male	Hindi,English,Punjabi,Urdu	segmented	L1	harvi coo,tibitha,goo cha ri 	1	arbiku	arviku	1	biku	4	2	abc	2	XXbiku
+399612_210615_081257_M058473.csv	3	26	male	Hindi,English,Punjabi,Urdu	segmented	L1	harvi coo,tibitha,goo cha ri 	1	tibida	tibita	1	ti	2	1	abc	3	tibida
+399612_210615_081257_M058473.csv	3	26	male	Hindi,English,Punjabi,Urdu	segmented	L1	harvi coo,tibitha,goo cha ri 	1	kugori	gukari	3	kugo	4	1	cab	2	kugoXX
+399612_210615_081329_M034660.csv	3	23	female	English	segmented	L1	galrabi,tibuta,galriba ,galbuta	1	tibudo	tibuta	2	tibudo	6	1	abc	3	tibudo
+399612_210615_081458_M062732.csv	3	18	male	English	segmented	L1	dalati,tibuta,kapiku,galagu	1	dalati	dalati	0	da	2	1	abc	3	dalati
+399612_210615_081458_M062732.csv	3	18	male	English	segmented	L1	dalati,tibuta,kapiku,galagu	1	tibudo	tibuta	2	tibudo	6	1	abc	3	tibudo
+399612_210615_081458_M062732.csv	3	18	male	English	segmented	L1	dalati,tibuta,kapiku,galagu	1	gobiku	kapiku	3	biku	4	2	abc	3	gobiku
+399612_210615_081458_M062732.csv	3	18	male	English	segmented	L1	dalati,tibuta,kapiku,galagu	1	golaku	galagu	2	gola	4	1	abc	3	golaku
+399612_210615_081515_M007355.csv	3	26	male	English	segmented	L1	rabidu	0.75	ropitu	rabidu	3	ropi	4	1	abc	3	ropitu
+399612_210615_081515_M007355.csv	3	26	male	English	segmented	L1	rabidu	0.75	ropido	rabidu	3	ropi	4	1	abc	3	ropido
+399612_210615_081538_M075488.csv	3	23	female	Telugu	segmented	L1	daraabi paapiku tibuta papati	0.75	daropi	darabi	2	daropi	6	1	abc	3	daropi
+399612_210615_081538_M075488.csv	3	23	female	Telugu	segmented	L1	daraabi paapiku tibuta papati	0.75	pabiku	papiku	1	pabiku	6	1	abc	3	pabiku
+399612_210615_081538_M075488.csv	3	23	female	Telugu	segmented	L1	daraabi paapiku tibuta papati	0.75	tibudo	tibuta	2	tibudo	6	1	abc	3	tibudo
+399612_210615_081538_M075488.csv	3	23	female	Telugu	segmented	L1	daraabi paapiku tibuta papati	0.75	pati	pati	0	pa	2	1	abc	2	pati
+399612_210615_081541_M037985.csv	3	21	male	Telugu	segmented	L1	gallabi,taabitu,teebuta	1	golabi	galabi	1	gola	4	1	abc	3	golabi
+399612_210615_081541_M037985.csv	3	21	male	Telugu	segmented	L1	gallabi,taabitu,teebuta	1	dabitu	tabitu	1	da	2	1	abc	3	dabitu
+399612_210615_081541_M037985.csv	3	21	male	Telugu	segmented	L1	gallabi,taabitu,teebuta	1	tibudo	tibuta	2	tibudo	6	1	abc	3	tibudo
+399612_210615_081805_M049462.csv	3	22	male	Hindi	segmented	L1	baabiku,teebuta,nalrabi,galatu	1	pabiku	babiku	1	pabiku	6	1	abc	3	pabiku
+399612_210615_081805_M049462.csv	3	22	male	Hindi	segmented	L1	baabiku,teebuta,nalrabi,galatu	1	tibudo	tibuta	2	tibudo	6	1	abc	3	tibudo
+399612_210615_081805_M049462.csv	3	22	male	Hindi	segmented	L1	baabiku,teebuta,nalrabi,galatu	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_210615_081930_M004797.csv	3	43	male	english	segmented	L1	galatou	1	golatu	galatu	1	golatu	6	1	abc	3	golatu
+399612_210615_082122_M011049.csv	3	19	male	english	segmented	L1	people	1	piopli	piopli	0	pi	2	1	abc	1	piXXXX
+399612_210615_082156_M011762.csv	3	36	male	english	segmented	L1	di tu da tadi di ti tu ta ta ti di di tu du da da	1	tu	tu	0	tu	2	1	abc	1	tu
+399612_210615_082156_M011762.csv	3	36	male	english	segmented	L1	di tu da tadi di ti tu ta ta ti di di tu du da da	1	da	da	0	da	2	1	abc	1	da
+399612_210615_082156_M011762.csv	3	36	male	english	segmented	L1	di tu da tadi di ti tu ta ta ti di di tu du da da	1	dati	tadi	2	da	2	1	abc	2	dati
+399612_210615_082156_M011762.csv	3	36	male	english	segmented	L1	di tu da tadi di ti tu ta ta ti di di tu du da da	1	ti	ti	0	ti	2	1	abc	1	ti
 399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	vapi	vapi	0	pi	2	2	abc	1	XXpi
 399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	pabi	papi	1	pabi	4	1	abc	2	pabi
 399612_200413_123723_M054234.csv	1	26	male	Greek	continuous	L1	wapi papi gooti goota	1	kuti	guti	1	kuti	4	1	cab	2	kuti
@@ -428,7 +559,6 @@ filename	subjectGroup	age	sex	Native.language.s.	mySegmentationCond	lang	respons
 399612_210524_063840_M094173.csv	1	19	male	english	continuous	L1	pa paa t2 chola pa paa t2 chola....	0.75	pa	pa	0	pa	2	1	abc	1	pa
 399612_210524_063840_M094173.csv	1	19	male	english	continuous	L1	pa paa t2 chola pa paa t2 chola....	0.75	tu	tu	0	tu	2	1	abc	1	tu
 399612_210524_063840_M094173.csv	1	19	male	english	continuous	L1	pa paa t2 chola pa paa t2 chola....	0.75	gola	kola	1	gola	4	1	abc	2	gola
-399612_210524_063840_M094173.csv	1	19	male	english	continuous	L1	pa paa t2 chola pa paa t2 chola....	0.75	gola..	kola..	1	gola	4	1	abc	2	golaXX
 399612_210524_064302_M013412.csv	1	19	male	eng	continuous	L1	raggi gulla ki paati kooti booti ragi bula gu kaati paati	0.5	rogi	ragi	1	ro	2	1	bca	1	roXX
 399612_210524_064302_M013412.csv	1	19	male	eng	continuous	L1	raggi gulla ki paati kooti booti ragi bula gu kaati paati	0.5	gola	gula	1	gola	4	1	abc	2	gola
 399612_210524_064302_M013412.csv	1	19	male	eng	continuous	L1	raggi gulla ki paati kooti booti ragi bula gu kaati paati	0.5	pati	pati	0	pa	2	1	abc	2	pati
@@ -485,3 +615,86 @@ filename	subjectGroup	age	sex	Native.language.s.	mySegmentationCond	lang	respons
 399612_210524_123312_M041657.csv	1	19	male	English, Hindi	continuous	L1	oobaka,obata,ooty,booty,cooti,omana,gooti	0.5	buti	buti	0	bu	2	1	bca	2	buti
 399612_210524_123312_M041657.csv	1	19	male	English, Hindi	continuous	L1	oobaka,obata,ooty,booty,cooti,omana,gooti	0.5	kuti	kuti	0	kuti	4	1	cab	2	kuti
 399612_210524_123312_M041657.csv	1	19	male	English, Hindi	continuous	L1	oobaka,obata,ooty,booty,cooti,omana,gooti	0.5	goti	guti	1	go	2	1	abc	2	goti
+399612_210602_063811_M046677.csv	2	27	male	English	continuous	L2	bikuti tudaro,idana bikuna,bikuti mikata,bikuni todaro	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_063811_M046677.csv	2	27	male	English	continuous	L2	bikuti tudaro,idana bikuna,bikuti mikata,bikuni todaro	1	tudaro	tudaro	0	tudaro	6	1	abc	3	tudaro
+399612_210602_063811_M046677.csv	2	27	male	English	continuous	L2	bikuti tudaro,idana bikuna,bikuti mikata,bikuni todaro	1	bikuna	bikuna	0	biku	4	1	abc	2	bikuXX
+399612_210602_063811_M046677.csv	2	27	male	English	continuous	L2	bikuti tudaro,idana bikuna,bikuti mikata,bikuni todaro	1	migoda	mikata	3	go	2	2	bca	2	XXgoda
+399612_210602_063811_M046677.csv	2	27	male	English	continuous	L2	bikuti tudaro,idana bikuna,bikuti mikata,bikuni todaro	1	bikuni	bikuni	0	biku	4	1	abc	2	bikuXX
+399612_210602_063811_M046677.csv	2	27	male	English	continuous	L2	bikuti tudaro,idana bikuna,bikuti mikata,bikuni todaro	1	dodaro	todaro	1	daro	4	2	abc	3	dodaro
+399612_210602_063821_M043454.csv	2	20	male	Bangla,English	continuous	L2	biku tipi dolla u topa bogolla utopa	1	biku	biku	0	biku	4	1	abc	2	biku
+399612_210602_063821_M043454.csv	2	20	male	Bangla,English	continuous	L2	biku tipi dolla u topa bogolla utopa	1	tipi	tipi	0	tipi	4	1	cab	2	tipi
+399612_210602_063821_M043454.csv	2	20	male	Bangla,English	continuous	L2	biku tipi dolla u topa bogolla utopa	1	dola	dola	0	do	2	1	bca	2	dola
+399612_210602_063821_M043454.csv	2	20	male	Bangla,English	continuous	L2	biku tipi dolla u topa bogolla utopa	1	dopa	topa	1	dopa	4	1	abc	2	dopa
+399612_210602_063821_M043454.csv	2	20	male	Bangla,English	continuous	L2	biku tipi dolla u topa bogolla utopa	1	bogola	bogola	0	gola	4	2	abc	2	XXgola
+399612_210602_063857_M051085.csv	2	24	female	English, Filipino	continuous	L2	bitupi picola bitupi picola bitu par	1	bitupi	bitupi	0	bi	2	1	abc	3	bitupi
+399612_210602_063857_M051085.csv	2	24	female	English, Filipino	continuous	L2	bitupi picola bitupi picola bitu par	1	pigola	pikola	1	pigola	6	1	abc	3	pigola
+399612_210602_063857_M051085.csv	2	24	female	English, Filipino	continuous	L2	bitupi picola bitupi picola bitu par	1	bitu	bitu	0	bi	2	1	abc	2	bitu
+399612_210602_063857_M051085.csv	2	24	female	English, Filipino	continuous	L2	bitupi picola bitupi picola bitu par	1	pa	pa	0	pa	2	1	abc	1	pa
+399612_210602_063920_M058720.csv	2	20	male	english	continuous	L2	wegolategola pigola shegola pingola	1	pigolatigola	vigolatigola	2	pigola	6	1	abc	4	pigolatigola
+399612_210602_063920_M058720.csv	2	20	male	english	continuous	L2	wegolategola pigola shegola pingola	1	pigola	pigola	0	pigola	6	1	abc	3	pigola
+399612_210602_063920_M058720.csv	2	20	male	english	continuous	L2	wegolategola pigola shegola pingola	1	sigola	sigola	0	gola	4	2	abc	2	XXgola
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	golabi	gulapi	2	golabi	6	1	bca	3	golabi
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	kudati	gutati	2	ku	2	1	bca	3	kudati
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	godati	gutati	2	go	2	1	bca	3	godati
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	turoki	turaki	1	tu	2	1	abc	2	turoXX
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	dopapa	tupapa	2	dopa	4	1	abc	2	dopapa
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	kuroki	guraki	2	ku	2	1	bca	2	kuroXX
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	goroki	guraki	2	go	2	1	bca	2	goroXX
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	golaku	gulaku	1	gola	4	1	abc	3	golaku
+399612_210602_063926_M086442.csv	2	23	female	English	continuous	L2	gulapi ,gutati,turaki ,tupapa,guraki,gulaku,goolaki	0.25	golaki	gulaki	1	gola	4	1	abc	2	golaXX
+399612_210602_063937_M018041.csv	2	32	female	Filipino	continuous	L2	pikala,bikuti,turawaw,butapa,tuwara,todaraw	1	pigola	pikala	2	pigola	6	1	abc	3	pigola
+399612_210602_063937_M018041.csv	2	32	female	Filipino	continuous	L2	pikala,bikuti,turawaw,butapa,tuwara,todaraw	1	bikuti	bikuti	0	bikuti	6	1	abc	3	bikuti
+399612_210602_063937_M018041.csv	2	32	female	Filipino	continuous	L2	pikala,bikuti,turawaw,butapa,tuwara,todaraw	1	budopa	butapa	2	budopa	6	1	abc	3	budopa
+399612_210602_063937_M018041.csv	2	32	female	Filipino	continuous	L2	pikala,bikuti,turawaw,butapa,tuwara,todaraw	1	doparo	tuvara	5	dopa	4	1	abc	3	doparo
+399612_210602_063937_M018041.csv	2	32	female	Filipino	continuous	L2	pikala,bikuti,turawaw,butapa,tuwara,todaraw	1	dodaro	todara	2	daro	4	2	abc	3	dodaro
+399612_210602_064044_M094198.csv	2	22	female	Filipino	continuous	L2	picorororododordordodorodorodo	1	pigorodo	pikorodo	1	pigo	4	1	abc	4	pigorodo
+399612_210602_064109_M024073.csv	2	56	female	czech	continuous	L2	cola,patadibu,papi	0.5	gola	kola	1	gola	4	1	abc	2	gola
+399612_210602_064109_M024073.csv	2	56	female	czech	continuous	L2	cola,patadibu,papi	0.5	padatibu	patadibu	2	tibu	4	3	cab	4	padatibu
+399612_210602_064109_M024073.csv	2	56	female	czech	continuous	L2	cola,patadibu,papi	0.5	papi	papi	0	papi	4	1	cab	2	papi
+399612_210602_064221_M028334.csv	2	22	male	ENGLISH	continuous	L2	dudora picora urcy dudora picora urecy	1	tudoro	dudora	2	tu	2	1	abc	3	tudoro
+399612_210602_064221_M028334.csv	2	22	male	ENGLISH	continuous	L2	dudora picora urcy dudora picora urecy	1	pigoro	pikora	2	pigo	4	1	abc	3	pigoro
+399612_210602_064419_M030228.csv	2	40	female	English	continuous	L2	deroby guratude dorby guratu	0.75	tirobi	dirobi	1	robi	4	2	cab	3	tirobi
+399612_210602_064419_M030228.csv	2	40	female	English	continuous	L2	deroby guratude dorby guratu	0.75	kurotuti	guratudi	3	ku	2	1	bca	4	kurotuti
+399612_210602_064419_M030228.csv	2	40	female	English	continuous	L2	deroby guratude dorby guratu	0.75	gorotuti	guratudi	3	go	2	1	bca	4	gorotuti
+399612_210602_064419_M030228.csv	2	40	female	English	continuous	L2	deroby guratude dorby guratu	0.75	kurotu	guratu	2	ku	2	1	bca	3	kurotu
+399612_210602_064419_M030228.csv	2	40	female	English	continuous	L2	deroby guratude dorby guratu	0.75	gorotu	guratu	2	go	2	1	bca	3	gorotu
+399612_210602_065607_M051011.csv	2	21	female	english	continuous	L2	papico	0.5	papigo	papiko	1	papigo	6	1	cab	3	papigo
+399612_210602_071351_M045126.csv	2	23	male	hindi	continuous	L2	chiduri,bikolo,buta,picolo	1	kituri	kiduri	1	tu	2	2	abc	1	XXtuXX
+399612_210602_071351_M045126.csv	2	23	male	hindi	continuous	L2	chiduri,bikolo,buta,picolo	1	kidori	kiduri	1	do	2	2	bca	1	XXdoXX
+399612_210602_071351_M045126.csv	2	23	male	hindi	continuous	L2	chiduri,bikolo,buta,picolo	1	bigolo	bikolo	1	bi	2	1	abc	2	bigoXX
+399612_210602_071351_M045126.csv	2	23	male	hindi	continuous	L2	chiduri,bikolo,buta,picolo	1	budo	buta	2	budo	4	1	abc	2	budo
+399612_210602_071351_M045126.csv	2	23	male	hindi	continuous	L2	chiduri,bikolo,buta,picolo	1	pigolo	pikolo	1	pigo	4	1	abc	2	pigoXX
+399612_210615_081153_M039120.csv	2	21	female	English	continuous	L2	bigulla becupa bigulla becappa	1	pigola	bigula	2	pigola	6	1	abc	3	pigola
+399612_210615_081153_M039120.csv	2	21	female	English	continuous	L2	bigulla becupa bigulla becappa	1	bikupa	bikupa	0	biku	4	1	abc	3	bikupa
+399612_210615_081153_M039120.csv	2	21	female	English	continuous	L2	bigulla becupa bigulla becappa	1	bikapa	bikapa	0	bi	2	1	abc	2	biXXpa
+399612_210615_081227_M078886.csv	1	27	male	Tamil, English	continuous	L1	thaladibq	0.75	dalatibq	taladibq	2	da	2	1	abc	3	dalatiXX
+399612_210615_081428_M097377.csv	1	20	male	English	continuous	L1	picala tupabi	0.5	pigola	pikala	2	pigola	6	1	cab	3	pigola
+399612_210615_081428_M097377.csv	1	20	male	English	continuous	L1	picala tupabi	0.5	tupabi	tupabi	0	tupabi	6	1	cab	3	tupabi
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	biku	biku	0	biku	4	1	abc	2	biku
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	pigo	piku	2	pigo	4	1	cab	2	pigo
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	gola	kala	2	gola	4	1	abc	2	gola
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	pitubi	pitubi	0	pi	2	1	abc	3	pitubi
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	dodala	tadala	2	doda	4	1	cab	3	dodala
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	pigola	pigala	1	pigola	6	1	cab	3	pigola
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	tupabaki	tupabaki	0	tupa	4	1	cab	2	tupaXXXX
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	tudala	tudala	0	tuda	4	1	cab	3	tudala
+399612_210615_081436_M035227.csv	1	34	male	portuguese	continuous	L1	biku; piku;kala; pitubi; tadala; pigala; tupabaki; tudala; pipabiku	0.25	pipabiku	pipabiku	0	pipabiku	8	1	abc	4	pipabiku
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	do	to	1	do	2	1	bca	1	do
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	bido	bito	1	bi	2	1	abc	2	bido
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	bidogola	bitokola	2	gola	4	3	abc	4	bidogola
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	gola	kola	1	gola	4	1	abc	2	gola
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	natiti	natiti	0	ti	2	2	abc	1	XXtiti
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	titi	titi	0	ti	2	1	abc	1	titi
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	diti	diti	0	ti	2	2	abc	1	XXti
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	goro	kara	3	go	2	1	bca	2	goro
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	napa	naba	1	pa	2	2	abc	1	XXpa
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	nopa	noba	1	pa	2	2	abc	1	XXpa
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	doto	toto	1	do	2	1	bca	1	doXX
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	todo	toto	1	do	2	2	bca	1	XXdo
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	dotu	tutu	2	do	2	1	bca	2	dotu
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	tudo	tutu	2	tu	2	1	abc	2	tudo
+399612_210615_081445_M010482.csv	2	24	male	English	continuous	L2	to beto betokola kola beto nafar natiti titi diti kara naba noba kara toto tutu tu titit	0.5	tu	tu	0	tu	2	1	abc	1	tu
+399612_210615_081833_M098138.csv	2	22	male	Hindi, English, Marathi	continuous	L2	buda papi gola,buda gola,buda buda gola	0.25	budo	buda	1	budo	4	1	abc	2	budo
+399612_210615_081833_M098138.csv	2	22	male	Hindi, English, Marathi	continuous	L2	buda papi gola,buda gola,buda buda gola	0.25	papi	papi	0	papi	4	1	cab	2	papi
+399612_210615_081833_M098138.csv	2	22	male	Hindi, English, Marathi	continuous	L2	buda papi gola,buda gola,buda buda gola	0.25	gola	gola	0	gola	4	1	abc	2	gola
+399612_210615_081919_M056010.csv	1	60	male	English	continuous	L1	dagala	0.25	dogola	dagala	2	dogola	6	1	cab	3	dogola

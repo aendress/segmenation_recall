@@ -73,9 +73,6 @@
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{#1}
-\usepackage{longtable,booktabs}
-% Fix footnotes in tables (requires footnote package)
-\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{long table}}{}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -85,6 +82,9 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
 }{% else
@@ -165,26 +165,31 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Statistical Learning exists in many domains and species. It might be
-particularly crucial for the earliest stages of word learning, for
-example for recovering word-like chunks from fluent speech. However,
-other forms of associative learning are remarkably tuned to the
-ecological constraints of the learning situation. Here, we show that
-Statistical Learning is similarly constrained. It predominantly operates
-in continuous speech sequences similar to those used in prior
-experiments, but not in discrete chunk sequences similar to those likely
-encountered during language acquisition (due to the prosodic
-organization of language). Conversely, when exposed to continuous
-sequence in a memory recall experiment, participants tend to produce
-low-probability sequences because, to the extent that they remember any
-items at all, they initiate their productions at random positions in the
-sequence rather than at the onsets of statistically defined chunks. In
-contrast, familiarization with discrete sequences produces reliable
-memories of actual, high-probability forms. This dissociation between
-Statistical Learning and memory suggests that Statistical Learning might
-have a specialized role when distributional information can be
-accumulated (e.g., for predictive processing), and that it is separable
-from the (declarative) memory mechanisms needed to acquire words.
+Statistical Learning is ubiquitous across domains and species, and might
+be critical for the earliest stages of language acquisition, for example
+to identify and memorize words from fluent speech. However, other forms
+of associative learning are remarkably tuned to the ecological learning
+situations, and associative learning mechanisms are at least partially
+dissociable from those involved in declarative memory. Here, we show
+that Statistical Learning selectively operates in certain learning
+situations, and is dissociable from (declarative) memory mechanisms that
+allow learners to place word-like items in memory. Statistical Learning
+predominantly operates in continuous speech sequences similar to those
+used in prior experiments, but not in discrete chunk sequences, even
+though the latter are likely encountered during language acquisition due
+to the prosodic organization of language. Conversely, when exposed to
+continuous sequences in a memory recall experiment, participants are
+sensitive to probable syllable transitions, but, to the extent that they
+remember any items at all, they tend to initiate their productions at
+random positions in the sequence rather than at the onsets of the words
+they are meant to remember, leading to greater recall of
+\emph{low-}probablility items. In contrast, familiarization with
+discrete sequences produces reliable memories of actual,
+high-probability forms. This dissociation between Statistical Learning
+and memory suggests that Statistical Learning might have a specialized
+role when distributional information can be accumulated (e.g., for
+predictive processing), and that it is separable from the (declarative)
+memory mechanisms needed to acquire words.
 \end{abstract}
 
 {
@@ -204,231 +209,279 @@ from the (declarative) memory mechanisms needed to acquire words.
 
 In the analyses below, we use the following parameters:
 
-\begin{longtable}[]{@{}ll@{}}
-\toprule
-\begin{minipage}[b]{0.03\columnwidth}\raggedright\strut
-Name\strut
-\end{minipage} & \begin{minipage}[b]{0.92\columnwidth}\raggedright\strut
-Value\strut
-\end{minipage}\tabularnewline
-\midrule
-\endhead
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-ANALYZED.DATA.SETS\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-TRUE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-ANALYZED.DATA.SETS\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-TRUE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-FILTER.SINGLE.SYLLABLES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-FALSE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-FILTER.UNATTESTED.ITEMS\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-FALSE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-IGNORE.COL.PREFIXES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-ITI\_\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-IGNORE.COL.PREFIXES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-presTime\_\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-IGNORE.COL.PREFIXES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-ISI\_\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-L.BAD.SUBJ.CPUTIME\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-list(c(subj = ``399612\_200413\_124119\_M056106.csv'', response =
-``dalonigtbdophophi dalobdakabdarobigopachu''), c(subj =
-``399612\_210517\_101428\_M070415.csv'', response = ``be cu di tu dara
-pe gala du dopa,be cu di pe gala,be cu di pe gala bu dopa ,be cu di bu
-dopa''), c(subj = ``399612\_210517\_100654\_M038010.csv'', response =
-``takahsakakakaratatataikokokokotatakatakatakatakatakatakataka''),
-c(subj = " 399612\_210517\_101201\_M048600.csv``, response
-=''dabroobitalooki,bkuti2,golab``), c(subj
-=''399612\_210524\_062929\_M059506.csv``,\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-response = ``matikulatatitulapapitularimatitulaatitula''), c(subj =
-``399612\_210524\_115845\_M067482.csv'', response = ``tu kalla ti palla
-tuti kulla papi pu tu kalla ti palla tuti kulla papi pu''), c(subj =
-``399612\_210524\_120014\_M099076.csv'', response =
-``tutopitulakatutopitoolaka''), c(subj =
-``399612\_210524\_120523\_M003515.csv'', response =
-``papikuchi,butalapapikuchi,kukala,pikala,budharapikuchi,chupapikachubudarapi''))\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-PRINT.INDIVIDUAL.FIGURES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-FALSE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-PRINT.INDIVIDUAL.PDFS\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-TRUE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-PRINT.INDIVIDUAL.TABLES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-FALSE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-REMOVE.BAD.SUBJ\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-TRUE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-REMOVE.INCOMPLETE.SUBJ\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-FALSE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-RESEGMENT.RESPONSES\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-FALSE\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.03\columnwidth}\raggedright\strut
-start.time\strut
-\end{minipage} & \begin{minipage}[t]{0.92\columnwidth}\raggedright\strut
-2021-06-01 19:18:06\strut
-\end{minipage}\tabularnewline
-\bottomrule
-\end{longtable}
+\begin{tabular}{>{\raggedright\arraybackslash}p{20em}|>{\raggedright\arraybackslash}p{30em}}
+\hline
+Parameter & Value\\
+\hline
+ALLOW.WORD.REPEATS.FOR.PART.WORDS & FALSE\\
+\hline
+ANALYZED.DATA.SETS & \vphantom{1} TRUE\\
+\hline
+ANALYZED.DATA.SETS & TRUE\\
+\hline
+EQUATE.N.SUBJ & TRUE\\
+\hline
+FILTER.SINGLE.SYLLABLES & TRUE\\
+\hline
+FILTER.UNATTESTED.ITEMS & FALSE\\
+\hline
+IGNORE.COL.PREFIXES & ITI\_\\
+\hline
+IGNORE.COL.PREFIXES & presTime\_\\
+\hline
+IGNORE.COL.PREFIXES & ISI\_\\
+\hline
+L.BAD.SUBJ.CPUTIME & list(c(subj = "399612\_200413\_124119\_M056106.csv", response = "dalonigtbdophophi dalobdakabdarobigopachu"), c(subj = "399612\_210517\_101428\_M070415.csv", response = "be cu di tu dara pe gala du dopa,be cu di pe gala,be cu di pe gala bu dopa ,be cu di bu dopa"), c(subj = "399612\_210517\_100654\_M038010.csv", response = "takahsakakakaratatataikokokokotatakatakatakatakatakatakataka"), c(subj = " 399612\_210517\_101201\_M048600.csv", response = "dabroobitalooki,bkuti2,golab"), c(subj = "399612\_210524\_062929\_M059506.csv", 
+response = "matikulatatitulapapitularimatitulaatitula"), c(subj = "399612\_210524\_115845\_M067482.csv", response = "tu kalla ti palla tuti kulla papi pu tu kalla ti palla tuti kulla papi pu"), c(subj = "399612\_210524\_120014\_M099076.csv", response = "tutopitulakatutopitoolaka"), c(subj = "399612\_210524\_120523\_M003515.csv", response = "papikuchi,butalapapikuchi,kukala,pikala,budharapikuchi,chupapikachubudarapi"), c(subj = "399612\_210602\_064236\_M088537.csv", response = "da putty da raboo,da puppy da raboo,da raboo,da raboo,da puppy da rabooo"
+), c(subj = "399612\_210602\_064353\_M013341.csv", response = "rabi tiku ko kolada fabi ,rabi tiku ko la dafabi...."), c(subj = "399612\_210602\_072517\_M099491.csv", response = "dolapidolabu dolapidolatu doladiputipu doladipukipu dolakiputipu dolatipu"))\\
+\hline
+PRINT.INDIVIDUAL.FIGURES & FALSE\\
+\hline
+PRINT.INDIVIDUAL.PDFS & TRUE\\
+\hline
+PRINT.INDIVIDUAL.TABLES & FALSE\\
+\hline
+REMOVE.BAD.SUBJ & TRUE\\
+\hline
+REMOVE.INCOMPLETE.SUBJ & FALSE\\
+\hline
+RESEGMENT.RESPONSES & FALSE\\
+\hline
+start.time & 2021-06-28 21:57:53\\
+\hline
+\end{tabular}
 
 \clearpage
+
+\section{PNAS FORMAT}\label{pnas-format}
+
+Research reports describe the results of original research of
+exceptional importance. The preferred length of these articles is 6
+pages, but PNAS allows articles up to a maximum of 12 pages. A standard
+6-page article is approximately 4,000 words, 50 references, and 4
+medium-size graphical elements (i.e., figures and tables).
+
+Templates are available at
+\url{https://www.pnas.org/authors/submitting-your-manuscript\#manuscript-formatting-guidelines}
+
+A manuscript file (in any format) including the following: * Title page
+(title, author list, classification, keywords) * Abstract (\textless{}
+250 w) * Significance statement (\textless{} 120 w) * Main text -
+Introduction - Results - Discussion - Materials and methods (describe
+procedures in sufficient detail so that the work can be repeated) *
+Acknowledgments and funding sources * References
+
+\begin{itemize}
+\tightlist
+\item
+  Figures or tables with appropriate legends (may be uploaded
+  separately)
+\item
+  SI files (may be uploaded separately)
+\item
+  Contact and competing interest information for all authors.
+\item
+  Data sharing plans (for all data, documentation, and code used in
+  analysis).
+\item
+  Funding information and whether an open access license has been
+  selected.
+\item
+  A list of appropriate Editorial Board, NAS members, and qualified
+  reviewers (minimum of three each) who are experts in the * paper's
+  scientific area. A brief justification for suggested reviewers is
+  welcome, particularly for interdisciplinary papers.
+\end{itemize}
+
+\section{Significance statement (\textless{}
+120w)}\label{significance-statement-120w}
 
 \section{Introduction}\label{introduction}
 
-Associative learning is widespread and exists in many species and
-domains
-\citetext{\citealp{Aslin1998}; \citealp{Chen2015}; \citealp[Conway2005a;][]{Fiser2002}; \citealp{Hauser2001}; \citealp{Saffran-Science}; \citealp{Toro2005-backward}; \citealp{Turk-Browne2005}; \citealp{Turk-Browne-reversal}}.
-This led to the conclusion that the computations for which it is
-critical might be similarly widespread, a view that has been
-particularly prominent in language acquisition
-\citep{Aslin2012, Seidenberg2002, Thiessen2017}.
+Associative learning is remarkably widespread across species and domains
+\citetext{\citealp{Aslin1998}; \citealp{Chen2015}; \citealp[Conway2005a;][]{Fiser2002}; \citealp{Hauser2001}; \citealp{Saffran-Science}; \citealp{Toro2005-backward}; \citealp{Turk-Browne-reversal}},
+and might support a wide range of computations, especially during
+language acquisition \citep{Aslin2012, Seidenberg2002}.
 
 However, associative learning is also remarkably modular
-\citep{Endress-duplications}. For example, humans have independent
-associative learning abilities in superficially similar domains,
-including the learning of associations of objects with landmarks
-vs.~boundaries \citep{Doeller2008, Doeller2008a}, associations among
-social vs.~non-social objects \citep{Tompson2019} and associations among
-consonants vs.~vowels \citep{Bonatti2005}. Further, associative learning
-abilities are generally not correlated across domains
-\citep{Siegelman2015}.
+\citep{Endress-duplications}. Humans have independent associative
+learning abilities in superficially similar domains, including
+associations of objects with landmarks vs.~boundaries
+\citep{Doeller2008}, associations among social vs.~non-social objects
+\citep{Tompson2019} and associations among consonants vs.~vowels
+\citep{Bonatti2005}. Likewise, preferential associations abound
+\citep{Seligman1970}. For example, rats readily associate tastes with
+sickness and external stimuli with pain, but cannot associate taste with
+pain or external stimuli with sickness \citep{Garcia1974}. Such patterns
+of associations reflect the likely ecological sources of sickness
+vs.~pain (i.e., food vs.~external events), and can evolve in just 40
+generations in fruit flies \citep{Dunlap2014}.
 
-Preferential associations between specific classes of stimuli abound
-\citep{Seligman1970}, and can evolve in just 40 generations in fruit
-flies \citep{Dunlap2014}. For example, rats readily associate tastes
-with sickness and external events such as sounds or light flashes with
-pain, but cannot (or only with great difficulty) associate taste with
-pain or external events with sickness \citep{Garcia1974, Garcia1976}.
-This pattern of associations reflects the likely ecological sources of
-sickness vs.~pain (i.e., food vs.~external events). Critically, the
-formation of taste-sickness associations (but not of other forms of
-associations) is blocked in a suckling context for rats who have not
-been exposed to solid food \citep{Martin1979, Alberts1984}, presumably
-because avoidance of the only food source would be detrimental; in
-contrast, minimal exposure to solid food re-establish taste-sickness
-associations \citep{Gubernick1984}.
+Critically, some associations can be detrimental, and are thus blocked.
+For example, taste-sickness associations (but not other associations)
+are blocked in a suckling context for rat pups with no exposure to solid
+food \citep{Martin1979, Alberts1984}, presumably because avoidance of
+the \emph{only} food source is costly; in contrast, minimal exposure to
+solid food re-establishes taste-sickness associations
+\citep{Gubernick1984}.
 
 While such results suggest that, over evolutionary times, the
-adaptiveness of associative learning is regulated by increasing or
-decreasing its availability for specific classes of stimuli, it is less
-clear if associative learning is specialized for specific computational
-functions, or whether it is essentially a side effect of local neural
-processing \citep[a ``spandrel'' in biological terms;][]{Gould1979},
-that is sometimes adaptive, somtimes neutral and sometimes detrimentl.
-Here, we address this issue in a domain where the importance of
-associative learning has long been recognized: word learning. We suggest
-that associative learning is critical for predicting speech material
-under conditions where it can be predicted, but that it does not lead to
-memory.
+availability of associative learning can be modified for specific
+stimulus classes, it is less clear if associative learning is
+specialized for specific computational functions - or essentially a side
+effect of local neural processing \citep[a ``spandrel'' in biological
+terms;][]{Gould1979} that is sometimes adaptive, sometimes neutral and
+sometimes detrimental. Here, we address this issue in a domain where the
+importance of associative learning has long been recognized: learning
+words from fluent speech. We suggest that associative learning is
+critical for predicting speech material and operates predominantly under
+conditions where prediction is possible. However, we also suggest that
+separate mechanisms are required to form (declarative) memories of the
+words learners need to acquire.
 
-One of the most prominent cases for associative learning in language
-acquisition is word segmentation. Speech is thought to be a continuous
-signal, and before learners can commit any words to memory, they need to
-learn where words start and where they end, respectively. One strategy
-to find word boundaries relies on Transitional Probabilities (TPs) among
-items, that is, the conditional probability of a syllable
-\(\sigma_{i+1}\) given a preceeding syllable \(\sigma_{i+1}\),
-\(P(\sigma_{i}\sigma_{i+1})/P(\sigma_{i})\). Early on, Shannon
-\citep{Shannon1951} showed that human adults are sensitive to such
-distributional information. Subsequent work conclusively demonstrated
-that infants and non-human animals share this ability {[}XXX{]}, and
-suggested that TPs can be extract using simple associative mechanisms
-such as Hebbian learning \citep{Endress-TP-Model}.
+Speech is thought to be a continuous signal, and before learners can
+commit any words to memory, they need to learn where words start and
+where they end. They might rely on Transitional Probabilities (TPs)
+among items, that is, the conditional probability of a syllable
+\(\sigma_{i+1}\) given a preceding syllable \(\sigma_{i}\),
+\(P(\sigma_{i}\sigma_{i+1})/P(\sigma_{i})\). Relatively predictable
+transitions are likely located inside words, while unpredictable ones
+straddle word boundaries. Early on, Shannon \citep{Shannon1951} showed
+that human adults are sensitive to such distributional information.
+Subsequent work demonstrated that infants and non-human animals share
+this ability
+\citep{Aslin1998, Chen2015, Fiser2002, Hauser2001, Saffran-Science, Toro2005-backward},
+and that it might reflect simple associative mechanisms such as Hebbian
+learning \citep{Goujon2015, Endress-TP-Model}.
 
 However, a sensitivity to distributional information does not imply that
-learners extract chunks that can be stored in memory. In fact, such as
-sensitive is typically tested by comparing participants' preference for
-high-TP items over low-TP items. It turns out that participants
-sometimes prefer high-TP items thet have never seen or heard (and thus
-could not have memorize) over low-TP items they have heard
-\citep{Endress-Phantoms-Vision}, suggesting that associative learning
-and memory for specific chunks may be dissociable. In fact, the types of
+learners store words in (declarative) long-term memory. In fact,
+observers prefer high-TP items to low-TP items even if they have never
+encountered them and thus could now have memorized them
+\citetext{\citealp[because the items are played
+backwards;][]{Turk-Browne-reversal}; \citealp[see also][]{Jones2007}},
+and sometimes even prefer high-TP items they have \emph{never}
+encountered to low-TP items they have heard or seen
+\citep{Endress-Phantoms-Vision}. Such results suggest that associative
+learning and memory for specific chunks may be dissociable {[}see also
+\citet{Cohen1980}; \citet{Knowlton1996a}; \citet{Poldrack2001};
+\citet{Squire1992} and Discussion). In fact, the types of
 representations created by associative learning might well be different
 from those used for linguistic stimuli
-\citep{Endress-Phantoms-Vision, Fischer-Baum2011}, while associative
-knowledge might be critical for predictive processing that is critical
-for both language \citep{Levy2008, Trueswell1999} and other cognitive
-processes (XXX).
+\citep{Endress-Phantoms-Vision, Fischer-Baum2011}. Conversely,
+associative knowledge might be critical for predictive processing
+\citep{Sherman2020, Turk-Browne2010} that is critical for both language
+\citep{Levy2008, Trueswell1999} and other cognitive processes
+\citep[Bar2009;][]{Clark2013, Friston2010, Keller2018}.
 
-Here, we test this idea, focusing on the conditions under which
-associative learning operates and on the function it might have. To
-elucidate the conditions under which associative learning operates, we
-note that speech does not come as an continuous signal but rather as a
-sequence of smaller units due to its prosodic organization
-\citep{Beckman1986, Cutler1997, Nespor1986, Selkirk1986, Shattuck-Hufnagel1996}.
-This prosodic organization is perceived in unfamiliar languages
-\citep{Brentari2011, Endress-cross-seg, Fenlon2008, Pilon1981}, by
-infants
-\citetext{\citealp{Hirsh-Pasek1987}; \citealp[Christophe1994;][]{Gout2004}}
-and even by newborns \citep{Christophe2001}. Further, associative
-learning operates primarily \emph{within} rather than across major
-prosodic boundaries \citep{Shukla2007, Shukla2011}. As result, the a
-learner's segmentation task is not so much to integrate distributional
-information over long stretches of continuous speech, but rather to
-decide whether the the correct grouping in prosodic groups such as
-``\emph{thebaby}'' is ``\emph{theba + by}'' or ``\emph{the + baby}''. We
-thus ask to whether associative learning operates in such smaller
-groups, or only in longer stretches of continuous sound.
+Here, we explore the computational function of associative learning,
+focusing on the conditions under which it operates and its relation to
+memory processes. To explore its operating conditions, we note that
+speech does not come as a continuous signal but rather as a sequence of
+smaller units due to its prosodic organization
+\citep{Cutler1997, Nespor1986, Shattuck-Hufnagel1996}. This prosodic
+organization is perceived in unfamiliar languages
+\citep{Brentari2011, Endress-cross-seg, Fenlon2008, Pilon1981} \sout{by
+infants {[}Hirsh-Pasek1987; Christophe1994; Gout2004{]}} and even by
+newborns \citep{Christophe2001}. This prosodic information might affect
+the usefulness of statistical learning, because associative learning
+operates primarily \emph{within} rather than across major prosodic
+boundaries \citep{Shukla2011}. As result, the learner's segmentation
+task is not so much to integrate distributional information over long
+stretches of continuous speech, but rather to decide whether the correct
+grouping in prosodic groups such as ``\emph{thebaby}'' is ``\emph{theba
++ by}'' or ``\emph{the + baby}''.
 
-To elucidate the function of associative learning, we ask adult
-participants what they recall after being exposed to the speech stream
-from \citep{Saffran-Science}, again with a continuous speech stream or a
-sequence of pre-segmented syllable sequences.
-
-\citep{Bortfeld2005, Shi2008} Frequent words \citep{Ngon2013}:
-statistics within
+In Experiment 1, we thus ask whether associative learning operates in
+such smaller chunks, or only in longer stretches of continuous speech.
+In Experiment 2, we seek to elucidate the function of associative
+learning, asking (adult) participants to recall what they remember after
+being exposed to the speech stream from Saffran et al.'s
+\citep{Saffran-Science} classic experiment, again with a continuous
+speech stream or a sequence of pre-segmented syllable sequences.
 
 \clearpage
 
-\section{Methods}\label{methods}
+\section{Methods summary (for main
+text)}\label{methods-summary-for-main-text}
+
+Unless otherwise stated, stimuli were synthesized using mbrola
+\citep{mbrola} and the \emph{us3} (American English male) voice.
+Lab-based experiments were run using Psyscope X
+(\url{http://psy.ck.sissa.it}) in a quiet room. Online experiments were
+run on \url{https://testable.org}.
+
+\subsection{Participants}\label{participants}
+
+In Experiment 1, 30, 30 and 31 participants were retained for analysis
+for the pre-segmented condition, the continuous condition and its
+replication. In Experiment 2, 26 participants were retained for the
+lab-based version, and 157 for the online version. Participants reported
+to be native speakers of English.
+
+\subsection{Experiment 1 (Recognition experiment
+(London))}\label{experiment-1-recognition-experiment-london}
+
+Participants were instructed to listen to a monologue in ``Martian'',
+and to remember the Martian words. Following this, they listened to a
+sequence of tri-syllabic words (Language 1: \emph{w3:legu:},
+\emph{w3:levOI}, \emph{w3:lenA:}, \emph{faIzO:gu:}, \emph{faIzO:vOI},
+\emph{faIzO:nA:}, \emph{rVb\{gu:}, \emph{rVb\{vOI}, \emph{rVb\{nA:};
+Language 2: \emph{w3:legu:}, \emph{faIlegu:}, \emph{rVlegu:},
+\emph{w3:zO:vOI}, \emph{faIzO:vOI}, \emph{rVzO:vOI}, \emph{w3:b\{nA:},
+\emph{faIb\{nA:}, \emph{rVb\{nA:}). In Language 1 and 2, both TPs and
+the chunk frequency favored \emph{AB+C} and \emph{A+BC} patterns,
+respectively (TPs of 1.0 vs.~1/3; see main text). Segments lasted 60 ms
+and had an \(F_0\) of 120 Hz. Sequences (45 repetitions/word) were
+either continuous or had 540 ms silences between words. Sequences were
+then played thrice (total familiarization: 7 min 17s (continuous); 18
+min 14 s (pre-segmented)).
+
+Following this familiarization, participants listened to pairs of items
+and had to choose the more ``Martian'' one. One item comprised the
+\emph{first two} syllables of a word, one the \emph{last two} syllables.
+The three items of each kind were combined into 9 test pairs. The test
+pairs were presented twice.
+
+\subsection{Experiment 2 ( Recall
+experiment)}\label{experiment-2-recall-experiment}
+
+Participants were instructed to listen to a monologue in ``Martian'',
+and to remember the Martian words. The languages were those from
+\citet{Saffran-Science} Experiment 2 (Language 1: \emph{pAbiku},
+\emph{tibudO}, \emph{dArOpi}, \emph{gOLAtu}; Language 2: \emph{bikuti},
+\emph{pigOLA}, \emph{tudArO}, \emph{budOpA}). Segments lasted 108 ms at
+an \(F_0\) of 120 Hz. The words were combined into 20 sequences (45
+repetitions/word) with different random orders, either continuously or
+with 222 ms silences between words. Sequences were played twice (total
+familiarization: 3 min 53 (continuous) and 5 min 13 (pre-segmented)).
+Online participants watched a nebula during familiarization.
+
+Following the familiarization and a 30 s filled retention interval,
+participants completed the recall test. Lab-based participants had 45 s
+to repeat back the words they remembered; their vocalizations were
+recorded for offline analysis. Online participants had 60 s to type
+their answer into a comment field. Finally, participants completed a
+recognition test during which we pitted words against part-words.
+
+\subsection{Analysis of productions}\label{analysis-of-productions}
+
+The responses were transformed using a set of substitutions rules to
+allow for misperceptions (e.g., confusion between /b/ and /p/) or
+orthographic variability (e.g., \emph{ea} and \emph{ee} both reflect the
+sound /i/). Finally, we selected the best matches to the familiarization
+stimuli (see SI XXX).
+
+\section{Methods (detailed, for SI)}\label{methods-detailed-for-si}
 
 \subsection{Recognition experiment
 (London)}\label{recognition-experiment-london}
 
-\subsubsection{Participants}\label{participants}
+\subsubsection{Participants}\label{participants-1}
 
 \begin{table}
 
-\caption{\label{tab:stats-london-demographics-print}Demographics for Experiment 1.}
+\caption{\label{tab:stats-london-demographics-print}Demographics of the final sample for Experiment 1.}
 \centering
 \begin{tabular}[t]{lrrrrl}
 \toprule
@@ -450,23 +503,24 @@ participants took part in the experiment but were not retained for
 analysis because they had taken part in a prior version of this
 experiment (\(N = 4\)), were much older than the rest of our sample
 (\(N = 2\)), or used their phone during the experiment or were visibly
-inattentive (\(N = 2\)).
+inattentive (\(N = 2\)). Participants reported to be native speakers of
+English.
 
 \subsubsection{Design (London)}\label{design-london}
 
 Participants were familiarized with a sequence of tri-syllabic words. In
 Language 1, both the TPs and the chunk frequency was higher in the
 bigram formed by the first two syllables than in the bigram formed by
-the last two syllables; as a result, an associative learner should a
-triplet like \emph{ABC} into an initial \emph{AB} chunk followed by a
+the last two syllables; as a result, an associative learner should split
+a triplet like \emph{ABC} into an initial \emph{AB} chunk followed by a
 singleton \emph{C} syllable (hereafter \emph{AB+C} pattern). In Language
-2, both the TPs and the chunk frequency favored an \emph{A+BC} pattern).
+2, both the TPs and the chunk frequency favored an \emph{A+BC} pattern.
 The basic structure of the words is shown in Table
-\ref{tab:stats-london-print-language-structure}
+\ref{tab:stats-london-print-language-structure}.
 
 \begin{table}
 
-\caption{\label{tab:stats-london-print-language-structure}Design of Experiment 1. (Left) Language structure. (Middle) Structure of test items. Correct items for Language 1 are foils for Language 2 and vice versa. (Right) Actual items in SAMPA format; dashes indicate syllable boundaries}
+\caption{\label{tab:stats-london-print-language-structure}Design of Experiment 1. (Left) Language structure. (Middle) Structure of test items. Correct items for Language 1 are foils for Language 2 and vice versa. (Right) Actual items in SAMPA format; dashes indicate syllable boundaries.}
 \centering
 \begin{tabular}[t]{llllll}
 \toprule
@@ -489,7 +543,7 @@ HJE & HJE &  &  & rV-b\{-nA: & rV-b\{-nA:\\
 
 As result, in Language 1, the first bigram has a (forward and backward)
 TP of 1.0, while the second bigram has a (forward and backward) TP of
-.333. In contrast, in Language 2, the first bigram has a forward TP of
+.33. In contrast, in Language 2, the first bigram has a forward TP of
 .33, while the second bigram has a forward TP of 1.0. Likewise, the
 initial bigrams were three times as frequent as the final ones for
 Language 1, while the opposite holds for Language 2.
@@ -500,72 +554,72 @@ bigrams. The test items are given in Table
 
 \subsubsection{Stimuli}\label{stimuli}
 
-Stimuli were synthesized using the mbrola system \citep{mbrola}, using
-the \emph{us3} (American English male) diphone base. (We also used the
-\emph{en1} (British English male) diphone base; however, as discussed
-below, this diphone based turned out be of relatively low quality and
-introduced confounds in the data.)
+Stimuli were synthesized using the \emph{us3} (American English male)
+voice from mbrola \citep{mbrola}. (We also used the \emph{en1} (British
+English male) voice; however, as discussed below, this voice turned out
+to be of relatively low quality and introduced confounds in the data.)
 
-We chose a constant segment duration of 60 ms (syllable duration 120 ms)
-with a constant \(F_0\) of 120 Hz. These values were choosen to match
-recordings of natural speech that were intended to be used in an
-investigation of prosodic cues to word segmentation.
+Segment had a constant duration of 60 ms (syllable duration 120 ms) with
+a constant \(F_0\) of 120 Hz. These values were chosen to match
+recordings of natural speech that were intended to be used in
+investigations of prosodic cues to word segmentation.
 
 For continuous streams, a single file with 45 repetitions of each word
 was synthesized for each language (2 min 26 s duration). It was faded in
 and out for 5 s using sox (\url{http://sox.sourceforge.net/}) and then
 compressed to an mp3 file using ffmpeg (\url{https://ffmpeg.org/}). The
 stream was then presented 3 times to a participant (total
-familiarization duration 7 min 17 s).
+familiarization duration 7 min 17 s). The random order of the words was
+different for all participants.
 
 For segmented streams, words were individually synthesized using mbrola.
-We then used a custom-made perl script to randomize the words for each
+We then used a custom-made Perl script to randomize the words for each
 participant and concatenate them into a familiarization file using sox.
 The order of words was then randomized for each participant and
-concatenated into a single aiff file using sox
-(\url{http://sox.sourceforge.net/}). The silence among words was 540 ms
-(1.5 word durations). The total stream duration was 6 min 12s. The
-stream was then presented 3 times to a participant (total
-familiarization duration 18 min 14 s).
+concatenated into a single aiff file using sox. The silence among words
+was 540 ms (1.5 word durations). The total stream duration was 6 min
+12s. The stream was then presented 3 times to a participant (total
+familiarization: 18 min 14 s).
 
 \subsubsection{Apparatus}\label{apparatus}
 
 The experiment was run using Psyscope X (\url{http://psy.ck.sissa.it}).
 Stimuli were presented over headphones in a quiet room. Responses were
-collected from pre-marked keys on the keybaord.
+collected from pre-marked keys on the keyboard.
 
 \subsubsection{Procedure}\label{procedure}
 
 Participants were informed that they would listen to a monologue by a
 talkative Martian, and instructed to try to remember the Martian words.
-Following this, they listend to three repetitions of the familiarization
-stream described above, for a total familiarization duration of 7 min 17
-s (continuous stream) or 18 min 14 s (segmented stream).
+Following this, they listened to three repetitions of the
+familiarization stream described above, for a total familiarization
+duration of 7 min 17 s (continuous stream) or 18 min 14 s (segmented
+stream).
 
 Following this familiarization, participants were presented with pairs
-of items with an interstimulus interval of 500 ms, and had to choose
+of items with an inter-stimulus interval of 500 ms, and had to choose
 which items was more like what they heard during familiarization. One
-item was comprised the first two syllables of a word, and was thus a
-correct choice for Language 1. The other items comprised the last two
-syllables of a word, and was thus a correct choice for Language 2. There
-were three items of each kind. They were combined into 9 test pairs. The
-test pairs were presented twice, with different item orders, for a total
-of 18 test trials.
+item comprised the first two syllables of a word, and was a correct
+choice for Language 1. The other items comprised the last two syllables
+of a word, and was a correct choice for Language 2. There were three
+items of each kind. They were combined into 9 test pairs. The test pairs
+were presented twice, with different item orders, for a total of 18 test
+trials.
 
 \subsection{Recall experiment}\label{recall-experiment}
 
 \subsubsection{Materials}\label{materials}
 
-We resynthesized the languages used in \citet{Saffran-Science}
+We re-synthesized the languages used in \citet{Saffran-Science}
 Experiment 2. The four words in each language are given in Table
 \ref{tab:recall-languages}. Stimuli were synthesized using the us3 (male
-American English) voice of the mbrola synthesizer \citep{mbrola}, at
-with a constant F0 of 120 at a rate of 216 ms per syllable (108 ms per
-phoneme).
+American English) voice of the mbrola synthesizer \citep{mbrola}, at a
+constant \(F_0\) of 120 Hz and at a rate of 216 ms per syllable (108 ms
+per phoneme).
 
 \begin{table}
 
-\caption{\label{tab:recall-print-languages}\label{tab:recall-languages}Languages used in the recall experiment.}
+\caption{\label{tab:recall-print-languages}\label{tab:recall-languages}Languages used Experiment 2. The words are the same as in \cite{Saffran-Science} Experiment 2.}
 \centering
 \begin{tabular}[t]{ll}
 \toprule
@@ -579,19 +633,19 @@ golatu & budopa\\
 \end{tabular}
 \end{table}
 
-During familiarization, words were presented 45 times each. For each
-participant, we generated a random concatenation of 45 repetitions of
-the 4 words, with the constraint that a words could not occur in
-immediate reptition. Each randomization was then (i) synthesized into a
-continuous speech stream using mbrola and then converted to mp3 using
-ffmpeg (\url{https://ffmpeg.org/}) (ii) used to concatenate words that
-had been synthesized in isolation, separated by silences of 222 ms into
-a segmented speech stream, which was then converted to mp3. Streams were
+During familiarization, words were presented 45 times each. We generated
+random concatenations of 45 repetitions of the 4 words, with the
+constraint that a words could not occur in immediate repetition. Each
+randomization was then (i) synthesized into a continuous speech stream
+using mbrola and then converted to mp3 using ffmpeg
+(\url{https://ffmpeg.org/}) (ii) used to concatenate words that had been
+synthesized in isolation, separated by silences of 222 ms into a
+segmented speech stream, which was then converted to mp3. Streams were
 faded in and out for 5 s using sox (\url{http://sox.sourceforge.net/}).
 For continuous streams, this yielded a stream duration of 1 min 57 s;
 for segmented streams, the duration was 2 min 37.
 
-We created 20 versions of each streams with different random orders of
+We created 20 versions of each stream with different random orders of
 words.
 
 \clearpage
@@ -607,16 +661,15 @@ total familiarization duration of 3 min 53 for the continuous streams
 and 5 min 13 for the segmented streams. They could proceed to the next
 presentation of the stream by pressing a button.
 
-For the online experiments, participants watched video with no clear
+For the online experiments, participants watched a video with no clear
 objects during the familiarization (panning of the Carina nebula,
 obtained from \url{https://esahubble.org/videos/heic0707g/}). The video
-was combined with the speech stream using the the muxmovie utility.
+was combined with the speech stream using the muxmovie utility.
 
-Following the familiarization, the was a 30 s retention interval.
-Participants were instructed to count backwards from 99 in time with a
-metronome beat at 3s / beat. Performance was not monitored.
-
-(Note to self: This was the case for both psyscope and testable.)
+Following the familiarization, there was a 30 s retention interval. In
+both the lab-based and the online experiments, participants were
+instructed to count backwards from 99 in time with a metronome beat at
+3s / beat. Performance was not monitored.
 
 \paragraph{Recall test}\label{recall-test}
 
@@ -633,121 +686,146 @@ Following the recall test, participant completed a recognition test
 during which we pitted words against part-words. The (correct) test
 words for Language 1 (and part-words for Language 2) were /pAbiku/ and
 /tibudO/; the (correct) test words for Language 2 (and part-words for
-Language 1) were /tudArO/ and /pigOlA/.These items were combined into 4
-test pairs
+Language 1) were /tudArO/ and /pigOlA/. These items were combined into 4
+test pairs.
 
 \section{Analysis}\label{analysis}
 
-\subsection{Recognition experiment}\label{recognition-experiment}
+\subsection{Recognition tests}\label{recognition-tests}
 
 Accuracy was averaged for each participant, and the scores were tested
 against the chance level of 50\% using Wilcoxon tests. Performance
 differences across the languages (Language 1 vs.~2) and, when
 applicable, familiarization conditions (pre-segmented vs.~continuous)
-were assessed using using a generalized linear model for the
-trial-by-trial data with the fixed factors language and, where
-applicable, familiarization condition, as well as random slopes for
-participants, correct items and foils. Following \citep{Baayen2008},
-random factors were removed from the model when they did not contribute
-to the model likelihood.
+were assessed using a generalized linear model for the trial-by-trial
+data with the fixed factors language and, where applicable,
+familiarization condition, as well as random slopes for participants,
+correct items and foils. Following \citep{Baayen2008}, random factors
+were removed from the model when they did not contribute to the model
+likelihood.
 
 We use likelihood ratios to provide evidence for the null hypothesis
 that performance did not differ from the chance level of 50\%. Following
-\citep{Glover2004}, we fit the participant average to a linear model
-comprising only an intercept and the null model fixing the intercept to
-50\%, and evaluate the likelihood of these models after correcting for
-the difference in the number of parameters using the Bayesian
-Information Criterion.
+\citep{Glover2004}, we fit the participant averages to (i) a linear
+model comprising only an intercept and (ii) the null model fixing the
+intercept to the appropriate baseline level, and evaluated the
+likelihood of these models after correcting for the difference in the
+number of parameters using the Bayesian Information Criterion.
 
-\subsection{Recall experiment}\label{recall-experiment-1}
+\subsection{Recall test}\label{recall-test-1}
 
-\subsubsection{Recognition test}\label{recognition-test-1}
+\subsubsection{Analysis procedure}\label{analysis-procedure}
 
-\begin{table}
+Participants in Experiment 2 had to recall what they remembered from the
+familiarization streams. Lab-based participants were recorded and their
+productions were transcribed by two independent observers. Disagreements
+were resolved by discussion. Online participants typed their responses
+directly into a comment box. We then applied a number of substitution
+rules to allow for misperceptions (e.g., a confusion between /p/ and
+/b/) and orthographic variability (e.g., \emph{tea} and \emph{tee} are
+both pronounced as /ti/). The complete list of substitution rules is
+shown in Table \ref{tab:recall-print-substitution-rules}.
 
-\caption{\label{tab:recall-recognition-descriptives}Descriptives for the recognition test}
-\centering
-\begin{tabular}[t]{lllrrrr}
-\toprule
-data.set & mySegmentationCond & lang & N & M & SE & p.wilcox\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{7}{l}{\textbf{all}}\\
-\hspace{1em}city & continuous & L1 & 11 & 0.386 & 0.074 & 0.168\\
-\hspace{1em}city & continuous & L2 & 11 & 0.500 & 0.094 & 1.000\\
-\hspace{1em}city & segmented & L1 & 11 & 0.932 & 0.051 & 0.003\\
-\hspace{1em}city & segmented & L2 & 11 & 0.909 & 0.040 & 0.003\\
-\hspace{1em}tstbl & continuous & L1 & 46 & 0.538 & 0.043 & 0.336\\
-\hspace{1em}tstbl & continuous & L2 & 30 & 0.558 & 0.058 & 0.275\\
-\hspace{1em}tstbl & segmented & L1 & 28 & 0.893 & 0.033 & \vphantom{1} 0.000\\
-\hspace{1em}tstbl & segmented & L2 & 29 & 0.845 & 0.053 & 0.000\\
-\addlinespace[0.3em]
-\multicolumn{7}{l}{\textbf{>= 50\%}}\\
-\hspace{1em}city & continuous & L1 & 7 & 0.536 & 0.039 & 1.000\\
-\hspace{1em}city & continuous & L2 & 7 & 0.679 & 0.077 & 0.089\\
-\hspace{1em}city & segmented & L1 & 8 & 0.938 & 0.067 & 0.011\\
-\hspace{1em}city & segmented & L2 & 7 & 0.893 & 0.055 & 0.019\\
-\hspace{1em}tstbl & continuous & L1 & 43 & 0.576 & 0.040 & 0.050\\
-\hspace{1em}tstbl & continuous & L2 & 28 & 0.598 & 0.055 & 0.063\\
-\hspace{1em}tstbl & segmented & L1 & 28 & 0.893 & 0.033 & 0.000\\
-\hspace{1em}tstbl & segmented & L2 & 28 & 0.875 & 0.044 & 0.000\\
-\bottomrule
-\end{tabular}
-\end{table}
+Each recall response was analyzed in five steps. First, we applied
+pre-segmentation substitution rules to make the transcriptions more
+consistent (see Table \ref{tab:recall-print-substitution-rules},
+``before segmentation''). For example, \emph{ea} (presumably as in
+\emph{tea}) was replaced with \emph{i}. These substitutions were not
+considered when calculating the derivation length (see below).
 
-\subsubsection{Recall test (for the lab-based experiment or in
-general?)}\label{recall-test-for-the-lab-based-experiment-or-in-general}
+Second, responses were segmented into their underlying units. If the
+response did not contain any commata (,) or semicolons (;), any spaces
+in the response were used to delineate units. If a response contained a
+semicolon or comma, these were used to delineate units. For each of the
+resulting units, we verified if they contained additional spaces. If
+they did, these spaces were removed if further segmenting the units
+based on the spaces resulted in one or more single-syllable units
+(operationalized as a string with a single vowel); otherwise, the units
+were further sub-divided based on the spaces. The rationale for this
+algorithm is that responses such as \emph{bee coo tee,two da ra,bout too
+pa} were likely to reflect the words \emph{bikuti}, \emph{tudaro} and
+\emph{budopa}.
 
-The substitution rules employed in the current experiment are shown in
-Table \ref{tab:recall-print-substitution-rules}.
+Third, we removed geminate consonants and applied another set of
+substitution rules to take into account possible misperceptions (see
+Table \ref{tab:recall-print-substitution-rules}). For example, we
+treated the voiced and unvoiced variety of stop consonants as
+interchangeable. Specifically, for each ``\emph{surface}'' form produced
+by the participants, we generated candidate ``\emph{underlying}'' forms
+by recursively applying all substitutions rules and keeping track of the
+number of substitution rules that were applied to derive an underlying
+form from a surface form. For each unique candidate underlying form, we
+kept the shortest derivation.
+
+Fourth, for each candidate underlying form, we identified the longest
+matching string in the familiarization stream. The algorithm first
+verified if a form was contained in a speech stream starting with an
+\emph{A}, \emph{B} or \emph{C} syllable; if the underlying form
+contained unattested syllable, one syllable change was allowed with
+respect to the speech streams. If no matches were found, two sub-strings
+were created by clipping the first or the last syllable from the
+underlying form, and the search was repeated recursively for each of
+these sub strings until a match was found. We then selected the longest
+match for all sub strings.
+
+Fifth, for each surface form, we selected the underlying form among the
+candidate underlying forms using three criteria:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The winning underlying form had had the maximal \emph{number of
+  attested syllables} among candidate underlying forms;
+\item
+  The winning underlying form had the \emph{maximal length} among
+  candidate underlying forms;
+\item
+  The winning underlying form had the \emph{shortest derivation} among
+  candidate underlying forms.
+\end{enumerate}
+
+The criteria were applied in this order.
 
 \paragraph{Substitution rules compensating for potential
 misperceptions}\label{substitution-rules-compensating-for-potential-misperceptions}
 
+All substitution rules are listed in Table
+\ref{tab:recall-print-substitution-rules}. We now motivate the
+substitution rules compensating for potential misperceptions:
+
 \begin{itemize}
 \tightlist
 \item
-  O might be perceived as A (but probably not vice versa)
+  /O/ might be perceived as /A/
 \item
-  Voiced and unvoiced consonants can be confused:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    g and k
-  \item
-    d and t
-  \item
-    b and p
-  \end{itemize}
+  Voiced and unvoiced consonants can be confused; that is /g/ can be
+  confused with /k/, /d/ with /t/ and /b/ and /p/.
 \item
-  b might be perceived as v
+  /b/ might be perceived as /v/.
 \end{itemize}
 
-In some cases, these rules give you several possible matches. For
-example, in line 64, rapidala might be rOpidAlA or rOpidOlA
+In some cases, these rules result in multiple possible matches. For
+example, the transcription \emph{rapidala} might correspond to
+/rOpidAlA/ or /rOpidOlA/.
 
-In such case, we apply the following criteria to decide which match to
-choose (in this order).
+In such cases, we apply the following criteria (in the following order)
+to decide which match to choose.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
+\tightlist
 \item
-  If one option provides more or longer existing chunks, choose it. For
-  example, rOpidAlA has the chunk rOpi (pidA isn't possible in the
-  stream), while rOpidOlA contains rOpi, so in this case the rule
-  doesn't discrminate between the two :)
+  Choose the option leading to more or longer chunks that are attested
+  in the speech stream.
 \item
-  If one option requires fewer changes with respect to the original
-  transcription, choose that.
+  If multiple options lead to chunks of equal length, choose the option
+  requiring fewer changes with respect to the original transcription.
 \end{enumerate}
-
-I would apply the rules in this order, but I can see why you might want
-to use the opposite order as well.
 
 \begin{table}
 
-\caption{\label{tab:recall-print-substitution-rules}Substitution rules applied to the participants vocalizations before and after the input was segmented into chunks. The patterns are given as regular expressions}
+\caption{\label{tab:recall-print-substitution-rules}Substitution rules applied to the participants vocalizations before and after the input was segmented into chunks. The patterns are given as Perl regular expressions. Substitutions prior to segmentation were not counted when calculating the derivation length.}
 \centering
 \begin{tabular}[t]{llll}
 \toprule
@@ -755,138 +833,101 @@ to use the opposite order as well.
 \cmidrule(l{3pt}r{3pt}){1-2} \cmidrule(l{3pt}r{3pt}){3-4}
 Pattern & Replacement & Pattern & Replacement\\
 \midrule
-- &  & u & o\\
-2 & tu & v & b\\
-two & tu & p & b\\
-([aeou])ck & \textbackslash{}1k & b & p\\
-ar([,\textbackslash{}s+]) & a\textbackslash{}1 & t & d\\
+\textbackslash{}.\{3,\} &  & u & o\\
+- &  & v & b\\
+2 & tu & p & b\\
+two & tu & b & p\\
+([aeou])ck & \textbackslash{}1k & t & d\\
 \addlinespace
-ar\$ & a & d & t\\
-tyu & tu & k & g\\
-ph & f & g & k\\
-th & t & a & o\\
+ar([,\textbackslash{}s+]) & a\textbackslash{}1 & d & t\\
+ar\$ & a & k & g\\
+tyu & tu & g & k\\
+ph & f & a & o\\
+th & t &  & \\
+\addlinespace
 qu & k &  & \\
-\addlinespace
 ea & i &  & \\
 ou & u &  & \\
 aw & a &  & \\
 ai & a &  & \\
-ie & i &  & \\
 \addlinespace
+ie & i &  & \\
 ee & i &  & \\
 oo & u &  & \\
 e & i &  & \\
 c & k &  & \\
-w & v &  & \\
 \addlinespace
+w & v &  & \\
 y & i &  & \\
 h &  &  & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Identify closest matches (for
-testable)}\label{identify-closest-matches-for-testable}
+\subsubsection{Measures of interest}\label{measures-of-interest}
 
-Each recall response was analyzed in five steps. First, we applied
-pre-segmentation substitution rules to make the transcriptions more
-consistent (see Table \ref{tab:recall-print-substitution-rules}). For
-example, \emph{ea} (presumably as in \emph{tea}) was replaced with
-\emph{i}.
+We computed various properties for each underlying form, given the
+``target'' language the participant had been exposed to. All measures
+provided in the raw data are described in Table
+\ref{tab:recall-print-used-column-attributes}.
 
-Second, responses were segmented into their underlying units. If a
-response contained a semicolon (;) or comma character (,), these were
-used to delineate units. For each of the resulting units, we verified if
-they contained additional spaces. If they did, these spaces were removed
-if further subdividing resulted in any single-syllable response
-(operationalized as a string with a single vowel); otherwise, the units
-were further sub-divided based on the spaces. The rationale for this
-algorithm is that responses such as \emph{bee coo tee,two da ra,bout too
-pa} were like to reflect the words \emph{bikuti}, \emph{tudaro} and
-\emph{budopa}.
+\paragraph{Measures}\label{measures}
 
-Finally, if the response did not contain any commata or semicolons, it
-was segmented based on its spaces (if any).
+For each underlying form, we calculate:
 
-Third, we removed geminate consonants and applied another set of
-substitution rules that to take into account possible misperceptions
-(see \ref{tab:recall-print-substitution-rules})). For example, we
-treated the voiced and unvoiced variety of stop consonants as
-interchangeable. Specifically, for each ``surface'' form produced by the
-participants, we generated candidate ``underlying'' forms by recursively
-applying all substitutions rules and keeping track of the number of
-substitution rules that were applied to derive an underlying form from a
-surface form. For each unique candidate underlying form, we kept the
-shortest derivation.
-
-Fourth, for each candidate underlying form, we identified the longest
-matching string in the familiarization stream. The algorithm first
-verified if a form was contained in a speech stream starting with an
-\emph{A}, \emph{B} or \emph{C} syllable; if the underlying form
-contained unattested syllable, one syllable change was allowed with
-respect to the speech streams. If no matches were found, two substrings
-were created by clipping the first or the last syllable from the
-underlying form, and the search was repeated recursively for each of
-these substrings until a match was found. We then selected the longest
-match for all substrings.
-
-Fifth, for each surface form, we selected the underlying form using the
-criteria (in this order) that, among the candidate underlying form of
-each surface form, the selected underlying form had (i) had the maximal
-number of attested syllables, (ii) the maximal length, and (iii) the
-shortest derivation.
-
-\paragraph{Change columns to categorize
-transcriptions}\label{change-columns-to-categorize-transcriptions}
-
-We then computed various properties for each underlying form, given the
-``target'' language the participant had been exposed to. Specifically,
-we calculated: (1) the number of syllables, (2) whether it was a word
-from the target language, (3) whether it was a concatentation of words
-from the target language, (4) whether it was a single word or a
-concatenation of words from the target language (i.e., the disjunction
-of (2) and (3)), (5) whether it was a part-words from the target
-language, (6) whether it was a \emph{complete} concatenation of
-part-words from the target language (i.e., the number of syllables of
-the item had to be a multiple of three, without any unattested
-syllables), (7) whether it was a single part-word or a concatenation of
-part-words from the target language, (8) whether it was a ``class-word''
-with the two initial syllables coming from one word and the final
-syllables from another word or vice versa (i.e., class-words had the
-form \emph{A\_iB\_iC\_j} or \emph{A\_iB\_jC\_j}, (9) whether it was
-high-TP chunk (i.e., a word or a word with the first or the last
-syllable missing, after removing any leading or trailing unattested
-syllables), (10) whether it was a low-TP chunk (i.e., a chunk of the
-form \emph{C\_iA\_j}, after removing lead or trailing unattested
-syllables, (11) whether it had a ``correct'' initial syllable, (12)
-whether it had a ``correct'' final syllable, (13) whether it is part of
-the speech stream (i.e., the disjunction of being an attested syllable,
-being a word or a concatenation thereof, being a part-word or a
-concatenation thereof, being a high-TP chunk or a low-TP chunk), (14)
-whether it was a backward word from the target language (i.e., a word
-with the syllable order reversed), (15) whether it was a concatenation
-of backward words, (16) whether it was a backward word or a
-concatenation thereof (i.e., the disjunction of (14) and (15)), (17)
-whether it was a backward part-word, (18) whether it was a concatenation
-of backward part-words, (19) whether it was a backward word or a
-concatenation thereof (i.e., the disjunction of (17) and (18)), (19)
-whether it was high-\emph{backward}-TP chunk (i.e., a backward word or a
-backward word with the first or the last syllable missing, after
-removing any leading or trailing unattested syllables), (20) whether it
-was a low-\emph{backward}-TP chunk (i.e., a chunk of the form
-\emph{A\_iC\_j}, after removing lead or trailing unattested syllables,
-(21) the average forward TP of the transitions in the form, (22) the
-\emph{expected} forward TP of the form if form is attested in the speech
-stream (see below for the calculation), and (23) the average backward TP
-of the transitions in the form.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  the number of syllables;
+\item
+  whether it was a word from the target language;
+\item
+  whether it was a concatenation of words from the target language;
+\item
+  whether it was a single word or a concatenation of words from the
+  target language (i.e., the disjunction of (2) and (3));
+\item
+  whether it was a part-words from the target language,
+\item
+  whether it was a \emph{complete} concatenation of part-words from the
+  target language (i.e., the number of syllables of the item had to be a
+  multiple of three, without any unattested syllables);
+\item
+  whether it was a single part-word or a concatenation of part-words
+  from the target language;
+\item
+  whether it was high-TP chunk (i.e., a word with the first or the last
+  syllable missing, after removing any leading or trailing unattested
+  syllables);
+\item
+  whether it was a low-TP chunk (i.e., a chunk of the form \(C_iA_j\),
+  after removing lead or trailing unattested syllables;
+\item
+  whether it had a ``correct'' initial syllable
+\item
+  whether it had a ``correct'' final syllable;
+\item
+  whether it is part of the speech stream (i.e., the disjunction of
+  being an attested syllable, being a word or a concatenation thereof,
+  being a part-word or a concatenation thereof, being a high-TP chunk or
+  a low-TP chunk);
+\item
+  the average forward TP of the transitions in the form;
+\item
+  the \emph{expected} forward TP of the form if form is attested in the
+  speech stream (see below for the calculation);
+\item
+  the average backward TP of the transitions in the form.
+\end{enumerate}
 
 \paragraph{Expected TPs}\label{expected-tps}
 
 For items that are \emph{correctly} reproduced from the speech stream,
 the expected TPs depend on the starting position. For example, the
 expected TPs for items of at least 2 syllables starting on an initial
-syllable are c(1, 1, 1/3, 1, 1, 1/3, 1, 1, 1/3, \ldots{}); if the item
-starts on a word-medial syllable, these TPs are c(1, 1/3, 1, 1, 1/3, 1,
+syllable are (1, 1, 1/3, 1, 1, 1/3, 1, 1, 1/3, \ldots{}); if the item
+starts on a word-medial syllable, these TPs are (1, 1/3, 1, 1, 1/3, 1,
 1, 1/3, 1, \ldots{}).
 
 In contrast, the expected TPs for a random concatenation of syllables
@@ -896,41 +937,28 @@ non-zero TP continuations. For a C syllable, the random TP is 3
 \(\times\) 1/3 / 12, as there are 3 possible concatenations. On average,
 the random TP is thus \((1/12 + 1/12 + 1/12)/ 3 = 1/12 \approx .083\).
 
-\begin{table}[!h]
+\paragraph{Exclusion of responses and
+participants}\label{exclusion-of-responses-and-participants}
 
-\caption{\label{tab:recall-print-number-of-unattested-items}Number of unattested items}
-\centering
-\resizebox{\linewidth}{!}{
-\begin{tabular}[t]{llrrrrrr}
-\toprule
-data.set & streamType & N.total.M & N.total.min & N.total.max & N.unattested.M & N.unattested.min & N.unattested.max\\
-\midrule
-city & continuous & 4.21 & 1 & 9 & 2.50 & 0 & 5\\
-city & segmented & 4.21 & 2 & 13 & 1.86 & 0 & 10\\
-testable & continuous & 4.73 & 1 & 10 & 2.11 & 0 & 8\\
-testable & segmented & 3.69 & 1 & 15 & 1.75 & 0 & 13\\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-As shown in Table \ref{tab:recall-print-number-of-unattested-items},
-there was a considerable number of recall responses containing
+There was a considerable number of recall responses containing
 unattested syllables. The complete list of unattested items is in
-\texttt{segmentation\_recall\_unattested.xlsx}. Unattested items are
-items that are not word, part-words (or concatenations thereof), high-
-or low-TP chunks, or a single syllable. However, it is unclear if these
-unattested syllables reflect misperceptions not caught by our
-substitution rules, typos, memory failures or creative responses. This
-makes it difficult to analyze these responses. For example, the TPs from
-and to an unattested syllable are zero. However, if the unattested
-syllable reflects a misperception or a typo, the true TP would be
-positive, and our estimates would underestimate the participant's
-statistical learning ability.
+\texttt{segmentation\_recall\_unattested.xlsx} in the supplementary
+data. Unattested items are items that are not words, part-words (or
+concatenations thereof), high- or low-TP chunks, or a single syllable.
+However, it is unclear if these unattested syllables reflect
+misperceptions not caught by our substitution rules, typos, memory
+failures or creative responses. This makes it difficult to analyze these
+responses. For example, the TPs from and to an unattested syllable are
+zero. However, if the unattested syllable reflects a misperception or a
+typo, the true TP would be positive, and our estimates would
+underestimate the participant's statistical learning ability.
 
-We thus decided to restrict ourselves to responses that can be clearly
-interpreted and removed all items containing unattested syllables. Here,
-\texttt{FILTER.UNATTESTED.ITEMS} was set to FALSE, while
-\texttt{FILTER.SINGLE.SYLLABLES} was set to FALSE.
+Here, we decided to include items with unattested syllables to avoid
+excluding an excessive number of participants. However, the results
+after removing such items are essentially identical, with the exception
+of the TPs in the participants' responses. Given that TPs to and from
+unattested syllables are zero by definition, TPs after removal of
+responses containing unattested syllables are much higher.
 
 We also decided to remove single syllable responses, as it is not clear
 if participants volunteered such responses because they thought that
@@ -942,175 +970,73 @@ subjects}\label{demographics-and-missing-subjects}
 
 To reduce performance differences between the pre-segmented and the
 continuous familiarization conditions, participants were excluded from
-analysis if their accuracy in the recognition test was below 50\% (\$N =
-\$, 14). Another 8 participants were excluded because parsing their
-productions took an excessive amount of computing time, though their
-productions did not seem to ressemble the familiarization items in the
-first place. The responses were dalonigtbdophophi
-dalobdakabdarobigopachu // be cu di tu dara pe gala du dopa,be cu di pe
-gala,be cu di pe gala bu dopa ,be cu di bu dopa //
-takahsakakakaratatataikokokokotatakatakatakatakatakatakataka //
-dabroobitalooki,bkuti2,golab //
-matikulatatitulapapitularimatitulaatitula // tu kalla ti palla tuti
-kulla papi pu tu kalla ti palla tuti kulla papi pu //
-tutopitulakatutopitoolaka //
-papikuchi,butalapapikuchi,kukala,pikala,budharapikuchi,chupapikachubudarapi.
-
-The final demographic information is given in Table
+analysis if their accuracy in the recognition test was below 50\%
+(\emph{N} = 19). Another 11 participants were excluded because parsing
+their productions took an excessive amount of computing time, though
+their productions did not seem to resemble the familiarization items in
+the first place. The final demographic information is given in Table
 \ref{tab:recall-final-demographics-print}.
 
 \begin{table}
 
-\caption{\label{tab:recall-final-demographics-print}Demographics of the final sample. Note that the City participants completed both segmentation conditions.}
+\caption{\label{tab:recall-final-demographics-print}Demographics of the final sample. The lab-based participants completed both segmentation conditions.}
 \centering
-\begin{tabular}[t]{lllrrrrl}
+\begin{tabular}[t]{llrrrrl}
 \toprule
-data.set & streamType & lang & N & Females & Males & Age.m & Age.range\\
+Sequence Type & Language & N & Females & Male & Age (*M*) & Age (range)\\
 \midrule
 \addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{city}}\\
-\hspace{1em}city & continuous & both & 14 & 14 & 0 & 17.9 & 0-22\\
-\hspace{1em}city & segmented & both & 14 & 14 & 0 & 17.9 & 0-22\\
+\multicolumn{7}{l}{\textbf{Lab-based}}\\
+\hspace{1em}continuous & both & 13 & 13 & 0 & 17.8 & 0-22\\
+\hspace{1em}segmented & both & 13 & 13 & 0 & 17.8 & 0-22\\
 \addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{tstbl}}\\
-\hspace{1em}tstbl & continuous & L1 & 37 & 8 & 29 & 31.0 & 18-71\\
-\hspace{1em}tstbl & continuous & L2 & 26 & 10 & 16 & 30.5 & 18-71\\
-\hspace{1em}tstbl & segmented & L1 & 25 & 5 & 20 & 29.7 & 18-48\\
-\hspace{1em}tstbl & segmented & L2 & 26 & 5 & 21 & 32.2 & 18-62\\
+\multicolumn{7}{l}{\textbf{Online}}\\
+\hspace{1em}continuous & L1 & 38 & 8 & 30 & 31.7 & 18-71\\
+\hspace{1em}continuous & L2 & 38 & 18 & 20 & 29.7 & 19-71\\
+\hspace{1em}segmented & L1 & 38 & 11 & 27 & 28.8 & 18-55\\
+\hspace{1em}segmented & L2 & 38 & 4 & 34 & 29.0 & 18-62\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\paragraph{Save categorized data}\label{save-categorized-data}
-
-\paragraph{Measures for productions in the recall
-phase}\label{measures-for-productions-in-the-recall-phase}
-
-We will use the following measures to analyze the participants'
-productions in the recall phase. Some analyses below rely on
-within-participant averages {[}A{]}, within-participant sums {[}S{]} or
-other measures {[}O{]}.
-
-\begin{itemize}
-\tightlist
-\item
-  General measures
-
-  \begin{itemize}
-  \tightlist
-  \item
-    {[}S{]} Number of items produced. To be compared across segmentation
-    conditions, and against zero.
-  \item
-    {[}A{]} Average length of items produced. To be compared across
-    segmentation conditions.
-  \item
-    {[}S,A{]} Number and proportion (among productions) of words (and
-    concatenations thereof)
-  \item
-    {[}S,A{]} Number and proportion (among productions) of part-words
-    (and concatenations thereof)
-  \item
-    {[}O{]} Performance in the two alternative forced-choice test. To be
-    compared across segmentation conditions.
-  \end{itemize}
-\item
-  TP-based analyses (raw TPs)
-
-  \begin{itemize}
-  \tightlist
-  \item
-    {[}A{]} Average forward TP in items
-
-    \begin{itemize}
-    \tightlist
-    \item
-      Compare across segmentation conditions
-    \item
-      Compare to expected TPs for a random string. The expected TPs for
-      a random concatenation are the TPs in a random bigram. For an A or
-      a B syllable, the random TP is 1 \(\times\) 1 / 12, as there is
-      only 1 (out of 12) non-zero TP continuations. For a C syllable,
-      the random TP is 3 \(\times\) 1/3 / 12, as there are 3 possible
-      concatenations. On average, the random TP is thus
-      \((1/12 + 1/12 + 1/12)/ 3 = 1/12 \approx .083\).
-    \item
-      Calculate difference \emph{expected} TPs for correctly reproduced
-      items, given the item's initial position. The expected TPs for
-      items of at least 2 syllables starting on an initial syllable are
-      c(1, 1/3, 1, 1, 1/3, 1, 1, 1/3, \ldots{}). The difference between
-      the actual and the expected TP needs to be compared to zero, as
-      the expected TP differs across items.
-    \end{itemize}
-  \item
-    {[}A{]} Average backward TP in items
-  \end{itemize}
-\item
-  TP-based analyses (chunks). In addition to th raw TPs above, we also
-  counted high- and low-TP \emph{chunks}. As mentioned above, high-TP
-  chunks are words or words with the first or the last syllable missing,
-  after removing any leading or trailing unattested syllables, while
-  low-TP chunks are chunks of the form \(C_iA_j\), after removing lead
-  or trailing unattested syllables.
-
-  \begin{itemize}
-  \tightlist
-  \item
-    {[}S,A{]} Number and proportion of high TP-chunks.
-  \item
-    {[}S,A{]} Number and proportion of low TP-chunks.
-  \item
-    {[}0{]} Proportion of high-TP chunks among high and low-TP chunks.
-  \end{itemize}
-\item
-  Positional analyses
-
-  \begin{itemize}
-  \tightlist
-  \item
-    {[}A{]} Proportion of items with syllables in correct postions
-
-    \begin{enumerate}
-    \def\labelenumi{\alph{enumi}.}
-    \tightlist
-    \item
-      Items with correct initial syllables. Chance level: 4/12
-    \item
-      Items with correct final syllables. Chance level: 4/12
-    \item
-      Disjunction of \emph{a} and \emph{b}. Chance level:
-      \(2 \times 4/12 - 4/12 \times 4/12 = 5/9\)
-    \end{enumerate}
-  \end{itemize}
-\end{itemize}
 
 \clearpage
 
 \section{Results}\label{results}
 
-\subsection{Recognition experiments (Results with the us3 diphone base;
-the en1 results are in the
-appendix)}\label{recognition-experiments-results-with-the-us3-diphone-base-the-en1-results-are-in-the-appendix}
+\subsection{\texorpdfstring{Recognition experiments (Results with the
+\emph{us3} voice; the \emph{en1} results are in the
+SI)}{Recognition experiments (Results with the us3 voice; the en1 results are in the SI)}}\label{recognition-experiments-results-with-the-us3-voice-the-en1-results-are-in-the-si}
+
+In Experiment 1, participants listened to a speech sequence of
+tri-syllabic words. The words were either \emph{pre-segmented} (i.e.,
+with a silence after each word) or continuously concatenated. For half
+of the participants, both the TPs and the chunk frequency was higher
+between the the first two syllables of the word than between the last
+two syllables. An associative learner should thus split a triplet like
+\emph{ABC} into an initial \emph{AB} chunk followed by a singleton
+\emph{C} syllable (hereafter \emph{AB+C} pattern). For the remaining
+participants, both the TPs and the chunk frequency favored an
+\emph{A+BC} pattern. Following this familiarization, they heard pairs of
+\emph{AB} and \emph{BC} items, and had to indicate which item was more
+like the familiarization items.
 
 \begin{table}
 
-\caption{\label{tab:stats-london-descriptives}Descriptives. Check exclusion files}
+\caption{\label{tab:stats-london-descriptives}Descriptives for Experiment 1 (using the *us3* voice) and a pilot experiment (using the *en1* voice). !!!!TO BE MOVED TO THE SI!!!!}
 \centering
-\begin{tabular}[t]{llllrrr}
+\begin{tabular}[t]{lrrrr}
 \toprule
-voice & experimentID & segm & lang & N & M & SE\\
+experimentID & N & M & SE & p\\
 \midrule
-en & stats.3x.en.cont & continuous & L1 & 15 & 0.604 & 0.041\\
-en & stats.3x.en.cont & continuous & L2 & 15 & 0.374 & 0.045\\
-en & stats.3x.en.segm & segmented & L1 & 15 & 0.552 & 0.078\\
-en & stats.3x.en.segm & segmented & L2 & 15 & 0.533 & 0.056\\
-us & stats.3x.us.cont & continuous & L1 & 16 & 0.608 & 0.042\\
-\addlinespace
-us & stats.3x.us.cont & continuous & L2 & 16 & 0.562 & 0.042\\
-us & stats.3x.us.cont2 & continuous & L1 & 15 & 0.600 & 0.057\\
-us & stats.3x.us.cont2 & continuous & L2 & 15 & 0.656 & 0.058\\
-us & stats.3x.us.segm & segmented & L1 & 15 & 0.507 & 0.053\\
-us & stats.3x.us.segm & segmented & L2 & 15 & 0.526 & 0.024\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textbf{us2}}\\
+\hspace{1em}Pre-segmented & 30 & 0.517 & 0.028 & 0.307\\
+\hspace{1em}Continuous (1) & 32 & 0.585 & 0.029 & 0.018\\
+\hspace{1em}Continuous (2) & 30 & 0.628 & 0.040 & 0.007\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textbf{en1}}\\
+\hspace{1em}Pre-segmented (en1) & 30 & 0.543 & 0.047 & 0.268\\
+\hspace{1em}Continuous (en1) & 30 & 0.489 & 0.036 & 0.739\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1118,8 +1044,8 @@ us & stats.3x.us.segm & segmented & L2 & 15 & 0.526 & 0.024\\
 \subsubsection{Can people recover words from pre-segmented prosodic
 units?}\label{can-people-recover-words-from-pre-segmented-prosodic-units}
 
-We first asked if learners can split utterances that likely result from
-prosodic presegmentation into its underlying components.
+When the familiarization stream was pre-segmented, participants failed
+to split smaller utterances into their underlying components.
 
 As shown in Figure \ref{fig:stats-london-stats.3x.us.segm.cont.plot},
 the average performance did not differ significantly from the chance
@@ -1127,23 +1053,26 @@ level of 50\%, (\M\textasciitilde{}= 51.67, \SD\textasciitilde{}=
 15.17), \T(29) = 0.6, \p\textasciitilde{}= 0.552, \D\textasciitilde{}=
 0.11, \CI\textasciitilde{}= 46, 57.33, ns, \(V\) = 216, \(p\) = 0.307.
 Likelihood ratio analysis favored the null hypothesis by a factor of
-4.57 after correction with the Bayesian Information Criterion. Further,
-as shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print},
-performance did not depend on the language condition. As shown in
-Appendix XXX, the failure to use statistical learning was replicated
-using a second diphone base.
+4.57 after correction with the Bayesian Information Criterion. As shown
+in Table \ref{tab:stats-london-stats.us.lang.glmm.print}, performance
+did not depend on the language condition. As shown in SI XXX, the
+failure to use statistical learning was also replicated using a second
+voice (\emph{en1}, British English male).
 
-Further, the failure to use statistical learning to split pre-segmented
-units was replicated in a pilot experiment with Spanish/Catalan speakers
-using chunk frequency and backwards TPs as the primary cues (see
-Supplementary Information XXX).
+The failure to use statistical learning to split pre-segmented units was
+replicated in a pilot experiment with Spanish/Catalan speakers using
+chunk frequency and backwards TPs as the primary cues (see SI XXX).
 
 \subsubsection{Can people recover words from a continuous stream?
 (1)}\label{can-people-recover-words-from-a-continuous-stream-1}
 
-While observers failed to split presegmented words into their underlying
-units, we now ask if they can do so when the words are embedded into a
-continuous speech stream.
+In contrast to the common finding that humans and other animals are
+sensitive to TPs, our participants failed to use TPs to split
+pre-segmented utterances into their underlying units. We thus asked if,
+in line with previous research, they can track TPs units are embedded
+into a \emph{continuous} speech stream. That is, participants listened
+to the very same speech stream as in the pre-segmented condition, except
+that the stream was continuous.
 
 As shown in Figure \ref{fig:stats-london-stats.3x.us.segm.cont.plot},
 the average performance differed significantly from the chance level of
@@ -1151,14 +1080,13 @@ the average performance differed significantly from the chance level of
 = 2.97, \p\textasciitilde{}= 0.00573, \D\textasciitilde{}= 0.52,
 \CI\textasciitilde{}= 52.66, 64.35, \(V\) = 306.5, \(p\) = 0.0185. As
 shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print},
-performance did not depend on the language condition. As shown in Table
-\ref{tab:stats-london-stats.us.lang.glmm.print}, performance was
-significantly better compared to when the stream was pre-segmented.
+performance did not depend on the language condition, and was
+significantly better than in the pre-segmented condition
 
 \subsubsection{Can people recover words from a continuous stream? (2)
 (Replication)}\label{can-people-recover-words-from-a-continuous-stream-2-replication}
 
-We replicated the sucessful tracking of statistical information using a
+We replicated the successful tracking of statistical information using a
 new sample of participants.
 
 As shown in Figure \ref{fig:stats-london-stats.3x.us.segm.cont.plot},
@@ -1167,13 +1095,23 @@ the average performance differed significantly from the chance level of
 = 3.28, \p\textasciitilde{}= 0.00272, \D\textasciitilde{}= 0.6,
 \CI\textasciitilde{}= 54.81, 70.75, \(V\) = 320, \(p\) = 0.00778. As
 shown in Table \ref{tab:stats-london-stats.us.lang.glmm.print},
-performance did not depend on the language condition. As shown in Table
-\ref{tab:stats-london-stats.us.lang.glmm.print}, performance was
-significantly better compared to when the stream was pre-segmented.
+performance did not depend on the language condition, and was
+significantly better than in the pre-segmented condition.
 
-However, as shown in Appendix XXX, when trying to replicate these
-results using a different diphone base, we obtained a preference for
-specific items due to the poor quality of the diphone base.
+(As shown in SI XXX, this result could not be replicated using a
+different voice (\emph{en1}, male British English); participants seemed
+to prefer specific items, presumably because the synthesizer produced
+click-like sounds for some stops and fricatives that likely affected
+syllable grouping.)
+
+Taken together, these results thus suggest that associative learning
+predominantly operates in continuous sequences, but less so in
+pre-segmented sequences. Such a result is compatible with the view that
+associative learning is important for predictive processing, given that
+continuous sequences are more conducive for prediction. In contrast, it
+raises doubts as to whether participants can use associative learning to
+memorize words, given that they do not seem to able to do so in
+pre-segmented streams.
 
 \begin{figure}
 
@@ -1215,12 +1153,34 @@ Effect & Estimate & Std. Error & CI & t & p\\
 
 \clearpage
 
-\subsection{Recall experiment}\label{recall-experiment-2}
+\subsection{Recall experiment}\label{recall-experiment-1}
 
-In the analyses below, we removed all items that contained syllables not
-attested in the speech stream as it is unclear how these items should be
-analyzed. As a result, we also removed participants who did not produce
-any items that contained attested syllables only.
+In Experiment 2, we explored the computational function of associative
+learning, and asked if participants would remember the items that
+occurred in a speech stream. Adult participants listened to the
+artificial languages \citet{Saffran-Science} used with 8-months-olds,
+except that we doubled the exposure. The languages comprised four words,
+with a TP of 1.0 within words and 0.33 across word boundaries. The words
+were presented in a continuous stream or as a pre-segmented word
+sequence. Lab-based participants just listened to the speech stream,
+while online participants watched an astronomical video at the same
+time.
+
+Following a retention interval, participants had to repeat back the
+words they remembered from the speech stream. We ran both a lab-based
+and an online version of this experiment. Lab-based participants
+responded vocally, while online participants typed their answer into a
+comment field. Finally, participant completed a recognition test during
+which we pitted words against part-words. Part-words are tri-syllabic
+items that straddle a word-boundary. For example, if \emph{ABC} and
+\emph{DEF} are two consecutive words, \emph{BCD} and \emph{CDE} are the
+corresponding part-words. If participants reliably choose words over
+part-words, they track TPs.
+
+In the analyses below, we removed single syllable responses (and
+participants who did not produce any other other items). We also removed
+participants who did not perform at least 50\% during the final
+recognition test.
 
 \begin{table}[!h]
 
@@ -1262,117 +1222,115 @@ p.correct.initial.or.final.syll & Proportion (among recalled items) that have a 
 \end{tabular}}
 \end{table}
 
-After computing these counts and averages, we asked which counts were
-significantly different from zero in a one-tailed Wilcoxon test, either
-for the continuous or the segmented condition. These counts were
-n.items, n.syll, n.words, n.words.or.multiple, n.part.words,
-n.part.words.or.multiple, n.high.tp.chunk, n.low.tp.chunk. (Note: These
-counts are currently restricted to the testable data set.)
-
-As shown in Table \ref{tab:recall-all-results-print}, participants
-produced on average 1.338 words in the segmented condition, and 0.156 in
-the continuous condition.
-
 \subsubsection{General measures}\label{general-measures}
 
-We first calculate the number of items produced as well their average,
-and compare them against the zero as well as across segmentation
-conditions. As shown in Table \ref{tab:recall-all-results-print} and
-Figures \ref{fig:recall-general-measures-tp-plot}a and b, participants
-produced positive number of items. Neither the number of items produced
-nor their number of syllables differed across the segmentation
-conditions.
+As shown in Table \ref{tab:recall-all-results-print} and Figures
+\ref{fig:recall-general-measures-tp-plot}a and b, participants produced
+about 4 items. Neither the number of items produced nor their lengths
+differed across the segmentation conditions.
 
 \subsubsection{TP-based analyses}\label{tp-based-analyses}
 
-We first computed the average forward TPs in the produced items, and
-separately for each segmentation condition, compared it to both the
-expected TPs for random strings and the expected TPs given the starting
-syllable.
-
-\begin{itemize}
-\tightlist
-\item
-  The expected TPs for items of at least 2 syllables starting on an
-  initial syllable are c(1, 1/3, 1, 1, 1/3, 1, 1, 1/3, \ldots{}). The
-  difference between the actual and the expected TP needs to be compared
-  to zero, as the expected TP differs across items.
-\item
-  The expected TPs for a random concatenation are the TPs in a random
-  bigram. For an A or a B syllable, the random TP is 1 \(\times\) 1 /
-  12, as there is only 1 (out of 12) non-zero TP continuations. For a C
-  syllable, the random TP is 3 \(\times\) 1/3 / 12, as there are 3
-  possible concatenations. On average, the random TP is thus
-  \((1/12 + 1/12 + 1/12)/ 3 = 1/12 \approx .083\).
-\end{itemize}
-
-We compared these measures across segmentation conditions.
-
-As shown in Table \ref{tab:recall-all-results-print} and Figures
-\ref{fig:recall-general-measures-tp-plot}c and d, forward and backward
-TPs were significantly greater than expected for a random string in both
-the continuous and the segmented condition, with greater TPs in the
-segmented conditions. However, they were significantly \emph{lower} than
-the TPs expected if items recalled faithfully, given their starting
-position.
-
-As shown in Figure \ref{fig:recall-w-pw-chunks-positions-plot}b,
-participants produced a positive number of high-TP chunks in both the
-segmented and the continuous condition, with a significantly greater
-number in the segmented condition. In contrast, they produced a positive
-number of low-TP chunks only in the continuous condition. Accordingly,
-the proportion of high-TP chunks among high- and low-TP chunks exceeded
-50\% only in the segmented condition.
+Critically, and as shown in Table \ref{tab:recall-all-results-print} and
+Figures \ref{fig:recall-general-measures-tp-plot}c and d, forward and
+backward TPs in the participants' were significantly greater than the
+chance level of \(.083\) in both segmentation conditions. Further, these
+TPs likely underestimate the participants' performance, as we included
+responses with unattested syllables that might reflect misperceptions;
+after removing such responses from analyses, TPs in the participants'
+responses were about twice as large. Participants were thus clearly
+sensitive to the TPs in the speech stream. (TPs were somewhat higher in
+the pre-segmented condition. This finding does not contradict the
+results from the Experiment 1 above; after all, if participants
+faithfully recall familiarization items, the resulting TPs will be high
+as well.)
 
 \subsubsection{Word vs.~part-word
 analysis}\label{word-vs.part-word-analysis}
 
-We next calculate the number and proportion of among (productions) of
-words and part-words respectively; we also accept concatenations of
-words and part-words. The proportions will be compared across stream
-types as well as to zero.
-
-Finally, we calculate the proportion of words among the word and
-part-word productions. This proportion will be compared across
-segmentation types, as well as to the chance level of 50\%.
+The traditional analysis of word segmentation experiments relies on the
+contrast between words and part-words. As mentioned above, part-words
+are tri-syllabic items that straddle a word-boundary. We thus calculated
+the proportion of words among words and part-words or concatenations of
+words and part-words. If participants faithfully produce a trisyllabic
+sequence from the stream, they can start that sequence on the first,
+second or third syllable of a word, and only the first possibility
+yields a word. As a result, if participants initiate their productions
+at a random position, a third of their productions should be words.
 
 As shown in Table \ref{tab:recall-all-results-print} and in Figure
-\ref{fig:recall-w-pw-chunks-positions-plot}a, participants produced a
-positive number of words only in the segmented condition, but not in the
-continuous condition. In contrast, they produced a positive number of
-part-words only in the continuous condition, but not in the segmented
-condition. Accordingly, the proportion of words among words and
-part-words was significantly greater than 50\% in the segmented
-condition, but numerically (though not significantly) smaller than 50\%
-in the continuous condition. The latter result is consistent with
-participants randomly picking a syllable to start their vocalizations;
-if so, part-words should be 2 times as likely as words.
+\ref{fig:recall-w-pw-chunks-positions-plot}a, the proportion of words
+among words and part-words was close to 100\% in the pre-segmented
+condition, but did not differ from the chancel level of 1/3 in the
+continuous condition. Likelihood ratio analysis suggests that, in the
+continuous condition, participants were 3.527 more likely to perform at
+the chance level of 33\% (2.636 for the lab-based experiments) than to
+perform at a level different from chance. This results thus suggest that
+participants in the continuous condition initiate their productions at
+random positions in the stream.
+
+However, inspection of Figure
+\ref{fig:recall-w-pw-chunks-positions-plot}a shows that the distribution
+after continuous sequences is clearly bimodal, with some participants
+producing only words, and others producing only part-words. Assuming
+that the number of participants producing words vs.~part-words follows a
+binomial distribution, we can thus calculate the likelihood ratio of a
+model where learners identify word boundaries (and should thus produce
+words with probability 1), and a model where they track TPs and initiate
+productions at a random position (and should produce words with a
+probability of 1/3). As shown in SI XXX, the likelihood ratio in favor
+of the first model is \(3^{N_W}\) if participants produce no part-words
+(i.e., after a pre-segmented familiarization), where \(N_W\) is the
+number of participants producing words; otherwise, the likelihood ratio
+in favor of the second model is infinity. These results thus suggest
+that, despite their ability to track TPs, participants initiate
+productions at random positions in the sequence, and thus do not
+remember statistically defined words.
+
+However, as shown in Figure \ref{fig:recall-words-part-words-raw-plot},
+these results are misleading because, in the continuous condition, many
+participants produce neither words \emph{nor} part-words. In fact, on
+average, they produce only .4 words and part-words combined,
+respectively. (In the pre-segmented condition, most participants produce
+at least one word, with an average of 1.26.) Given that participants
+produce few tri-syllabic items, we thus focus on shorter chunks.
+
+\subsubsection{TP-based chunks analysis}\label{tp-based-chunks-analysis}
+
+We first focus on bisyllabic chunks. They are either high-TP chunks that
+are part of a word or low-TP chunks that straddle a word boundary. For
+example, with two consecutive words \emph{ABC} and \emph{DEF}, the high
+TP chunks are \emph{AB}, \emph{BC}, \ldots{}, while the low-TP chunk is
+\emph{CD}. As a result, two-syllable items have a 66\% probability of
+being a high-TP chunk. As shown in Figure
+\ref{fig:recall-w-pw-chunks-positions-plot}b, the proportion of high-TP
+among high- and low-TP chunks exceeded chance in the pre-segmented
+condition, but not in the continuous condition. In the continuous
+condition, the likelihood ratio in favor of the null hypothesis is 0.652
+(1.892 for the lab-based experiments). These results are thus consistent
+with the possibility that, in the continuous condition, participants do
+track TPs, but initiate their productions at random positions.
 
 \subsubsection{Positional analyses}\label{positional-analyses}
 
 Finally, we analyze the productions in terms of correct initial final
-positions. As there are four initial and final positions, respectively,
-4/12 of the productions should have ``correct'' initial positions, 4/12
-should have correct final positions, while
-\(2 \times 4/12 - (4/12)^2 = 5/9\) should have either correct initial or
-final positions.
+syllables. As there are four words with one correct initial and final
+syllable each, and 12 syllables in total, 4/12 of the productions should
+have ``correct'' initial syllables, 4/12 should have correct final
+syllables.
 
 As shown in Table \ref{tab:recall-all-results-print} and Figure
 \ref{fig:recall-w-pw-chunks-positions-plot}c and d, participants
-produced items with correct initial or final positions at great than
+produced items with correct initial or final syllables at greater than
 chance level only in the segmented condition, but not the continuous
-condition.
+condition. In the continuous condition, the likelihood ratio in favor of
+the null hypothesis was 0.785 for initial syllables (3.606 for the
+lab-based experiment) and 4.061 for final syllables (2.139 for the
+lab-based experiment).
 
-\textbackslash{}begin\{table\}
+\begin{table}
 
-\textbackslash{}caption\{\label{tab:recall-all-results-print}Various
-analyses pertaining to the productions as well as test against their
-chances levels. Number of items produced, their numbers of syllables,
-number of words, number of part-words (chance level: 0), proportion of
-words among productions, proportion of part-words among productions,
-proportion of words among words and part-words (chance level 50\%),
-average forward TPs (chance level: 1/12), difference between
-positionally expected and actual TPs, average backward TPS. CHUNKS \}
+\caption{\label{tab:recall-all-results-print}Various analyses pertaining to the productions as well as test against their chances levels.}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{l>{\raggedright\arraybackslash}p{30em}>{\raggedright\arraybackslash}p{30em}>{\raggedleft\arraybackslash}p{10em}}
@@ -1381,42 +1339,43 @@ positionally expected and actual TPs, average backward TPS. CHUNKS \}
 \midrule
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Recognition accuracy}}\\
-\hspace{1em}lab-based & \M = 0.607, \SE = 0.0448, \p = 0.0477 & \M = 0.911, \SE = 0.0439, \p = 0.000898 & 0.008\\
-\hspace{1em}online & \M = 0.595, \SE = 0.0335, \p = 0.00411 & \M = 0.887, \SE = 0.0268, \p = 5.38e-10 & 0.000\\
+\hspace{1em}lab-based & \M = 0.615, \SE = 0.0476, \p = 0.0477 & \M = 0.923, \SE = 0.0455, \p = 0.00122 & 0.012\\
+\hspace{1em}online & \M = 0.628, \SE = 0.0318, \p = 7.84e-05 & \M = 0.911, \SE = 0.0193, \p = 7.08e-15 & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of items}}\\
-\hspace{1em}lab-based & \M = 4.21, \SE = 0.723, \p = 0.00106 & \M = 4.21, \SE = 0.763, \p = 0.00103 & 0.843\\
-\hspace{1em}online & \M = 4.73, \SE = 0.315, \p = 4.75e-12 & \M = 3.69, \SE = 0.326, \p = 4.13e-10 & 0.013\\
+\hspace{1em}lab-based & \M = 4.23, \SE = 0.756, \p = 0.00164 & \M = 4.23, \SE = 0.818, \p = 0.00152 & 0.812\\
+\hspace{1em}online & \M = 4.03, \SE = 0.292, \p = 3.17e-14 & \M = 3.25, \SE = 0.202, \p = 2.74e-14 & 0.099\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of syllables/item}}\\
-\hspace{1em}lab-based & \M = 3.53, \SE = 0.453, \p = 0.00107 & \M = 2.8, \SE = 0.151, \p = 0.000546 & 0.053\\
-\hspace{1em}online & \M = 2.27, \SE = 0.114, \p = 4.55e-12 & \M = 2.82, \SE = 0.0798, \p = 7.06e-11 & 0.000\\
+\hspace{1em}lab-based & \M = 3.79, \SE = 0.421, \p = 0.00164 & \M = 2.97, \SE = 0.0246, \p = 0.000725 & 0.026\\
+\hspace{1em}online & \M = 2.65, \SE = 0.0869, \p = 2.29e-14 & \M = 2.93, \SE = 0.0364, \p = 1.04e-15 & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of words among words and part-words (or concatenations thereof)}}\\
 \hspace{1em}lab-based & \M = 0.321, \SE = 0.153, \p = 0.322 (vs. 0.5); 0.798 (vs. 0.333333333333333) & \M = 1, \SE = 0, \p = 0.000627 (vs. 0.5); 0.000627 (vs. 0.333333333333333) & 0.034\\
-\hspace{1em}online & \M = 0.357, \SE = 0.138, \p = 0.301 (vs. 0.5); 0.649 (vs. 0.333333333333333) & \M = 1, \SE = 0, \p = 9.79e-09 (vs. 0.5); 9.79e-09 (vs. 0.333333333333333) & 0.000\\
+\hspace{1em}online & \M = 0.417, \SE = 0.105, \p = 0.424 (vs. 0.5); 0.189 (vs. 0.333333333333333) & \M = 1, \SE = 0, \p = 2.08e-13 (vs. 0.5); 2.08e-13 (vs. 0.333333333333333) & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Forward TPs}}\\
 \hspace{1em}lab-based & \M = 0.301, \SE = 0.0702, \p = 0.0107 & \M = 0.634, \SE = 0.092, \p = 0.00159 & \vphantom{1} 0.006\\
-\hspace{1em}online & \M = 0.372, \SE = 0.0361, \p = 4.4e-09 & \M = 0.555, \SE = 0.049, \p = 8.76e-09 & \vphantom{1} 0.004\\
+\hspace{1em}online & \M = 0.397, \SE = 0.0316, \p = 6.26e-12 & \M = 0.583, \SE = 0.04, \p = 3.82e-13 & \vphantom{1} 0.001\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Backward TPs}}\\
 \hspace{1em}lab-based & \M = 0.301, \SE = 0.0702, \p = 0.0107 & \M = 0.634, \SE = 0.092, \p = 0.00159 & 0.006\\
-\hspace{1em}online & \M = 0.372, \SE = 0.0361, \p = 4.4e-09 & \M = 0.555, \SE = 0.049, \p = 8.76e-09 & 0.004\\
+\hspace{1em}online & \M = 0.397, \SE = 0.0316, \p = 6.26e-12 & \M = 0.583, \SE = 0.04, \p = 3.82e-13 & 0.001\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of High-TP chunks among High- and Low-TP chunks}}\\
 \hspace{1em}lab-based & \M = 0.75, \SE = 0.289, \p = 0.424 (vs. 0.5); 0.85 (vs. 0.666666666666667) & \M = 1, \SE = 0, \p = 0.000627 (vs. 0.5); 0.000627 (vs. 0.666666666666667) & 1.000\\
-\hspace{1em}online & \M = 0.721, \SE = 0.0574, \p = 0.000702 (vs. 0.5); 0.0556 (vs. 0.666666666666667) & \M = 0.95, \SE = 0.0353, \p = 1.31e-08 (vs. 0.5); 6.14e-07 (vs. 0.666666666666667) & 0.000\\
+\hspace{1em}online & \M = 0.767, \SE = 0.0459, \p = 4.8e-06 (vs. 0.5); 0.00154 (vs. 0.666666666666667) & \M = 0.97, \SE = 0.0187, \p = 7.01e-14 (vs. 0.5); 6.75e-13 (vs. 0.666666666666667) & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of items with correct initial syllables}}\\
-\hspace{1em}lab-based & \M = 0.318, \SE = 0.0984, \p = 0.691 & \M = 0.789, \SE = 0.0666, \p = 0.00123 & 0.012\\
-\hspace{1em}online & \M = 0.425, \SE = 0.0385, \p = 0.0357 & \M = 0.72, \SE = 0.045, \p = 3.7e-08 & 0.000\\
+\hspace{1em}lab-based & \M = 0.333, \SE = 0.105, \p = 0.856 & \M = 0.809, \SE = 0.0694, \p = 0.00186 & 0.016\\
+\hspace{1em}online & \M = 0.419, \SE = 0.0392, \p = 0.0864 & \M = 0.738, \SE = 0.0387, \p = 1.58e-11 & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of items with correct final syllables}}\\
-\hspace{1em}lab-based & \M = 0.46, \SE = 0.116, \p = 0.48 & \M = 0.76, \SE = 0.0976, \p = 0.00275 & 0.045\\
-\hspace{1em}online & \M = 0.369, \SE = 0.0438, \p = 0.781 & \M = 0.694, \SE = 0.0524, \p = 3.56e-07 & 0.000\\
+\hspace{1em}lab-based & \M = 0.456, \SE = 0.125, \p = 0.5 & \M = 0.818, \SE = 0.0829, \p = 0.00222 & 0.025\\
+\hspace{1em}online & \M = 0.386, \SE = 0.043, \p = 0.456 & \M = 0.7, \SE = 0.0437, \p = 4.14e-10 & 0.000\\
 \bottomrule
-\end{tabular}} \textbackslash{}end\{table\}
+\end{tabular}}
+\end{table}
 
 \begin{figure}
 
@@ -1427,13 +1386,13 @@ positionally expected and actual TPs, average backward TPS. CHUNKS \}
 \caption{Number of items produced, number of syllables per item and forward and backward TPs. The dotted line represents the chance level for a randomly ordered syllable sequence.}\label{fig:recall-general-measures-tp-plot}
 \end{figure}
 
-\textbackslash{}begin\{figure\}
+\begin{figure}
 
-\{\centering \includegraphics[width=0.8\linewidth]{segmentation_recall_combined_files/figure-latex/recall-w-pw-chunks-positions-plot-1}
+{\centering \includegraphics[width=0.8\linewidth]{segmentation_recall_combined_files/figure-latex/recall-w-pw-chunks-positions-plot-1}
 
-\}
+}
 
-\textbackslash{}caption\{Analyses of the participants' productions. (a)
+\caption{Analyses of the participants' productions. (a)
 Proportion of words among words and part-words. The dotted line
 represents the chance level of 50\% in a two-alternative forced-choice
 task, while the dashed line represents the chance level of 33\% that an
@@ -1443,8 +1402,79 @@ line represents the chance level of 66\% that an attested 2
 syllable-chunk is a high-TP rather than a low-TP chunk. (c) proportion
 of productions with correct initial syllables and (d) with correct final
 syllables. The dotted line represents the chance level of
-33\%.\}\label{fig:recall-w-pw-chunks-positions-plot}
-\textbackslash{}end\{figure\}
+33\%.}\label{fig:recall-w-pw-chunks-positions-plot}
+\end{figure}
+
+\clearpage
+
+\section{Discussion}\label{discussion}
+
+Taken together, Experiments 1 and 2 suggest that associative learning
+and (declarative) memory might fulfill different computational
+functions. In Experiment 1, participants tracked statistical
+dependencies predominantly when they were embedded in a continuous
+speech stream, but not across pre-segmented chunk sequences. This result
+is consistent with the possibility that associative learning is
+important for predictive processing, but maybe less so for memorizing
+utterances \citep{Turk-Browne2010, Sherman2020}, especially given that
+speech streams tend to be pre-segmented due to their prosodic
+organization
+\citep{Cutler1997, Shattuck-Hufnagel1996, Brentari2011, Endress-cross-seg, Fenlon2008, Pilon1981, Christophe2001}.
+These results echo those from conditioning experiments suggesting that,
+depending on the learning situation, some associations are enhanced,
+while others are prevented
+\citep{Alberts1984, Garcia1974, Garcia1976, Gubernick1984, Martin1979}.
+Experiment 1 suggests that associative learning predominantly occurs in
+continuous sequences. While prediction is arguably more useful in
+lengthy chunks, it is unclear if there are specific triggers that
+suppress the integration of associative information across chunks in
+temporal sequences. If so, associative learning might well be implicit,
+but still under the control of some stimulus features.
+
+Experiment 2 showed that, even when participants successfully track
+associative information, they remember familiarization items only when
+familiarized with a pre-segmented sequence; in contrast, when
+familiarized with a continuous sequence, their productions started at
+random positions with respect to actual word boundaries, suggesting that
+associative learning did not lead to the creation of declarative memory
+representations
+
+The combined results of Experiments 1 and 2 echo dissociations between
+associative learning and declarative memory. Such dissociations have
+long been documented behaviorally \citep{Graf1984}, developmentally
+\citep{Finn2016} and neuropsychologically
+\citep{Cohen1980, Knowlton1996a, Rungratsameetaweemana2019, Poldrack2001, Squire1992},
+to the extent that statistical predictions can \emph{impair} declarative
+memory encoding in healthy adults \citep{Sherman2020}. The standard
+conclusion is that the (cortical) declarative memory system might be
+independent of a (neostriatal) system for associative learning
+\citep{Knowlton1996a, Poldrack2001, Squire1992}. In line with earlier
+proposals \citep{Goujon2015, Turk-Browne2010, Sherman2020}, we thus
+suggest that the computational function of associative learning might be
+distinct from that of (declarative) memory encoding, and that
+associative learning might be more important for predictive processing.
+The relative salience of these mechanisms might depend on how adaptive
+they are for the learning problem at hand.
+
+These results also have implications for the more specific problem of
+word segmentation. If learners cannot use associative learning to encode
+word candidates in (declarative) memory, they need to use other cues.
+Possible cues include using known words as delimiters for other words
+\citep{Bortfeld2005, Brent2001, Mersad2012} \sout{{[}Shi2008;
+Weijer1999{]}}, attentional allocation to beginnings and ends of
+utterances \citep{Monaghan2010, Seidl2008, Shukla2011}, legal sound
+sequences \citep{McQueen1998, Salverda2007} and universal aspects of
+prosody
+\citep{Brentari2011, Christophe2001, Endress-cross-seg, Fenlon2008, Johnson2009, Pilon1981}.
+
+Such cues have a critical advantage over transition-based associative
+information: they are consistent with the (declarative) memory encoding
+of linguistic sequences. In fact, the order of linguistic sequences is
+encoded with respect to their first and their last element
+\citep{Endress-Phantoms-Vision, Fischer-Baum2011}. To the extent that
+learners use learning mechanisms that are adaptive for a learning
+problem, using declarative memory mechanisms thus seems more conducive
+to word segmentation than relying on associative information.
 
 \clearpage
 
@@ -1453,60 +1483,60 @@ syllables. The dotted line represents the chance level of
 \subsection{Additional results for the recall
 experiments}\label{additional-results-for-the-recall-experiments}
 
-\textbackslash{}begin\{table\}
+\subsubsection{Additional tables and
+figures}\label{additional-tables-and-figures}
 
-\textbackslash{}caption\{\label{tab:recall-extra-results-print}Various
-supplementary analyses pertaining to the productions as well as test
-against their chances levels. Number of items produced, their numbers of
-syllables, number of words, number of part-words (chance level: 0),
-proportion of words among productions, proportion of part-words among
-productions, proportion of words among words and part-words (chance
-level 50\%), average forward TPs (chance level: 1/12), difference
-between positionally expected and actual TPs, average backward TPS.
-CHUNKS \} \centering
+\begin{table}
+
+\caption{\label{tab:recall-extra-results-print}Various supplementary analyses pertaining to the productions as well as test against their chances levels.}
+\centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{l>{\raggedright\arraybackslash}p{30em}>{\raggedright\arraybackslash}p{30em}>{\raggedleft\arraybackslash}p{10em}}
 \toprule
- & Continuous & Segmented & *p* (Continuous vs. Segmented)\\
+ & Continuous & Segmented & *p* (Continuous vs. Segmented). \\
 \midrule
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of words}}\\
-\hspace{1em}lab-based & \M = 0.286, \SE = 0.13, \p = 0.0719 & \M = 1.71, \SE = 0.316, \p = 0.00224 & \vphantom{1} 0.005\\
-\hspace{1em}online & \M = 0.143, \SE = 0.0752, \p = 0.0545 & \M = 1.24, \SE = 0.18, \p = 3.63e-07 & \vphantom{1} 0.000\\
+\hspace{1em}lab-based & \M = 0.308, \SE = 0.139, \p = 0.0719 & \M = 1.85, \SE = 0.308, \p = 0.00224 & \vphantom{1} 0.005\\
+\hspace{1em}online & \M = 0.224, \SE = 0.0791, \p = 0.00482 & \M = 1.32, \SE = 0.143, \p = 7.32e-11 & \vphantom{1} 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of words among productions}}\\
-\hspace{1em}lab-based & \M = 0.286, \SE = 0.13, \p = 0.0719 & \M = 1.71, \SE = 0.316, \p = 0.00224 & 0.005\\
-\hspace{1em}online & \M = 0.143, \SE = 0.0752, \p = 0.0545 & \M = 1.24, \SE = 0.18, \p = 3.63e-07 & 0.000\\
+\hspace{1em}lab-based & \M = 0.308, \SE = 0.139, \p = 0.0719 & \M = 1.85, \SE = 0.308, \p = 0.00224 & 0.005\\
+\hspace{1em}online & \M = 0.224, \SE = 0.0791, \p = 0.00482 & \M = 1.32, \SE = 0.143, \p = 7.32e-11 & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of part-words}}\\
-\hspace{1em}lab-based & \M = 0.643, \SE = 0.258, \p = 0.031 & \M = 0, \SE = 0, \p = NaN & \vphantom{1} 0.031\\
-\hspace{1em}online & \M = 0.19, \SE = 0.0639, \p = 0.00693 & \M = 0, \SE = 0, \p = NaN & \vphantom{1} 0.005\\
+\hspace{1em}lab-based & \M = 0.692, \SE = 0.273, \p = 0.031 & \M = 0, \SE = 0, \p = NaN & \vphantom{1} 0.031\\
+\hspace{1em}online & \M = 0.25, \SE = 0.0657, \p = 0.000717 & \M = 0, \SE = 0, \p = NaN & \vphantom{1} 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of part-words among productions}}\\
-\hspace{1em}lab-based & \M = 0.643, \SE = 0.258, \p = 0.031 & \M = 0, \SE = 0, \p = NaN & 0.031\\
-\hspace{1em}online & \M = 0.19, \SE = 0.0639, \p = 0.00693 & \M = 0, \SE = 0, \p = NaN & 0.005\\
+\hspace{1em}lab-based & \M = 0.692, \SE = 0.273, \p = 0.031 & \M = 0, \SE = 0, \p = NaN & 0.031\\
+\hspace{1em}online & \M = 0.25, \SE = 0.0657, \p = 0.000717 & \M = 0, \SE = 0, \p = NaN & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Actual vs. expected forward TPs}}\\
-\hspace{1em}lab-based & \M = -0.513, \SE = 0.0814, \p = 0.000244 & \M = -0.328, \SE = 0.0823, \p = 0.00909 & 0.126\\
-\hspace{1em}online & \M = -0.462, \SE = 0.0385, \p = 2.57e-10 & \M = -0.38, \SE = 0.043, \p = 3.66e-08 & 0.156\\
+\hspace{1em}lab-based & \M = -0.462, \SE = 0.07, \p = 0.000244 & \M = -0.315, \SE = 0.0803, \p = 0.00915 & 0.147\\
+\hspace{1em}online & \M = -0.42, \SE = 0.0329, \p = 1.3e-12 & \M = -0.352, \SE = 0.0365, \p = 7.56e-11 & 0.120\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of High-TP chunks}}\\
-\hspace{1em}lab-based & \M = 0.714, \SE = 0.427, \p = 0.181 & \M = 2.14, \SE = 0.375, \p = 0.00224 & 0.022\\
-\hspace{1em}online & \M = 1.02, \SE = 0.14, \p = 6.57e-08 & \M = 1.53, \SE = 0.193, \p = 5.53e-08 & 0.039\\
+\hspace{1em}lab-based & \M = 0.769, \SE = 0.459, \p = 0.181 & \M = 2.31, \SE = 0.361, \p = 0.00224 & 0.022\\
+\hspace{1em}online & \M = 1.13, \SE = 0.13, \p = 5.35e-10 & \M = 1.62, \SE = 0.147, \p = 6.19e-12 & 0.014\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Proportion of High-TP chunks among productions}}\\
-\hspace{1em}lab-based & \M = 0.097, \SE = 0.056, \p = 0.181 & \M = 0.561, \SE = 0.102, \p = 0.00241 & 0.003\\
-\hspace{1em}online & \M = 0.208, \SE = 0.0311, \p = 1.12e-07 & \M = 0.432, \SE = 0.0485, \p = 7.19e-08 & 0.000\\
+\hspace{1em}lab-based & \M = 0.104, \SE = 0.0601, \p = 0.181 & \M = 0.615, \SE = 0.0999, \p = 0.00241 & 0.003\\
+\hspace{1em}online & \M = 0.279, \SE = 0.0331, \p = 1.08e-09 & \M = 0.516, \SE = 0.0435, \p = 8.27e-12 & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of Low-TP chunks}}\\
-\hspace{1em}lab-based & \M = 0.0714, \SE = 0.0741, \p = 1 & \M = 0, \SE = 0, \p = NaN & 1.000\\
-\hspace{1em}online & \M = 0.365, \SE = 0.0832, \p = 8.81e-05 & \M = 0.0588, \SE = 0.0439, \p = 0.371 & 0.001\\
+\hspace{1em}lab-based & \M = 0.0769, \SE = 0.0801, \p = 1 & \M = 0, \SE = 0, \p = NaN & 1.000\\
+\hspace{1em}online & \M = 0.355, \SE = 0.0747, \p = 2.41e-05 & \M = 0.0395, \SE = 0.0226, \p = 0.149 & 0.000\\
 \addlinespace[0.3em]
 \multicolumn{4}{l}{\textbf{Number of Low-TP chunks among productions}}\\
-\hspace{1em}lab-based & \M = 0.00893, \SE = 0.00927, \p = 1 & \M = 0, \SE = 0, \p = NaN & 1.000\\
-\hspace{1em}online & \M = 0.0692, \SE = 0.0165, \p = 0.000206 & \M = 0.00915, \SE = 0.00706, \p = 0.371 & 0.001\\
+\hspace{1em}lab-based & \M = 0.011, \SE = 0.0114, \p = 1 & \M = 0, \SE = 0, \p = NaN & 1.000\\
+\hspace{1em}online & \M = 0.0855, \SE = 0.0198, \p = 6.04e-05 & \M = 0.00846, \SE = 0.00523, \p = 0.181 & 0.000\\
 \bottomrule
-\end{tabular}} \textbackslash{}end\{table\}
+\multicolumn{4}{l}{\textsuperscript{*} The expected TPs for items of at least 2 syllables starting on an initial syllable are 1, 1/3, 1, 1, 1/3, 1, 1, 1/3,}\\
+\multicolumn{4}{l}{\textellipsis. The difference between the actual and the expected TP needs to be compared to zero, as the expected TP}\\
+\multicolumn{4}{l}{differs across items.}\\
+\end{tabular}}
+\end{table}
 
 \begin{figure}
 
@@ -1528,12 +1558,64 @@ CHUNKS \} \centering
 
 \clearpage
 
-\subsection{\texorpdfstring{Experiments with the \emph{en1} diphone
-base}{Experiments with the en1 diphone base}}\label{experiments-with-the-en1-diphone-base}
+\subsubsection{Fit of the number of participants producing words or
+part-words to a binomial
+distribution}\label{fit-of-the-number-of-participants-producing-words-or-part-words-to-a-binomial-distribution}
+
+We fit the data to two models, one where the learner successfully
+detected word-boundaries, and one where the learner successfully track
+TPs but initiates productions at a random position. We then calculate
+the likelihood of the data given these models.
+
+According to the first model, the probability of producing words rather
+then part-words is \(p^1_{\text{W}} = 1\), and the probability of using
+part-words is \(p^1_{\text{PW}} = 1 - p^1_{\text{W}} = 0\). According to
+the second model, the learner has one chance in three to initiate a
+production on a word-initial syllable. As a result, the probability of
+producing words is \(p^2_{\text{W}} = \frac{1}{3}\), and the probability
+of using part-words is
+\(p^2_{\text{PW}} = 1 - p^2_{\text{W}} = \frac{2}{3}\).
+
+Assuming that participants produce either words or part-words, the
+probability of \(N_{\text{W}}\) producing words and \(N_{\text{PW}}\)
+producing part-words is given by a binomial distribution. We can then
+use Bayes' theorem to calculate the model likelihood
+\(P(\text{model|data}) = P(\text{data|model}) \frac{P(\text{model})}{P(\text{data})}\).
+If both models are equally likely a priori, the likelihood ratio of the
+models given the data is the likelihood ratio of the data given the
+models:
+
+\begin{eqnarray*}
+\Lambda_{1,2} & = & \frac{P(\text{model}_1 | \text{data})}{P(\text{model}_2 | \text{data})}
+ %
+ = \frac{P(\text{data} | \text{model}_1 )}{P(\text{data} | \text{model}_2)} \\
+ %
+ & = & \frac{\left(\begin{array}{c}
+N_{\text{W}} + N_{\text{PW}}\\
+N_{\text{W}}
+\end{array}\right)}{\left(\begin{array}{c}
+N_{\text{W}} + N_{\text{PW}}\\
+N_{\text{W}}
+\end{array}\right)} 
+\frac{1^{N_{\text{W}}} 0^{N_{\text{PW}}}}{\frac{1}{3}^{N_{\text{W}}} \frac{2}{3}^{N_{\text{PW}}}} \\
+%
+& = & \left\{\begin{array}{ll}
+3^{N_{\text{PW}}} & N_{\text{PW}} = 0\\
+0 & N_{\text{PW}} > 0
+\end{array}\right.
+\end{eqnarray*}
+
+For \(N_{\text{PW}} = 0\), the likelihood ratio in favor of the first
+model is \(3^{N_{\text{PW}}}\); \(N_{\text{PW}} > 0\) the likelihood
+ratio in favor of the second model is infinite.
+
+\clearpage
+
+\subsection{\texorpdfstring{Experiments with the \emph{en1}
+voice}{Experiments with the en1 voice}}\label{experiments-with-the-en1-voice}
 
 \subsubsection{Segmented stream, 3 repetitions of the stream, en1
-diphone
-based}\label{segmented-stream-3-repetitions-of-the-stream-en1-diphone-based}
+voice}\label{segmented-stream-3-repetitions-of-the-stream-en1-voice}
 
 \begin{figure}
 
@@ -1541,7 +1623,7 @@ based}\label{segmented-stream-3-repetitions-of-the-stream-en1-diphone-based}
 
 }
 
-\caption{Results for a pre-segmented presentation of the stream (540 ms silences, left) and continuous presentation of the stream (right). Each word was repeated 45 times. The diphone based was *en1*.}\label{fig:stats-london-stats.3x.en.segm-cont.plot}
+\caption{Results for a pre-segmented presentation of the stream (540 ms silences, left) and continuous presentation of the stream (right). Each word was repeated 45 times. The voice was *en1*.}\label{fig:stats-london-stats.3x.en.segm-cont.plot}
 \end{figure}
 
 As shown in Figure \ref{fig:stats-london-stats.3x.en.segm-cont.plot},
@@ -1555,8 +1637,7 @@ Table \ref{tab:stats.en.lang.glmm}, performance did not depend on the
 language condition.
 
 \subsubsection{Continuous stream, 3 repetitions of the stream, en1
-diphone
-based}\label{continuous-stream-3-repetitions-of-the-stream-en1-diphone-based}
+voice}\label{continuous-stream-3-repetitions-of-the-stream-en1-voice}
 
 As shown in Figure \ref{fig:stats-london-stats.3x.en.segm-cont.plot},
 the average performance did not differ significantly from the chance
@@ -1603,9 +1684,9 @@ chunk for the other participants.
 Across participants, we also varied the exposure to the languages, with
 3, 15 or 30 repetitions per word, respectively.
 
-\subsubsection{Methods}\label{methods-1}
+\subsubsection{Methods}\label{methods}
 
-\paragraph{Participants}\label{participants-1}
+\paragraph{Participants}\label{participants-2}
 
 \begin{table}
 
@@ -1631,9 +1712,9 @@ community.
 
 Stimuli transcriptions are given in Table
 \ref{tab:bcn-print-language-structure}. They were synthesized using the
-\emph{es2} (Spanish male) diphone base of the mbrola \citep{mbrola}
-speech synthesized, using a segment duration of 225 ms and an
-fundamental frequency of 120 Hz.
+\emph{es2} (Spanish male) voice of the mbrola \citep{mbrola} speech
+synthesized, using a segment duration of 225 ms and an fundamental
+frequency of 120 Hz.
 
 \paragraph{Apparatus}\label{apparatus-1}
 
@@ -1647,12 +1728,12 @@ Experyment (\url{https://www.expyriment.org/}).
 
 The design of Pilot Experiment 1 is shown in Table
 \ref{tab:bcn-print-language-structure}. The languages comprise
-trisyllabic items. All foward TPs were 0.5. However, in Language 1 the
+trisyllabic items. All forward TPs were 0.5. However, in Language 1 the
 chunk composed of the first two syllables (e.g., \emph{AB} in
 \emph{ABC}) were twice as frequent as the chunk composed of the last two
 syllables (e.g., \emph{BC} in \emph{ABC}); the backward TPs were twice
 as high as well. Language 2 favored the word-final chunk. Participants
-were informed that they would listen to a sequency of Martian words, and
+were informed that they would listen to a sequence of Martian words, and
 then listened to a sequence of the eight words in
 \ref{tab:stats-london-print-language-structure} with an ISI of 1000 ms
 and 3, 15 or 30 repetitions per word. Due to programming error, the
