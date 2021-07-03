@@ -3336,6 +3336,69 @@ if (PRINT.INDIVIDUAL.FIGURES){
 }
 ```
 
+### TP-based chunks analysis
+```{r recall-tp-chunks-calculate}
+
+dat.recall.combined.m.n.high.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.data.for.streamType.contrast("n.high.tp.chunk", 0)
+dat.recall.combined.m.p.high.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.data.for.streamType.contrast("p.high.tp.chunk", 0)
+
+dat.recall.combined.m.n.low.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.data.for.streamType.contrast("n.low.tp.chunk", 0)
+dat.recall.combined.m.p.low.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.data.for.streamType.contrast("p.low.tp.chunk", 0)
+
+dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.data.for.streamType.contrast("p.high.tp.chunk.low.tp.chunk", c(0.5, 2/3))
+
+dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk.ana <- dat.recall.combined.m %>% 
+    analyze.experiment.against.chance2 (.(data.set, streamType),
+                                        "p.high.tp.chunk.low.tp.chunk", 
+                                        c(1, 2/3, 1/2))
+
+plot.recall.combined.m.n.high.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, n.high.tp.chunk) +
+    ylab ("# High TP Chunks")
+plot.recall.combined.m.p.high.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, p.high.tp.chunk) +
+    ylab (TeX("\\frac{High TP chunks}{Productions}$"))
+
+plot.recall.combined.m.n.low.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, n.low.tp.chunk) +
+    ylab ("# Low TP Chunks")
+plot.recall.combined.m.p.low.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, p.low.tp.chunk) +
+    ylab (TeX("\\frac{Low TP chunks}{Productions}$"))
+
+plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk <- dat.recall.combined.m %>% 
+    prepare.plot.for.streamType.contrast (streamType, p.high.tp.chunk.low.tp.chunk) +
+    ylab (TeX("\\frac{High TP chunks}{High + Low TP chunks}$")) +
+    geom_hline (yintercept = 1/2, lty = 3) +
+    geom_hline (yintercept = 2/3, lty = 5)
+
+
+```
+
+```{r recall-tp-chunks-plot, fig.height=11, fig.cap="Plot of High and Low TP chunks."}
+
+if (PRINT.INDIVIDUAL.FIGURES){
+    ggpubr::ggarrange (
+        plot.recall.combined.m.n.high.tp.chunk,
+        plot.recall.combined.m.p.high.tp.chunk,
+        plot.recall.combined.m.n.low.tp.chunk,
+        plot.recall.combined.m.p.low.tp.chunk,
+        plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk,
+        nrow = 3, ncol = 2,
+        #common.legend = TRUE, legend="bottom", 
+        #legend.grob = plot.circle.combined.within.recency.legend,
+        labels = "auto")
+}
+```
+
+We first focus on bisyllabic chunks. They are either high-TP chunks that are part of a word or low-TP chunks that straddle a word boundary. For example, with two consecutive words *ABC* and *DEF*, the high TP chunks are *AB*, *BC*, ..., while the low-TP chunk is *CD*. As a result, two-syllable items have a 66% probability of being a high-TP chunk. As shown in Figure \ref{fig:recall-w-pw-chunks-positions-plot}b, the proportion of high-TP among high- and low-TP chunks exceeded chance in the pre-segmented condition, but not in the continuous condition. In the continuous condition, the likelihood ratio in favor of the null hypothesis is `r dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk.ana %>% filter (data.set == "online", streamType == "continuous", chance.level == 2/3) %>% pull (llr)` (`r dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk.ana %>% filter (data.set == "lab-based", streamType == "continuous", chance.level == 2/3) %>% pull (llr)` for the lab-based experiments). These results are thus consistent with the possibility that, in the continuous condition, participants do track TPs, but initiate their productions at random positions. 
+
+
 ### Word vs. part-word analysis
 The traditional analysis of word segmentation experiments relies on the contrast between words and part-words. As mentioned above, part-words are tri-syllabic items that straddle a word-boundary. We thus calculated the proportion of words among words and part-words or concatenations of words and part-words. If participants faithfully produce a trisyllabic sequence from the stream, they can start that sequence on the first, second or third syllable of a word, and only the first possibility yields a word. As a result, if participants initiate their productions at a random position, a third of their productions should be words.
 
@@ -3411,68 +3474,6 @@ However, inspection of Figure \ref{fig:recall-w-pw-chunks-positions-plot}a shows
 
 However, as shown in Figure \ref{fig:recall-words-part-words-raw-plot}, these results are misleading because, in the continuous condition, many participants produce neither words *nor* part-words. In fact, on average, they produce only .4 words and part-words combined, respectively. (In the pre-segmented condition, most participants produce at least one word, with an average of 1.26.) Given that participants produce few tri-syllabic items, we thus focus on shorter chunks. 
 
-
-### TP-based chunks analysis
-```{r recall-tp-chunks-calculate}
-
-dat.recall.combined.m.n.high.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.data.for.streamType.contrast("n.high.tp.chunk", 0)
-dat.recall.combined.m.p.high.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.data.for.streamType.contrast("p.high.tp.chunk", 0)
-
-dat.recall.combined.m.n.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.data.for.streamType.contrast("n.low.tp.chunk", 0)
-dat.recall.combined.m.p.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.data.for.streamType.contrast("p.low.tp.chunk", 0)
-
-dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.data.for.streamType.contrast("p.high.tp.chunk.low.tp.chunk", c(0.5, 2/3))
-
-dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk.ana <- dat.recall.combined.m %>% 
-    analyze.experiment.against.chance2 (.(data.set, streamType),
-                                        "p.high.tp.chunk.low.tp.chunk", 
-                                        c(1, 2/3, 1/2))
-
-plot.recall.combined.m.n.high.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, n.high.tp.chunk) +
-    ylab ("# High TP Chunks")
-plot.recall.combined.m.p.high.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, p.high.tp.chunk) +
-    ylab (TeX("\\frac{High TP chunks}{Productions}$"))
-
-plot.recall.combined.m.n.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, n.low.tp.chunk) +
-    ylab ("# Low TP Chunks")
-plot.recall.combined.m.p.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, p.low.tp.chunk) +
-    ylab (TeX("\\frac{Low TP chunks}{Productions}$"))
-
-plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk <- dat.recall.combined.m %>% 
-    prepare.plot.for.streamType.contrast (streamType, p.high.tp.chunk.low.tp.chunk) +
-    ylab (TeX("\\frac{High TP chunks}{High + Low TP chunks}$")) +
-    geom_hline (yintercept = 1/2, lty = 3) +
-    geom_hline (yintercept = 2/3, lty = 5)
-
-
-```
-
-```{r recall-tp-chunks-plot, fig.height=11, fig.cap="Plot of High and Low TP chunks."}
-
-if (PRINT.INDIVIDUAL.FIGURES){
-    ggpubr::ggarrange (
-        plot.recall.combined.m.n.high.tp.chunk,
-        plot.recall.combined.m.p.high.tp.chunk,
-        plot.recall.combined.m.n.low.tp.chunk,
-        plot.recall.combined.m.p.low.tp.chunk,
-        plot.recall.combined.m.p.high.tp.chunk.low.tp.chunk,
-        nrow = 3, ncol = 2,
-        #common.legend = TRUE, legend="bottom", 
-        #legend.grob = plot.circle.combined.within.recency.legend,
-        labels = "auto")
-}
-```
-
-We first focus on bisyllabic chunks. They are either high-TP chunks that are part of a word or low-TP chunks that straddle a word boundary. For example, with two consecutive words *ABC* and *DEF*, the high TP chunks are *AB*, *BC*, ..., while the low-TP chunk is *CD*. As a result, two-syllable items have a 66% probability of being a high-TP chunk. As shown in Figure \ref{fig:recall-w-pw-chunks-positions-plot}b, the proportion of high-TP among high- and low-TP chunks exceeded chance in the pre-segmented condition, but not in the continuous condition. In the continuous condition, the likelihood ratio in favor of the null hypothesis is `r dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk.ana %>% filter (data.set == "online", streamType == "continuous", chance.level == 2/3) %>% pull (llr)` (`r dat.recall.combined.m.p.high.tp.chunk.low.tp.chunk.ana %>% filter (data.set == "lab-based", streamType == "continuous", chance.level == 2/3) %>% pull (llr)` for the lab-based experiments). These results are thus consistent with the possibility that, in the continuous condition, participants do track TPs, but initiate their productions at random positions. 
 
 ### Positional analyses
 ```{r recall-positions-calculate}
