@@ -1,5 +1,6 @@
 # Select directories
 stimulus_preparation/
+paper/
 papers/
 experiments/
 data/recall_testable_with_testable_ids/
@@ -15,10 +16,12 @@ data/recall_testable_with_testable_ids/
 # Don't upload voice recordings
 *.mp3 
 *.zip
+!simulations/parser/output/parser.recall.results.tab.zip
 
 # Other stuff
 figures/
 results/unused/
 results/0todo.txt
 results/todo_files/
-
+recall
+simulations/parser/output/
