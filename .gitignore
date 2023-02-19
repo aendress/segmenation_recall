@@ -23,5 +23,5 @@ results/unused/
 results/0todo.txt
 results/todo_files/
 recall
-simulations/parser/output/
+simulations/parser/output/*
 !simulations/parser/output/parser.recall.results.tab.zip
