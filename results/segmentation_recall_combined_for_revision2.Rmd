@@ -3953,7 +3953,7 @@ PARSER has five parameters: the maximal number of units considered, the incremen
 
 ```{r parser-load-results}
 
-dat.parser <- read.delim2(unz("../experiments/parser/output/parser.recall.results.tab.zip",
+dat.parser <- read.delim2(unz("../simulations/parser/output/parser.recall.results.tab.zip",
                        "parser.recall.results.tab"),
                    header = TRUE,
                    stringsAsFactors = FALSE,
