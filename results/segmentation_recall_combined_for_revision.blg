@@ -1,0 +1,70 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: segmentation_recall_combined_for_revision.aux
+The style file: plainnat.bst
+Database file #1: /Users/endress/ansgar.bib
+Reallocated buffer (elt_size=1) to 40000 items from 20000.
+Reallocated sv_buffer (elt_size=1) to 40000 items from 20000.
+Reallocated ex_buf (elt_size=1) to 40000 items from 20000.
+Reallocated out_buf (elt_size=1) to 40000 items from 20000.
+Reallocated name_tok (elt_size=4) to 40000 items from 20000.
+Reallocated name_sep_char (elt_size=1) to 40000 items from 20000.
+Database file #2: /Users/endress/ansgar.own.bib
+Repeated entry---line 262 of file /Users/endress/ansgar.own.bib
+ : @article{Endress-cross-seg
+ :                           ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 324 of file /Users/endress/ansgar.own.bib
+ : @article{Endress-Phantoms-Vision
+ :                                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 705 of file /Users/endress/ansgar.own.bib
+ : @article{Endress-duplications
+ :                              ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 777 of file /Users/endress/ansgar.own.bib
+ : @article{Endress-TP-Model
+ :                          ,
+I'm skipping whatever remains of this entry
+You've used 61 entries,
+            2773 wiz_defined-function locations,
+            1107 strings with 17734 characters,
+and the built_in function-call counts, 30183 in all, are:
+= -- 2831
+> -- 1614
+< -- 36
++ -- 544
+- -- 483
+* -- 2676
+:= -- 4641
+add.period$ -- 234
+call.type$ -- 61
+change.case$ -- 343
+chr.to.int$ -- 61
+cite$ -- 122
+duplicate$ -- 1260
+empty$ -- 2460
+format.name$ -- 594
+if$ -- 6307
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 62
+newline$ -- 365
+num.names$ -- 244
+pop$ -- 532
+preamble$ -- 2
+purify$ -- 283
+quote$ -- 0
+skip$ -- 929
+stack$ -- 0
+substring$ -- 1545
+swap$ -- 102
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 666
+warning$ -- 0
+while$ -- 277
+width$ -- 0
+write$ -- 905
+(There were 4 error messages)

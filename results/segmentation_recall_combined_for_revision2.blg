@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2021)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: segmentation_recall_combined_for_revision2.aux
+The style file: plainnat.bst
+Database file #1: /Users/endress/ansgar.bib
+Reallocated buffer (elt_size=1) to 40000 items from 20000.
+Reallocated sv_buffer (elt_size=1) to 40000 items from 20000.
+Reallocated ex_buf (elt_size=1) to 40000 items from 20000.
+Reallocated out_buf (elt_size=1) to 40000 items from 20000.
+Reallocated name_tok (elt_size=4) to 40000 items from 20000.
+Reallocated name_sep_char (elt_size=1) to 40000 items from 20000.
+You've used 68 entries,
+            2773 wiz_defined-function locations,
+            1152 strings with 19349 characters,
+and the built_in function-call counts, 33903 in all, are:
+= -- 3173
+> -- 1869
+< -- 37
++ -- 630
+- -- 561
+* -- 2979
+:= -- 5239
+add.period$ -- 264
+call.type$ -- 68
+change.case$ -- 390
+chr.to.int$ -- 67
+cite$ -- 136
+duplicate$ -- 1406
+empty$ -- 2733
+format.name$ -- 681
+if$ -- 7082
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 69
+newline$ -- 409
+num.names$ -- 272
+pop$ -- 603
+preamble$ -- 2
+purify$ -- 323
+quote$ -- 0
+skip$ -- 1064
+stack$ -- 0
+substring$ -- 1691
+swap$ -- 85
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 743
+warning$ -- 0
+while$ -- 308
+width$ -- 0
+write$ -- 1014

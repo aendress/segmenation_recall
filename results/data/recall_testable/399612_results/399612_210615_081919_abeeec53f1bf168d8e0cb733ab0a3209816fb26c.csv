@@ -1,0 +1,12 @@
+subjectGroup,browser,version,screenWidth,screenHeight,OS,OS_lang,GMT_timestamp,local_timestamp,mindsCode,link,age,sex,Native language(s)
+"1",Chrome,90.0.4430.100,1366,768,UNIX,en-GB,2021-06-15_08:03:50,2021-06-15_09:03:50,abeeec53f1bf168d8e0cb733ab0a3209816fb26c,https://www.testable.org/experiment/2286/399612/start?participant=M056010,"60",male,English
+
+rowNo,subjectGroup,trialGroup,random,type,stim1,stim2,stimFormat,audio,ITI,ISI,responseType,responseWindow,button1,button2,key,trialText,if,then,feedback,feedbackTime,myPhase,myLang,mySegmentationCond,ITI_ms,ITI_f,ITI_fDuration,ISI_ms,timestamp,response,RT,correct
+3,"","1","",test,dog,cow,.jpg,cow.mp3,"","","","",dog,cow,"",Which animal did you hear?,"1",end,"1: This is not correct, the experiment will end now.; 2: This is correct.","1500",sound_test,"","","",0,0,"",537494,"2",3760,""
+4,"","1","",test,duck,horse,.jpg,duck.mp3,"","","","",duck,horse,"",Which animal did you hear?,"2",end,"1: This is correct.; 2: This is not correct, the experiment will end now.","1500",sound_test,"","","",0,0,"",540718,"1",1685,""
+5,"","1","",test,fred,ned,.jpg,alien.mp3,"","","","",fred,ned,"",Which animal did you hear?,"","",We don't know either.,"1500",sound_test,"","","",0,0,"",548554,"1",6306,""
+72,"1","7","",test,progress_bar_1min,"",.mp4,"","2000","",comment,0_60000,NEXT,"","",Please type in the Martian words you remember.<br>(You have one minute.),"","","","",test_recall,L1,continuous,1998,0,0,"",874096,dagala;1,11177,""
+80,"1","9","1",test,word_tudAro,word_pAbiku,.mp3,"","2000","1000","","",The 1<sup>st</sup> one,The 2<sup>nd</sup> one,"2",Which item is a Martian word?,"","","","",test_recognition,L1,continuous,1998,120,"16.65","1004",898855,"1",3343,"0"
+78,"1","9","1",test,word_tibudo,word_tudAro,.mp3,"","2000","1000","","",The 1<sup>st</sup> one,The 2<sup>nd</sup> one,"1",Which item is a Martian word?,"","","","",test_recognition,L1,continuous,1998,120,"16.65","1000",905619,"2",2763,"0"
+79,"1","9","1",test,word_pigolA,word_tibudo,.mp3,"","2000","1000","","",The 1<sup>st</sup> one,The 2<sup>nd</sup> one,"2",Which item is a Martian word?,"","","","",test_recognition,L1,continuous,1998,120,"16.65","1000",911641,"1",1867,"0"
+77,"1","9","1",test,word_pAbiku,word_pigolA,.mp3,"","2000","1000","","",The 1<sup>st</sup> one,The 2<sup>nd</sup> one,"1",Which item is a Martian word?,"","","","",test_recognition,L1,continuous,1998,120,"16.65","1000",918388,"1",2732,"1"

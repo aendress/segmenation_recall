@@ -1,0 +1,689 @@
+---
+title: 'When forgetting fosters learning: A saliency map for TP computations - Simulations of Giroux & Rey, 2009'
+author: |
+  | Ansgar D. Endress, City, University of London
+bibliography:
+- /Users/endress/ansgar.bib
+output:
+  pdf_document:
+    citation_package: natbib
+    keep_tex: yes
+    number_sections: yes
+    toc: no
+  html_notebook:
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  html_document:
+    df_print: paged
+    number_sections: yes
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  word_document:
+    toc: no
+keywords: Keywords
+csl: /Users/endress/csl_files/apa.csl
+abstract: NA
+---
+
+```{r setup, echo = FALSE, include=FALSE}
+rm (list=ls())
+
+#load("~/Experiments/TP_model/tp_model.RData")
+
+#options (digits = 3)
+knitr::opts_chunk$set(
+    # Run the chunk
+    eval = TRUE,
+    # Don't include source code
+    echo = FALSE, 
+    # Print warnings to console rather than the output file
+    warning = FALSE,  
+    # Stop on errors
+    error = FALSE,
+    # Print message to console rather than the output file
+    message = FALSE,
+    # Include chunk output into output
+    include = TRUE,
+    # Don't reformat R code
+    tidy = FALSE,
+    # Center images
+    # Breaks showing figures side by side, so switch this to default
+    fig.align = 'center', 
+    # Show figures where they are produced
+    fig.keep = 'asis',
+    # Prefix for references like \ref{fig:chunk_name}
+    fig.lp = 'fig',
+    # For double figures, and doesn't hurt for single figures 
+    fig.show = 'hold', 
+    # Default image width
+    out.width = '100%')
+
+# other knits options are here:
+# https://yihui.name/knitr/options/
+
+```
+
+```{r load-libraries, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
+
+# Read in a random collection of custom functions
+if (Sys.info()[["user"]] %in% c("ansgar", "endress")){
+    source ("/Users/endress/R.ansgar/ansgarlib/R/tt.R")
+    source ("/Users/endress/R.ansgar/ansgarlib/R/null.R")
+    #source ("helper_functions.R")
+} else {
+    # Note that these will probably not be the latest versions
+    source("http://endress.org/progs/tt.R")
+    source("http://endress.org/progs/null.R")
+}
+
+library ("knitr")
+library(latex2exp)
+library (cowplot)
+```
+
+```{r set-default-parameters-network, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
+
+# Number of neurons
+N_NEURONS <- 14
+
+ACT_FNC <- 'rational_logistic'
+
+# Forgetting for activation
+L_ACT_DEFAULT <- 0.5
+L_ACT_SAMPLES <- seq (0, 1, .2)
+#L_ACT <- L_ACT_DEFAULT
+L_ACT <- L_ACT_SAMPLES
+
+# Forgetting for weights
+L_W <- 0
+
+# Activation coefficient
+A <- .7
+
+# Inhibition coefficient 
+B_DEFAULT <- .4
+#B <- B_DEFAULT
+B <- c(.4, .6, .8, 1)
+
+# Learning coefficient
+R <- 0.05
+
+# noise for activation
+NOISE_SD_ACT <- 0.001
+
+# noise for weights
+NOISE_SD_W <- 0
+```
+
+```{r set-default-parameters-simulations, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
+
+
+#N_REP_PER_WORD <- 100
+
+# Number of repetitions per word
+# Giroux & Rey
+# 2 min: 400 syllables
+#N_REP_PER_WORD <- round(400/14)
+# 2 min: 2000 syllables
+N_REP_PER_WORD <- round(2000/14)
+
+# Number of simulations/subjects
+N_SIM <- 100
+
+
+PRINT.INDIVIDUAL.PDFS <- TRUE
+current.plot.name <- "xxx"
+
+# Set seed to Cesar's birthday
+set.seed(1207100)
+```
+
+```{r list-parameters, echo = FALSE, results='hide'}
+list_parameters(accepted_classes = c("numeric")) %>%
+    knitr::kable(
+        "latex", 
+        booktabs = T, 
+        caption='\\label{tab:params}Parameters used in the simulations') %>%
+    kableExtra::kable_styling()
+```
+
+```{r define-functions, echo = FALSE, include = FALSE, message = FALSE, warning = FALSE}
+
+act_fnc <- function (act, fnc = ACT_FNC, ...){
+    
+    switch (fnc,
+            "rational_logistic" = act / (1 + act),
+            "relu" = pmax (0, act),
+            "tanh" = tanh (act),
+            stop ("Unknown activation function"))
+}
+
+make_act_vector <- function (ind, n_neurons){
+    
+    act <- rep (0, n_neurons)
+    act[ind] <- 1
+    
+    return (act)
+    
+}
+
+update_activation <- function (act, w, ext_input, l_act = 1, a = 1, b = 0, noise_sd = 0, ...){
+    # activation, weights, external_input, decay, activation coefficient, inhibition coefficient
+    
+    act_output <- act_fnc (act, ...)
+    
+    act_new <- act
+    
+    # Decay     
+    if (l_act>0)
+        act_new <- act_new - l_act * act 
+    
+    # External input
+    act_new <- act_new + ext_input
+    
+    # Excitation
+    act_new <- act_new + (a * w %*% act_output)
+    
+    # Inhibition (excluding self-inhibition)
+    act_new <- act_new - (b * (sum (act_output) - act_output))
+    
+    # Noise
+    if (noise_sd > 0)    
+        act_new <- act_new + rnorm (length(act_new), 0, noise_sd)
+    
+    act_new <- as.vector(act_new)
+    
+    act_new[act_new < 0] <- 0
+    
+    return (act_new)
+}
+
+update_weights <- function (w, act, r = 1, l = 0, noise_sd, ...){
+    
+    act_output <- act_fnc (act, ...)
+    
+    # learning 
+    w_new <- w  + r * outer(act_output, act_output)
+    
+    # decay
+    if (l > 0)
+        w_new <- w_new - l * w 
+    
+    if (noise_sd > 0)
+        w_new <- w_new + as.matrix (rnorm (length(w_new),
+                                           0,
+                                           noise_sd),
+                                    ncol = ncol (w_new))
+    
+    # No self-excitation
+    diag (w_new) <- 0
+    
+    w_new[w_new < 0] <- 0
+    
+    return (w_new)
+}
+
+familiarize <- function (stream_matrix,
+                         l_act = 1,
+                         a = 1,
+                         b = 0, 
+                         noise_sd_act = 0,
+                         r = 1,
+                         l_w = 0,
+                         noise_sd_w = 0,
+                         n_neurons = max (stream),
+                         return.act.and.weights = FALSE,
+                         ...){
+    
+    # Initialization
+    act <- abs(rnorm (n_neurons, 0, noise_sd_act))
+    w <- matrix (abs(rnorm (n_neurons^2, 0, noise_sd_w)), 
+                 ncol = n_neurons)
+    diag(w) <- 0
+    
+    if (return.act.and.weights)
+        act.weight.list <- list ()
+    
+    # Randomize familiarization 
+    stream_matrix <- stream_matrix[sample(nrow(stream_matrix)),]
+    # Concatenate words (which are in the matrix rows, so we need to transpose before concatenating)
+    stream <- c(t(stream_matrix))
+    
+    # added for subunit stream: "third" syllables are NA for two-syllable words
+    stream <- c(na.omit(stream))
+    
+    act_sum <- c()
+    for (item in stream){
+        
+        current_input <- make_act_vector(item, n_neurons)
+        
+        act <- update_activation(act, w, current_input, 
+                                 l_act, a, b, noise_sd_act,
+                                 ...)
+        
+        if (r > 0)
+            w <- update_weights (w, act, r, l_w, noise_sd_w)
+        
+        act_sum <- c(act_sum, sum(act))
+        
+        if (return.act.and.weights){
+            act.weight.list[[1 + length(act.weight.list)]] <- 
+                list (item = item,
+                      act = act,
+                      w = w)
+            
+        }
+    }
+    
+    if (return.act.and.weights)
+        return (list (
+            w = w,
+            act_sum = act_sum,
+            act.weight.list = act.weight.list))
+    else
+        return (list (
+            w = w,
+            act_sum = act_sum))
+}
+
+# Record activation for items in test item list
+test_list <- function (test_item_list,
+                       w,
+                       l_act = 1, a = 1, b = 0, 
+                       noise_sd_act = 0,
+                       n_neurons,
+                       return.global.act = FALSE,
+                       ...) {
+    # Arguments
+    #   test_item_list  List of test-items (i.e., numeric vectors)
+    #   w               Current weight matrix
+    #   l_act           Forgetting rate for activation. Default:  1
+    #   a               Excitatory coefficient. Default: 1
+    #   b               Inhibitory coefficient. Default: 0
+    #   noise_sd_act    Standard deviation of the activation noise. Default: 0
+    #   n_neurons       Number of neurons in the network.
+    #   return.global.act 
+    #                   Sum total activation in each test-item (TRUE) or just 
+    #                   the activation in the test-item (FALSE)
+    #                   Default: FALSE
+    
+    test_act_sum <- data.frame (item = character(),
+                                act = numeric ())
+    
+    for (ti in test_item_list){
+        
+        act <- abs(rnorm (n_neurons, 0, noise_sd_act))
+        
+        act_sum <- c()
+        
+        for (item in ti){
+            
+            current_input <- make_act_vector(item, n_neurons)
+            act <- update_activation(act, res$w, current_input, 
+                                     l_act, a, b, noise_sd_act,
+                                     ...)
+            
+            if (return.global.act)
+                act_sum <- c(act_sum, sum(act))
+            else 
+                act_sum <- c(act_sum, sum(act[ti]))
+        }
+        
+        test_act_sum <- rbind (test_act_sum,
+                               data.frame (item = paste (ti, collapse="-"),
+                                           act = sum (act_sum)))
+    }   
+    
+    test_act_sum <- test_act_sum %>%
+        column_to_rownames ("item") %>% 
+        t
+    
+    return (test_act_sum)
+}
+
+make_diff_score <- function (dat = ., 
+                             col.name1,
+                             col.name2,
+                             normalize.scores = TRUE,
+                             luce.rule = FALSE){
+    
+    if (luce.rule){
+            d.score <- dat[,col.name1]
+            normalize.scores <- TRUE
+    } else {
+        d.score <- dat[,col.name1] - dat[,col.name2]
+    }
+    
+    if (any (d.score != 0) &&
+        (normalize.scores))
+        d.score = d.score / (dat[,col.name1] + dat[,col.name2])
+    
+    return (d.score)
+    
+}
+
+
+format_theme %<a-% 
+{
+    theme_light() +
+        theme(#text = element_text(size=20), 
+            plot.title = element_text(size = 18, hjust = .5),
+            axis.title = element_text(size=16),
+            axis.text.x = element_text(size=14, angle = 45),
+            axis.text.y = element_text(size=14),
+            legend.title = element_text(size=16),
+            legend.text = element_text(size=14))
+}
+
+
+
+italisize_for_tex <- function (x = .){
+    gsub("\\*(.+?)\\*", 
+         "{\\\\em \\1}", 
+         x, perl = TRUE)
+}
+
+```
+
+
+
+# Experiments with a basic stream: Words and part-words, tested forwards and backwards
+A documented version of this model can be found in [@Endress-TP-Model].
+
+In line with [@Giroux2009] experiment, we create streams consisting of two three-syllable words and four two-syllable words.  These units are randomly concatenated into a familiarization stream so that each unit occurs `r N_REP_PER_WORD` times. We will then present the network with test-items (see below) and record the total network activation while each item is presented. We hypothesize that the total activation provides us with a measure of the network's familiarity with the unit.
+
+This cycle of familiarization and test will be repeated `r N_SIM` times, representing `r N_SIM` participants.
+
+While we keep the parameters for self-excitation constant ($\alpha$ and $\beta$ in Supplementary Material XXX), we used forgetting rates ($\lambda_{act}$ in Supplementary Material XXX) between `r toString (L_ACT)` and inhibition rates between `r toString(B)`. As forgetting in our model is exponential, a forgetting rate of zero means no forgetting, a forgetting rate of 1 implies the complete disappearance of activation on the next time step (unless a population of neurons receives excitatory input from other populations), and a forgetting rate of .5 implies the decay of half of the activation. 
+
+```{r subunit-experiment-run, echo = FALSE}
+
+# Giroux & Rey, 2009, Cognit Sci had
+# * 2 3 syllable words
+# * 4 2 syllable words
+# They used 14 syllables in total
+
+fam_subunits <- rbind(
+    # 2 x 3 Syllable items
+    matrix(rep(1:6, N_REP_PER_WORD),
+            byrow = TRUE, ncol = 3),
+
+    # 4 x 2 syllable items
+    cbind( 
+        matrix(rep(7:14, N_REP_PER_WORD),
+            byrow = TRUE, ncol = 2),
+        # Add empty third syllable
+        matrix(rep(NA, 4*N_REP_PER_WORD),
+               byrow = TRUE, ncol = 1))
+)
+
+
+
+test_items_subunits <- list(1:2,        # Subunit AB
+                          2:3,        # Subunit BC
+                          #4:5,        # Subunit AB
+                          #5:6,        # Subunit BC
+                          7:8#,        # Unit
+                          #9:10        # Unit
+
+)
+
+test_act_sum_subunits_global_list <- list()
+final_weights_subunits <- data.frame()
+
+for(current_b in B){
+    # Sample through interference values
+    
+    for (current_l in L_ACT){
+        # Sample through forgetting values 
+        
+        current_test_act_sum_subunits_global <- data.frame()
+        
+        for (i in 1:N_SIM){
+            
+            res <- familiarize (stream = fam_subunits,
+                                l_act = current_l, a = A, b = current_b, noise_sd_act = NOISE_SD_ACT,
+                                r = R, l_w = L_W, noise_sd_w = NOISE_SD_W,
+                                n_neurons = 14,
+                                return.act.and.weights = TRUE)
+            
+            
+            
+            # Record global activation in network
+            current_test_act_sum_subunits_global <- rbind (current_test_act_sum_subunits_global,
+                                                           test_list (test_item_list = test_items_subunits,
+                                                                      w = res$w,
+                                                                      l_act = current_l, a = A, b = current_b, 
+                                                                      noise_sd_act = NOISE_SD_ACT,
+                                                                      n_neurons = 14,
+                                                                      return.global.act = TRUE)) 
+            
+            # Record weights
+            final_weights_subunits <- dplyr::bind_rows(final_weights_subunits,
+                                                       res$w %>% 
+                                                           data.frame(row.names=str_c("w", 1:nrow(.))) %>% 
+                                                           setNames(str_c("w", 1:ncol(.))) %>% 
+                                                           tibble::rownames_to_column("weight") %>% 
+                                                           dplyr::mutate(B = current_b,
+                                                                         l_act = current_l,
+                                                                         .before = 1) %>% 
+                                                           tidyr::nest(w = starts_with("w")))
+            
+        }
+        
+        # End of sampling loop
+        
+
+        test_act_sum_subunits_global_list[[1 + length (test_act_sum_subunits_global_list)]]  <- 
+            current_test_act_sum_subunits_global %>% 
+            dplyr::mutate(B = current_b,
+                          l_act = current_l,
+                          .before = 1)
+        
+    }
+}
+    
+
+
+test_act_sum_subunits_global <- 
+    do.call (rbind, 
+             test_act_sum_subunits_global_list)
+
+
+
+
+```
+
+```{r subunit-experiment-global-create_diff}
+
+diff_subunits_global <- cbind(
+    data.frame (B = test_act_sum_subunits_global$B,
+                l_act = test_act_sum_subunits_global$l_act),
+    
+    # AB subunit vs. unit
+    subunit_AB_unit = make_diff_score(test_act_sum_subunits_global,
+                               "7-8", "1-2", 
+                               TRUE),
+    # BC subunit vs. unit
+    subunit_BC_unit = make_diff_score(test_act_sum_subunits_global,
+                               "7-8","2-3", 
+                               TRUE)
+) %>%
+    as.data.frame() %>% 
+    dplyr::mutate(subunits_both_unit = (subunit_AB_unit + subunit_AB_unit) / 2)
+
+
+
+```
+
+
+# Resuls
+
+
+For each comparison, we will create normalized difference scores to evaluate the model performance:
+
+$$
+d = \frac{\text{Item}_1 - \text{Item}_2}{\text{Item}_1 + \text{Item}_2}
+$$
+
+We then evaluate these difference scores against the chance level of zero using Wilcoxon tests.
+
+As in [@Giroux2009], there were two types of sub-units resulting from an *ABC* unit: *AB* sub-units and *BC* sub-units. As shown in Figure \ref{fig:subunit-experiment-global-create-plot_diff-fw-by-b-average}, when averaging across trials comparing two-syllable units to *AB* and *BC* sub-units, there was a significant preference for units for most parameter sets (except for some simulations with low inhibition rates).
+
+```{r subunit-experiment-global-create-plot_diff-fw-by-b-average, fig.height = 8.5, fig.cap="Normalized difference scores of network activations after presentation of entire two-syllable units and different types of two-syllable units (i.e., AB and BC from ABC units), as a function of the forgetting rate (y axis) and the interference rate (rows). The rightmost column is the average of the other columns reported by Giroux2009. Positive values indicate stronger activations for units. Significance stars reflect a Wilcoxon test against the chance level of zero. Units generally elicit greater activation compared to AB subunits and compared to the average; when compared to BC units, the sign of the difference score depends on the parameters."}
+selected_cols_fw <- c(
+    "subunit_AB_unit", "subunit_BC_unit", "subunits_both_unit")
+    #"subunits_both_unit")
+
+    
+selected_cols_labels <- c(
+    subunit_AB_unit = "Unit vs.\nAB sub-unit",
+    subunit_BC_unit = "Unit vs.\nBC sub-unit",
+    subunits_both_unit = "Units vs.\nSub-units (average)"
+)
+
+diff_subunits_global[,c("B", "l_act",
+                        selected_cols_fw)] %>%
+    tidyr::pivot_longer(starts_with("subunit"), names_to = "ItemType", values_to = "d") %>% 
+    dplyr::group_by(B, l_act, ItemType) %>% 
+    dplyr::summarize(M = mean (d),
+              SE = se (d),
+              p.value = wilcox.p(d),
+              significance = gtools::stars.pval (p.value)) %>% 
+    dplyr::filter(ItemType == "subunits_both_unit") %>% 
+    dplyr::mutate(preference = dplyr::case_when(
+        M < 0 ~ "Sub-units",
+        M == 0 ~ "Neither",
+        M > 0 ~ "Units")) %>% 
+    dplyr::mutate(preference = factor(preference, 
+                                      levels = c("Units", "Sub-units", "Neither"))) %>% 
+    ggplot(aes (x = l_act,
+                y = M, ymin = M - SE, ymax = M + SE, col = preference)) + 
+    #fill = ItemType, col = ItemType, group = ItemType)) +
+    theme_light (14) + 
+    
+    labs (x = TeX("$\\Lambda$"),
+          y = TeX("\\frac{Unit - Sub-unit}{Unit + Sub-unit}")) +
+    theme(axis.text.y = element_text(angle = 35, vjust = .5, hjust=.5),
+          axis.text.x = element_text(angle = 35, vjust = .5, hjust=.5),
+          legend.position = "bottom") +
+    guides(col=guide_legend(title="Preference for")) +
+    geom_pointrange() +
+    geom_hline(aes (yintercept=0)) +
+    facet_grid(B ~ ., scales = "free", labeller = labeller(B = label_both, ItemType = selected_cols_labels, )) +
+    coord_flip() +
+    geom_text (aes (label = significance), nudge_y = .05, color = "black", vjust = .5, hjust = 0) 
+#tidytext::scale_x_reordered("ACE") +
+#scale_y_continuous(name = "") #+ #, trans = "log") 
+
+
+```
+
+However, as shown in Figure \ref{fig:subunit-experiment-global-create-plot_diff-fw-by-b-details}, while units were systematically preferred over *AB* sub-units for most parameter values, *BC* sub-units could be preferred for very low or very high interference rates. 
+
+```{r subunit-experiment-global-create-plot_diff-fw-by-b-details, fig.height = 8.5, fig.cap="Normalized difference scores of network activations after presentation of entire two-syllable units and different types of two-syllable units (i.e., AB and BC from ABC units), as a function of the forgetting rate (y axis) and the interference rate (rows). The rightmost column is the average of the other columns reported by Giroux2009. Positive values indicate stronger activations for units. Significance stars reflect a Wilcoxon test against the chance level of zero. Units generally elicit greater activation compared to AB subunits and compared to the average; when compared to BC units, the sign of the difference score depends on the parameters."}
+selected_cols_fw <- c(
+    "subunit_AB_unit", "subunit_BC_unit", "subunits_both_unit")
+    #"subunits_both_unit")
+
+    
+selected_cols_labels <- c(
+    subunit_AB_unit = "Unit vs.\nAB sub-unit",
+    subunit_BC_unit = "Unit vs.\nBC sub-unit",
+    subunits_both_unit = "Units vs.\nSub-units (average)"
+)
+
+diff_subunits_global[,c("B", "l_act",
+                        selected_cols_fw)] %>%
+    tidyr::pivot_longer(starts_with("subunit"), names_to = "ItemType", values_to = "d") %>% 
+    dplyr::group_by(B, l_act, ItemType) %>% 
+    dplyr::summarize(M = mean (d),
+              SE = se (d),
+              p.value = wilcox.p(d),
+              significance = gtools::stars.pval (p.value)) %>% 
+    dplyr::mutate(preference = dplyr::case_when(
+        M < 0 ~ "Sub-units",
+        M == 0 ~ "Neither",
+        M > 0 ~ "Units")) %>% 
+    dplyr::mutate(preference = factor(preference, 
+                                      levels = c("Units", "Sub-units", "Neither"))) %>% 
+    ggplot(aes (x = l_act,
+                y = M, ymin = M - SE, ymax = M + SE, col = preference)) + 
+    #fill = ItemType, col = ItemType, group = ItemType)) +
+    theme_light (14) + 
+    
+    labs (x = TeX("$\\Lambda$"),
+          y = TeX("\\frac{Unit - Sub-unit}{Unit + Sub-unit}")) +
+    theme(axis.text.y = element_text(angle = 35, vjust = .5, hjust=.5),
+          axis.text.x = element_text(angle = 35, vjust = .5, hjust=.5),
+          legend.position = "bottom") +
+    guides(col=guide_legend(title="Preference for")) +
+    geom_pointrange() +
+    geom_hline(aes (yintercept=0)) +
+    facet_grid(B ~ ItemType, scales = "free", labeller = labeller(B = label_both, ItemType = selected_cols_labels, )) +
+    coord_flip() +
+    geom_text (aes (label = significance), nudge_y = .05, color = "black", vjust = .5, hjust = 0) 
+#tidytext::scale_x_reordered("ACE") +
+#scale_y_continuous(name = "") #+ #, trans = "log") 
+
+
+
+
+```
+
+`r attr (gtools::stars.pval (0), "legend")`
+
+To support our contention that the preference for units over sub-units might arise from the interplay between learning (and thus excitation) and inhibition, we plot in Figure \ref{fig:subunit-experiment-global-create-plot_weights} weights between different pairs of neurons after learning. As suggested above, the connection between *A* and *C* in a three-syllable *ABC* unit is generally weaker than other connections, and often substantially smaller than the interference rate. Depending on the parameter values, (second order) activation of *C* might thus suppress activation in *AB* sub-units, and activation of *A* might suppress activation in *BC* sub-units. However, the exact computational mechanisms, as well as the differences in behavior betwee *AB* and *BC* sub-units deserve further investigation. For the current purposes, we just conclude that the fact that a simple Hebbian learning model can account for a preference for units over sub-units demonstrates that such results do not provide evidence that units have been placed in memory. 
+
+```{r subunit-experiment-global-create-plot_weights, fig.height = 8, fig.width=7, fig.cap="Connection weights between different pairs of neurons as a function of the forgetting rate (columns) and the interference rate (rows). The figure shows connection weights within a trisyllabic unit (ABC) and a bisyllabic unit (BC). The black line represents the interference rate. The A-C connection is generally smaller than the other connections, and often substantially smaller than the interference rate."}
+
+final_weights_subunits %>% 
+    # w is a nested data frame
+    # we changed row names to a column before, so we need to undo this
+    dplyr::mutate(target.weights = map(w, 
+                     function (W){
+                         
+                         W <- W %>% 
+                             tibble::column_to_rownames("weight")
+                         
+                         data.frame(
+                             w_AB = W["w1","w2"],
+                             w_AC = W["w1", "w3"],
+                             w_BC = W["w2", "w3"],
+                             w_Unit = W["w7", "w8"])
+                     }
+                     )) %>% 
+    dplyr::select(-w) %>% 
+    tidyr::unnest(target.weights) %>% 
+    tidyr::pivot_longer(starts_with("w"),
+                        names_to = "neurons",
+                        values_to = "w") %>% 
+    dplyr::mutate(neurons = str_remove(neurons, fixed("w_"))) %>% 
+    dplyr::group_by(B, l_act, neurons) %>% 
+    summarize(M = mean (w),
+              SE = se (w)) %>% 
+    
+    ggplot(aes (x = neurons,
+                y = M, ymin = M - SE, ymax = M + SE, fill = "red", col = "red")) + 
+    #fill = ItemType, col = ItemType, group = ItemType)) +
+    theme_light (13) + 
+    labs (x = "Neuron pair",
+          y = "Connection weight") +
+    theme(axis.text.y = element_text(angle = 35, vjust = .5, hjust=.5),
+          axis.text.x = element_text(angle = 35, vjust = .5, hjust=.5),
+          legend.position = "none") +
+    geom_pointrange() +
+    geom_hline(aes (yintercept=B)) +
+    facet_grid(B ~ l_act, scales = "free_x", labeller = label_bquote(cols = Lambda: .(l_act),
+                                                                     rows = B: .(B))) + 
+    coord_flip()
+#tidytext::scale_x_reordered("ACE") +
+#scale_y_continuous(name = "") #+ #, trans = "log") 
+
+
+
+
+```
