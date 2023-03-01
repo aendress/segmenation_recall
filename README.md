@@ -5,7 +5,7 @@ This folder contains experimental file, but is not uploaded.
 
 The Psyscope files are not uploaded since they cannot be run any longer anyhow on current versions of Mac OS X. As a result, we cannot make sure that they actually work. 
 
-The online version of the recall experiment is available at [to be added when the doi is available]
+The online version of the recall experiment is available at https://www.testable.org/library#496496
 
 ## results
 
