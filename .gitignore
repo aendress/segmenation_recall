@@ -3,7 +3,7 @@ stimulus_preparation/
 paper/
 papers/
 experiments/
-data/recall_testable_with_testable_ids/
+results/data/recall_testable_with_testable_ids/
 
 # Ignore various Rmd compilation outputs
 *.log
