@@ -1827,58 +1827,6 @@ if (ANALYZED.DATA.SETS["TESTABLE"]){
 ```
 
 ## Recognition tests
-```{r analyze-recognition-before-bad-subjects-are-removed, eval = TRUE}
-
-dat.tmp.recall.correct_segm <- dplyr::bind_rows(
-    dat.recall.city %>%
-        dplyr::select(subj, streamType, correct_segm) %>%
-        dplyr::distinct() %>%
-        dplyr::mutate(data.set = "city", .before = 1) %>%
-        dplyr::mutate(is.good.subj = !(subj %in% bad.subj.city)),
-    
-    dat.recall.tstbl %>% 
-        dplyr::filter (myPhase == "test_recognition") %>% 
-        dplyr::group_by(filename,mySegmentationCond) %>% 
-        dplyr::summarize(correct_segm = mean(correct)) %>% 
-        dplyr::rename(subj = filename) %>% 
-        dplyr::rename(streamType = mySegmentationCond) %>% 
-        dplyr::mutate(data.set = "online", .before = 1) %>%
-        dplyr::mutate(is.good.subj = !(subj %in% bad.subj.tstbl))
-)
-
-dplyr::bind_rows(
-    dat.tmp.recall.correct_segm %>% 
-        dplyr::group_by(data.set, streamType) %>% 
-        dplyr::summarize(N = n(),
-                         M = mean(correct_segm),
-                         SE = se(correct_segm),
-                         MIN = min(correct_segm),
-                         MAX = max(correct_segm),
-                         p = wilcox.p(correct_segm, mu = .5),
-                         .groups = "drop") %>% 
-        dplyr::mutate(filtered = "No", .before = 1),
-    
-    dat.tmp.recall.correct_segm %>% 
-        dplyr::filter(is.good.subj) %>% 
-        dplyr::group_by(data.set, streamType) %>% 
-        dplyr::summarize(N = n(),
-                         M = mean(correct_segm),
-                         SE = se(correct_segm),
-                         MIN = min(correct_segm),
-                         MAX = max(correct_segm),
-                         p = wilcox.p(correct_segm, mu = .5),
-                         .groups = "drop") %>% 
-        dplyr::mutate(filtered = "Yes", .before = 1)) %>% 
-    kable.packed(
-        "filtered",
-        caption = "Recognition performance in the recall experiment, before and after filtering.",
-        booktabs = TRUE,
-        escape = FALSE) %>% 
-    kableExtra::kable_classic_2()
-    
-
-```
-
 
 Accuracy was averaged for each participant, and the scores were tested against the chance level of 50% using Wilcoxon tests. Performance differences across the languages (Language 1 vs. 2) and, when applicable, familiarization conditions (pre-segmented vs. continuous) were assessed using a generalized linear model for the trial-by-trial data with the fixed factors language and, where applicable, familiarization condition, as well as random slopes for participants, correct items and foils. Following [@Baayen2008], random factors were removed from the model when they did not contribute to the model likelihood.
 
