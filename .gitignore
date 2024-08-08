@@ -33,3 +33,5 @@ simulations/parser/output/*
 !simulations/parser/output/parser.recall.results.tab.zip
 results/output/*
 !results/output/dat.all.recall.items.tstbl.with.candidates.txt
+*.webloc
+*.sav
