@@ -1,6 +1,0 @@
-subjectGroup,browser,version,screenWidth,screenHeight,OS,OS_lang,GMT_timestamp,local_timestamp,mindsCode,link,age,sex,Native language(s)
-"3",Chrome,90.0.4430.212,1366,768,Windows,id-ID,2021-06-02_06:31:16,2021-06-02_13:31:16,M015529,https://www.testable.org/experiment/2286/399612/start?participant=M015529,"46",male,English
-
-rowNo,trialGroup,type,stim1,stim2,stimFormat,audio,button1,button2,trialText,if,then,feedback,feedbackTime,myPhase,timestamp,response,RT
-3,"1",test,dog,cow,.jpg,cow.mp3,dog,cow,Which animal did you hear?,"1",end,"1: This is not correct, the experiment will end now.; 2: This is correct.","1500",sound_test,317236,"2",4938
-4,"1",test,duck,horse,.jpg,duck.mp3,duck,horse,Which animal did you hear?,"2",end,"1: This is correct.; 2: This is not correct, the experiment will end now.","1500",sound_test,330346,"2",11560
