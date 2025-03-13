@@ -120,56 +120,44 @@ ANALYZED.DATA.SETS <- c(CITY = TRUE,
 # ran for several days), but whose production did not ressemble the words anyhow
 L.BAD.SUBJ.CPUTIME <- list (
     tstbl = list (
-        c (#subj = "399612_200413_124119_M056106.csv",
-           subj = "399612_200413_124119_2163c2ed5ac2dd37063193b689dafe82251f433e.csv",
-           response = "dalonigtbdophophi dalobdakabdarobigopachu"),
+        c(subj = "399612_200413_124119_2163c2ed5ac2dd37063193b689dafe82251f433e.csv",
+          response = "dalonigtbdophophi dalobdakabdarobigopachu"),
         
-        c (#subj = "399612_210517_101428_M070415.csv",
-           subj = "399612_210517_101428_d6832877cd6a16ecb1498f99ff25a2ee66096d93.csv",
-           response = "be cu di tu dara pe gala du dopa,be cu di pe gala,be cu di pe gala bu dopa ,be cu di bu dopa"),
+        c(subj = "399612_210517_101428_d6832877cd6a16ecb1498f99ff25a2ee66096d93.csv",
+          response = "be cu di tu dara pe gala du dopa,be cu di pe gala,be cu di pe gala bu dopa ,be cu di bu dopa"),
         
         # not an english speaker either
-        c (#subj = "399612_210517_100654_M038010.csv",
-           subj = "399612_210517_100654_b3a2d858e648fab540f26d63cd60cdf40be0ad25.csv",
-           response = "takahsakakakaratatataikokokokotatakatakatakatakatakatakataka"),
+        c(subj = "399612_210517_100654_b3a2d858e648fab540f26d63cd60cdf40be0ad25.csv",
+          response = "takahsakakakaratatataikokokokotatakatakatakatakatakatakataka"),
         
-        c (#subj = " 399612_210517_101201_M048600.csv",
-           subj = " 399612_210517_101201_0e335a2e6bcd07eaf32c06cd9a1a7c2e794601ee.csv",
-           response = "dabroobitalooki,bkuti2,golab"),
+        c(subj = " 399612_210517_101201_0e335a2e6bcd07eaf32c06cd9a1a7c2e794601ee.csv",
+          response = "dabroobitalooki,bkuti2,golab"),
         
-        c (#subj = "399612_210524_062929_M059506.csv",
-           subj = "399612_210524_062929_10c3df303f8a5b47751465793bab45d638f079f4.csv",
-           response = "matikulatatitulapapitularimatitulaatitula"),
+        c(subj = "399612_210524_062929_10c3df303f8a5b47751465793bab45d638f079f4.csv",
+          response = "matikulatatitulapapitularimatitulaatitula"),
         
-        c (#subj = "399612_210524_115845_M067482.csv",### THis was here before, but the subj below matches the response
-            #sub = "399612_210524_115828_M021442.csv"
-           subj = "399612_210524_115828_a59856877975c71a1a7b9e9e3f776cb992aaebde.csv",
-           response = "tu kalla ti palla tuti kulla papi pu tu kalla ti palla tuti kulla papi pu"),
+        c(subj = "399612_210524_115828_a59856877975c71a1a7b9e9e3f776cb992aaebde.csv",
+          response = "tu kalla ti palla tuti kulla papi pu tu kalla ti palla tuti kulla papi pu"),
         
-        c (#subj = "399612_210524_120014_M099076.csv",
-           subj = "399612_210524_120014_a4d641ab312e71e300bd349948e4fcc7e936105e.csv",
-           response = "tutopitulakatutopitoolaka"),
+        c(subj = "399612_210524_120014_a4d641ab312e71e300bd349948e4fcc7e936105e.csv",
+          response = "tutopitulakatutopitoolaka"),
         
-        c (#subj = "399612_210524_120523_M003515.csv",
-           subj = "399612_210524_120523_06795ef32f11db08be1b1336d62b8682d9f71cc5.csv",
-           response = "papikuchi,butalapapikuchi,kukala,pikala,budharapikuchi,chupapikachubudarapi"),
+        c(subj = "399612_210524_120523_06795ef32f11db08be1b1336d62b8682d9f71cc5.csv",
+          response = "papikuchi,butalapapikuchi,kukala,pikala,budharapikuchi,chupapikachubudarapi"),
         
-        c (#subj = "399612_210602_064236_M088537.csv",
-           subj = "399612_210602_064236_2c0cec9dcb1be2a6bddff35a85c2e5d558fac9eb.csv",
-           response = "da putty da raboo,da puppy da raboo,da raboo,da raboo,da puppy da rabooo"),
-
-        c (#subj = "399612_210602_064353_M013341.csv",
-           subj = "399612_210602_064353_5daaf2d0bb79fd346179a286ad5f47980fb63672.csv",
-           response = "rabi tiku ko kolada fabi ,rabi tiku ko la dafabi...."),
+        c(subj = "399612_210602_064236_2c0cec9dcb1be2a6bddff35a85c2e5d558fac9eb.csv",
+          response = "da putty da raboo,da puppy da raboo,da raboo,da raboo,da puppy da rabooo"),
         
-      c (#subj = "399612_210602_072517_M099491.csv",
-         subj = "399612_210602_072517_d3db595db75dedf7869e0e6a4a0e39c6541b361e.csv",
-         response = "dolapidolabu dolapidolatu doladiputipu doladipukipu dolakiputipu dolatipu"),
-      
-      c (subj = "399612_210524_115845_825bd2827d674aeb68ebc89a509b3cec63ab3a4c.csv",
-         response = "gola too,the rapi papi do,the rapi do,gola du the rapi papi do")
-      
-        )
+        c(subj = "399612_210602_064353_5daaf2d0bb79fd346179a286ad5f47980fb63672.csv",
+          response = "rabi tiku ko kolada fabi ,rabi tiku ko la dafabi...."),
+        
+        c(subj = "399612_210602_072517_d3db595db75dedf7869e0e6a4a0e39c6541b361e.csv",
+          response = "dolapidolabu dolapidolatu doladiputipu doladipukipu dolakiputipu dolatipu"),
+        
+        c(subj = "399612_210524_115845_825bd2827d674aeb68ebc89a509b3cec63ab3a4c.csv",
+          response = "gola too,the rapi papi do,the rapi do,gola du the rapi papi do")
+        
+    )
 )
 
 
