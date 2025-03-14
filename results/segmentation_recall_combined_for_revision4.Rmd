@@ -4030,10 +4030,12 @@ ggpubr::ggarrange (
 ```
 
 
-```{r recall-w-pw-chunks-positions-plot-positions, fig.cap="Analyses of the participants' productions. (a) Proportion of words among words and part-words. The dotted line represents the chance level of 50 percent in a two-alternative forced-choice task, while the dashed line represents the chance level of 33 percent that an attested 3 syllable-chunk is a word rather than a part-word. (b) Proportion of high-TP chunks among high- and low-TP chunks. The dashed line represents the chance level of 66 percent that an attested 2 syllable-chunk is a high-TP rather than a low-TP chunk. (c) proportion of productions with correct initial syllables and (d) with correct final syllables. The dotted line represents the chance level of 33 percent."}
+```{r recall-w-pw-chunks-positions-plot-positions, fig.cap="Analyses of the participants' productions. (a) Proportion of words among words and part-words. The dotted line represents the chance level of 50 percent in a two-alternative forced-choice task, while the dashed line represents the chance level of 33 percent that an attested 3 syllable-chunk is a word rather than a part-word. (b) Proportion of high-TP chunks among high- and low-TP chunks. The dashed line represents the chance level of 66 percent that an attested 2 syllable-chunk is a high-TP rather than a low-TP chunk. (c) proportion of productions with correct initial syllables and (d) with correct final syllables. The dotted line and the dashed line represent alternative the chance levels of 33 and 37.5 percent, respectively."}
 ggpubr::ggarrange (
-    plot.recall.combined.m.p.correct.initial.syll,
-    plot.recall.combined.m.p.correct.final.syll,
+    plot.recall.combined.m.p.correct.initial.syll + 
+            geom_hline(yintercept = .75/2, lty = 5),
+    plot.recall.combined.m.p.correct.final.syll +
+        geom_hline(yintercept = .75/2, lty = 5),
     nrow = 1, ncol = 2,
     #common.legend = TRUE, legend="bottom", 
     #legend.grob = plot.circle.combined.within.recency.legend,
